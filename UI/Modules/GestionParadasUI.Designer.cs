@@ -40,8 +40,10 @@
             textBoxParadaAltaID = new TextBox();
             labelParadaAltaId = new Label();
             groupBoxListadoParadas = new GroupBox();
+            buttonParadaModificarCallModal = new Button();
             buttonParadaBajaConfirmar = new Button();
             dataGridViewParadas = new DataGridView();
+            buttonParadaToggleHabilitacion = new Button();
             groupBoxAltaParada.SuspendLayout();
             groupBoxListadoParadas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewParadas).BeginInit();
@@ -49,7 +51,6 @@
             // 
             // groupBoxAltaParada
             // 
-            groupBoxAltaParada.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             groupBoxAltaParada.Controls.Add(buttonParadaAltaConfirmar);
             groupBoxAltaParada.Controls.Add(checkBoxParadaAltaHabilitada);
             groupBoxAltaParada.Controls.Add(textBoxParadaAltaDireccion);
@@ -60,18 +61,17 @@
             groupBoxAltaParada.Controls.Add(labelParadaAltaDescripcion);
             groupBoxAltaParada.Controls.Add(textBoxParadaAltaID);
             groupBoxAltaParada.Controls.Add(labelParadaAltaId);
-            groupBoxAltaParada.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            groupBoxAltaParada.Font = new Font("Segoe UI", 9F);
             groupBoxAltaParada.Location = new Point(16, 16);
             groupBoxAltaParada.Name = "groupBoxAltaParada";
-            groupBoxAltaParada.Size = new Size(360, 662);
+            groupBoxAltaParada.Size = new Size(360, 445);
             groupBoxAltaParada.TabIndex = 0;
             groupBoxAltaParada.TabStop = false;
             groupBoxAltaParada.Text = "Nueva parada";
             // 
             // buttonParadaAltaConfirmar
             // 
-            buttonParadaAltaConfirmar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            buttonParadaAltaConfirmar.Location = new Point(24, 616);
+            buttonParadaAltaConfirmar.Location = new Point(24, 383);
             buttonParadaAltaConfirmar.Name = "buttonParadaAltaConfirmar";
             buttonParadaAltaConfirmar.Size = new Size(312, 34);
             buttonParadaAltaConfirmar.TabIndex = 9;
@@ -82,7 +82,7 @@
             // checkBoxParadaAltaHabilitada
             // 
             checkBoxParadaAltaHabilitada.AutoSize = true;
-            checkBoxParadaAltaHabilitada.Location = new Point(24, 378);
+            checkBoxParadaAltaHabilitada.Location = new Point(24, 357);
             checkBoxParadaAltaHabilitada.Name = "checkBoxParadaAltaHabilitada";
             checkBoxParadaAltaHabilitada.Size = new Size(112, 19);
             checkBoxParadaAltaHabilitada.TabIndex = 8;
@@ -91,8 +91,7 @@
             // 
             // textBoxParadaAltaDireccion
             // 
-            textBoxParadaAltaDireccion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxParadaAltaDireccion.Location = new Point(24, 344);
+            textBoxParadaAltaDireccion.Location = new Point(24, 327);
             textBoxParadaAltaDireccion.MaxLength = 200;
             textBoxParadaAltaDireccion.Name = "textBoxParadaAltaDireccion";
             textBoxParadaAltaDireccion.Size = new Size(312, 23);
@@ -101,7 +100,7 @@
             // labelParadaAltaDireccion
             // 
             labelParadaAltaDireccion.AutoSize = true;
-            labelParadaAltaDireccion.Location = new Point(24, 326);
+            labelParadaAltaDireccion.Location = new Point(24, 305);
             labelParadaAltaDireccion.Name = "labelParadaAltaDireccion";
             labelParadaAltaDireccion.Size = new Size(57, 15);
             labelParadaAltaDireccion.TabIndex = 6;
@@ -109,8 +108,7 @@
             // 
             // textBoxParadaAltaLocalidad
             // 
-            textBoxParadaAltaLocalidad.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxParadaAltaLocalidad.Location = new Point(24, 289);
+            textBoxParadaAltaLocalidad.Location = new Point(24, 275);
             textBoxParadaAltaLocalidad.MaxLength = 100;
             textBoxParadaAltaLocalidad.Name = "textBoxParadaAltaLocalidad";
             textBoxParadaAltaLocalidad.Size = new Size(312, 23);
@@ -119,7 +117,7 @@
             // labelParadaAltaLocalidad
             // 
             labelParadaAltaLocalidad.AutoSize = true;
-            labelParadaAltaLocalidad.Location = new Point(24, 271);
+            labelParadaAltaLocalidad.Location = new Point(24, 253);
             labelParadaAltaLocalidad.Name = "labelParadaAltaLocalidad";
             labelParadaAltaLocalidad.Size = new Size(58, 15);
             labelParadaAltaLocalidad.TabIndex = 4;
@@ -127,8 +125,7 @@
             // 
             // textBoxParadaAltaDescripcion
             // 
-            textBoxParadaAltaDescripcion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxParadaAltaDescripcion.Location = new Point(24, 112);
+            textBoxParadaAltaDescripcion.Location = new Point(24, 101);
             textBoxParadaAltaDescripcion.MaxLength = 255;
             textBoxParadaAltaDescripcion.Multiline = true;
             textBoxParadaAltaDescripcion.Name = "textBoxParadaAltaDescripcion";
@@ -139,7 +136,7 @@
             // labelParadaAltaDescripcion
             // 
             labelParadaAltaDescripcion.AutoSize = true;
-            labelParadaAltaDescripcion.Location = new Point(24, 94);
+            labelParadaAltaDescripcion.Location = new Point(24, 79);
             labelParadaAltaDescripcion.Name = "labelParadaAltaDescripcion";
             labelParadaAltaDescripcion.Size = new Size(69, 15);
             labelParadaAltaDescripcion.TabIndex = 2;
@@ -147,8 +144,7 @@
             // 
             // textBoxParadaAltaID
             // 
-            textBoxParadaAltaID.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            textBoxParadaAltaID.Location = new Point(24, 58);
+            textBoxParadaAltaID.Location = new Point(24, 49);
             textBoxParadaAltaID.MaxLength = 20;
             textBoxParadaAltaID.Name = "textBoxParadaAltaID";
             textBoxParadaAltaID.Size = new Size(312, 23);
@@ -157,7 +153,7 @@
             // labelParadaAltaId
             // 
             labelParadaAltaId.AutoSize = true;
-            labelParadaAltaId.Location = new Point(24, 40);
+            labelParadaAltaId.Location = new Point(24, 27);
             labelParadaAltaId.Name = "labelParadaAltaId";
             labelParadaAltaId.Size = new Size(18, 15);
             labelParadaAltaId.TabIndex = 0;
@@ -165,23 +161,33 @@
             // 
             // groupBoxListadoParadas
             // 
-            groupBoxListadoParadas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBoxListadoParadas.Controls.Add(buttonParadaToggleHabilitacion);
+            groupBoxListadoParadas.Controls.Add(buttonParadaModificarCallModal);
             groupBoxListadoParadas.Controls.Add(buttonParadaBajaConfirmar);
             groupBoxListadoParadas.Controls.Add(dataGridViewParadas);
-            groupBoxListadoParadas.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            groupBoxListadoParadas.Font = new Font("Segoe UI", 9F);
             groupBoxListadoParadas.Location = new Point(392, 16);
             groupBoxListadoParadas.Name = "groupBoxListadoParadas";
-            groupBoxListadoParadas.Size = new Size(802, 662);
+            groupBoxListadoParadas.Size = new Size(802, 445);
             groupBoxListadoParadas.TabIndex = 1;
             groupBoxListadoParadas.TabStop = false;
             groupBoxListadoParadas.Text = "Listado de paradas";
             // 
+            // buttonParadaModificarCallModal
+            // 
+            buttonParadaModificarCallModal.Location = new Point(276, 386);
+            buttonParadaModificarCallModal.Name = "buttonParadaModificarCallModal";
+            buttonParadaModificarCallModal.Size = new Size(250, 34);
+            buttonParadaModificarCallModal.TabIndex = 2;
+            buttonParadaModificarCallModal.Text = "Modificar parada seleccionada";
+            buttonParadaModificarCallModal.UseVisualStyleBackColor = true;
+            buttonParadaModificarCallModal.Click += buttonParadaModificarCallModal_Click;
+            // 
             // buttonParadaBajaConfirmar
             // 
-            buttonParadaBajaConfirmar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            buttonParadaBajaConfirmar.Location = new Point(12, 616);
+            buttonParadaBajaConfirmar.Location = new Point(536, 386);
             buttonParadaBajaConfirmar.Name = "buttonParadaBajaConfirmar";
-            buttonParadaBajaConfirmar.Size = new Size(258, 34);
+            buttonParadaBajaConfirmar.Size = new Size(250, 34);
             buttonParadaBajaConfirmar.TabIndex = 1;
             buttonParadaBajaConfirmar.Text = "Eliminar parada seleccionada";
             buttonParadaBajaConfirmar.UseVisualStyleBackColor = true;
@@ -191,31 +197,39 @@
             // 
             dataGridViewParadas.AllowUserToAddRows = false;
             dataGridViewParadas.AllowUserToDeleteRows = false;
-            dataGridViewParadas.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridViewParadas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewParadas.BackgroundColor = SystemColors.Window;
-            dataGridViewParadas.BorderStyle = BorderStyle.FixedSingle;
             dataGridViewParadas.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewParadas.EnableHeadersVisualStyles = false;
-            dataGridViewParadas.Location = new Point(12, 28);
+            dataGridViewParadas.Location = new Point(16, 25);
             dataGridViewParadas.MultiSelect = false;
             dataGridViewParadas.Name = "dataGridViewParadas";
             dataGridViewParadas.ReadOnly = true;
             dataGridViewParadas.RowHeadersVisible = false;
             dataGridViewParadas.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewParadas.Size = new Size(778, 572);
+            dataGridViewParadas.Size = new Size(770, 343);
             dataGridViewParadas.TabIndex = 0;
+            // 
+            // buttonParadaToggleHabilitacion
+            // 
+            buttonParadaToggleHabilitacion.Location = new Point(16, 386);
+            buttonParadaToggleHabilitacion.Name = "buttonParadaToggleHabilitacion";
+            buttonParadaToggleHabilitacion.Size = new Size(250, 34);
+            buttonParadaToggleHabilitacion.TabIndex = 3;
+            buttonParadaToggleHabilitacion.Text = "Habilitar/Deshabilitar parada seleccionada";
+            buttonParadaToggleHabilitacion.UseVisualStyleBackColor = true;
+            buttonParadaToggleHabilitacion.Click += buttonParadaToggleHabilitacion_Click;
             // 
             // GestionParadasUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1210, 694);
+            ClientSize = new Size(1210, 680);
             ControlBox = false;
             Controls.Add(groupBoxListadoParadas);
             Controls.Add(groupBoxAltaParada);
-            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = new Font("Segoe UI", 9F);
             FormBorderStyle = FormBorderStyle.None;
             MinimumSize = new Size(1100, 680);
             Name = "GestionParadasUI";
@@ -245,5 +259,7 @@
         private GroupBox groupBoxListadoParadas;
         private Button buttonParadaBajaConfirmar;
         private DataGridView dataGridViewParadas;
+        private Button buttonParadaModificarCallModal;
+        private Button buttonParadaToggleHabilitacion;
     }
 }

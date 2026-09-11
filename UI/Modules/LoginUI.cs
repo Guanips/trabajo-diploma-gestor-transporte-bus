@@ -1,7 +1,6 @@
 ﻿using BE;
 using BLL;
 using servicios;
-using System.Collections.Generic;
 
 namespace UI.Login
 {
@@ -16,7 +15,8 @@ namespace UI.Login
         {
             InitializeComponent();
             gestorLogin = new GestorLogin();
-            
+            this.AcceptButton = loginUIButtonIniciarSesion;
+
         }
 
         private void loginUIButtonIniciarSesion_Click(object sender, EventArgs e)
@@ -55,6 +55,6 @@ namespace UI.Login
                 MessageBox.Show(ex.Message, tituloError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        
+
     }
 }
