@@ -28,117 +28,159 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridViewRegistrosBitacora = new DataGridView();
-            bitacoraUILabelGrid = new Label();
+            groupBoxFiltros = new GroupBox();
+            bitacoraUIButtonLimpiarFiltros = new Button();
+            comboBoxUsername = new ComboBox();
+            bitacoraUILabelComboBoxUsername = new Label();
             comboBoxAccion = new ComboBox();
             bitacoraUILabelComboBoxAccion = new Label();
-            bitacoraUILabelComboBoxUsername = new Label();
-            comboBoxUsername = new ComboBox();
-            bitacoraUIButtonLimpiarFiltros = new Button();
+            groupBoxListadoBitacora = new GroupBox();
+            bitacoraUILabelGrid = new Label();
+            dataGridViewRegistrosBitacora = new DataGridView();
+            groupBoxFiltros.SuspendLayout();
+            groupBoxListadoBitacora.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewRegistrosBitacora).BeginInit();
             SuspendLayout();
             // 
-            // dataGridViewRegistrosBitacora
+            // groupBoxFiltros
             // 
-            dataGridViewRegistrosBitacora.AllowUserToAddRows = false;
-            dataGridViewRegistrosBitacora.AllowUserToDeleteRows = false;
-            dataGridViewRegistrosBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-            dataGridViewRegistrosBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewRegistrosBitacora.Location = new Point(73, 83);
-            dataGridViewRegistrosBitacora.MultiSelect = false;
-            dataGridViewRegistrosBitacora.Name = "dataGridViewRegistrosBitacora";
-            dataGridViewRegistrosBitacora.ReadOnly = true;
-            dataGridViewRegistrosBitacora.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dataGridViewRegistrosBitacora.Size = new Size(560, 342);
-            dataGridViewRegistrosBitacora.TabIndex = 0;
+            groupBoxFiltros.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            groupBoxFiltros.Controls.Add(bitacoraUIButtonLimpiarFiltros);
+            groupBoxFiltros.Controls.Add(comboBoxUsername);
+            groupBoxFiltros.Controls.Add(bitacoraUILabelComboBoxUsername);
+            groupBoxFiltros.Controls.Add(comboBoxAccion);
+            groupBoxFiltros.Controls.Add(bitacoraUILabelComboBoxAccion);
+            groupBoxFiltros.Location = new Point(896, 16);
+            groupBoxFiltros.Name = "groupBoxFiltros";
+            groupBoxFiltros.Size = new Size(300, 218);
+            groupBoxFiltros.TabIndex = 0;
+            groupBoxFiltros.TabStop = false;
+            groupBoxFiltros.Text = "Filtros";
             // 
-            // bitacoraUILabelGrid
+            // bitacoraUIButtonLimpiarFiltros
             // 
-            bitacoraUILabelGrid.AutoSize = true;
-            bitacoraUILabelGrid.Location = new Point(73, 65);
-            bitacoraUILabelGrid.Name = "bitacoraUILabelGrid";
-            bitacoraUILabelGrid.Size = new Size(129, 15);
-            bitacoraUILabelGrid.TabIndex = 1;
-            bitacoraUILabelGrid.Text = "Registros de la bitacora";
+            bitacoraUIButtonLimpiarFiltros.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            bitacoraUIButtonLimpiarFiltros.Location = new Point(16, 170);
+            bitacoraUIButtonLimpiarFiltros.Name = "bitacoraUIButtonLimpiarFiltros";
+            bitacoraUIButtonLimpiarFiltros.Size = new Size(268, 32);
+            bitacoraUIButtonLimpiarFiltros.TabIndex = 4;
+            bitacoraUIButtonLimpiarFiltros.Text = "Limpiar filtros";
+            bitacoraUIButtonLimpiarFiltros.UseVisualStyleBackColor = true;
+            bitacoraUIButtonLimpiarFiltros.Click += bitacoraUIButtonLimpiarFiltros_Click;
+            // 
+            // comboBoxUsername
+            // 
+            comboBoxUsername.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            comboBoxUsername.FormattingEnabled = true;
+            comboBoxUsername.Location = new Point(16, 133);
+            comboBoxUsername.Name = "comboBoxUsername";
+            comboBoxUsername.Size = new Size(268, 23);
+            comboBoxUsername.TabIndex = 3;
+            comboBoxUsername.SelectedIndexChanged += comboBoxUsername_SelectedIndexChanged;
+            // 
+            // bitacoraUILabelComboBoxUsername
+            // 
+            bitacoraUILabelComboBoxUsername.AutoSize = true;
+            bitacoraUILabelComboBoxUsername.Location = new Point(16, 115);
+            bitacoraUILabelComboBoxUsername.Name = "bitacoraUILabelComboBoxUsername";
+            bitacoraUILabelComboBoxUsername.Size = new Size(123, 15);
+            bitacoraUILabelComboBoxUsername.TabIndex = 2;
+            bitacoraUILabelComboBoxUsername.Text = "Filtrado por username";
             // 
             // comboBoxAccion
             // 
+            comboBoxAccion.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             comboBoxAccion.FormattingEnabled = true;
-            comboBoxAccion.Location = new Point(649, 100);
+            comboBoxAccion.Location = new Point(16, 48);
             comboBoxAccion.Name = "comboBoxAccion";
-            comboBoxAccion.Size = new Size(226, 23);
-            comboBoxAccion.TabIndex = 2;
+            comboBoxAccion.Size = new Size(268, 23);
+            comboBoxAccion.TabIndex = 1;
             comboBoxAccion.SelectedIndexChanged += comboBoxAccion_SelectedIndexChanged;
             // 
             // bitacoraUILabelComboBoxAccion
             // 
             bitacoraUILabelComboBoxAccion.AutoSize = true;
-            bitacoraUILabelComboBoxAccion.Location = new Point(649, 82);
+            bitacoraUILabelComboBoxAccion.Location = new Point(16, 30);
             bitacoraUILabelComboBoxAccion.Name = "bitacoraUILabelComboBoxAccion";
             bitacoraUILabelComboBoxAccion.Size = new Size(106, 15);
-            bitacoraUILabelComboBoxAccion.TabIndex = 3;
+            bitacoraUILabelComboBoxAccion.TabIndex = 0;
             bitacoraUILabelComboBoxAccion.Text = "Filtrado por acción";
             bitacoraUILabelComboBoxAccion.Click += bitacoraUILabelComboBoxAccion_Click;
             // 
-            // bitacoraUILabelComboBoxUsername
+            // groupBoxListadoBitacora
             // 
-            bitacoraUILabelComboBoxUsername.AutoSize = true;
-            bitacoraUILabelComboBoxUsername.Location = new Point(649, 137);
-            bitacoraUILabelComboBoxUsername.Name = "bitacoraUILabelComboBoxUsername";
-            bitacoraUILabelComboBoxUsername.Size = new Size(123, 15);
-            bitacoraUILabelComboBoxUsername.TabIndex = 5;
-            bitacoraUILabelComboBoxUsername.Text = "Filtrado por username";
+            groupBoxListadoBitacora.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBoxListadoBitacora.Controls.Add(bitacoraUILabelGrid);
+            groupBoxListadoBitacora.Controls.Add(dataGridViewRegistrosBitacora);
+            groupBoxListadoBitacora.Location = new Point(16, 16);
+            groupBoxListadoBitacora.Name = "groupBoxListadoBitacora";
+            groupBoxListadoBitacora.Size = new Size(864, 642);
+            groupBoxListadoBitacora.TabIndex = 1;
+            groupBoxListadoBitacora.TabStop = false;
+            groupBoxListadoBitacora.Text = "Registros";
             // 
-            // comboBoxUsername
+            // bitacoraUILabelGrid
             // 
-            comboBoxUsername.FormattingEnabled = true;
-            comboBoxUsername.Location = new Point(649, 155);
-            comboBoxUsername.Name = "comboBoxUsername";
-            comboBoxUsername.Size = new Size(226, 23);
-            comboBoxUsername.TabIndex = 4;
-            comboBoxUsername.SelectedIndexChanged += comboBoxUsername_SelectedIndexChanged;
+            bitacoraUILabelGrid.AutoSize = true;
+            bitacoraUILabelGrid.Location = new Point(16, 30);
+            bitacoraUILabelGrid.Name = "bitacoraUILabelGrid";
+            bitacoraUILabelGrid.Size = new Size(129, 15);
+            bitacoraUILabelGrid.TabIndex = 1;
+            bitacoraUILabelGrid.Text = "Registros de la bitácora";
             // 
-            // bitacoraUIButtonLimpiarFiltros
+            // dataGridViewRegistrosBitacora
             // 
-            bitacoraUIButtonLimpiarFiltros.Location = new Point(649, 184);
-            bitacoraUIButtonLimpiarFiltros.Name = "bitacoraUIButtonLimpiarFiltros";
-            bitacoraUIButtonLimpiarFiltros.Size = new Size(226, 33);
-            bitacoraUIButtonLimpiarFiltros.TabIndex = 6;
-            bitacoraUIButtonLimpiarFiltros.Text = "Limpiar Filtros";
-            bitacoraUIButtonLimpiarFiltros.UseVisualStyleBackColor = true;
-            bitacoraUIButtonLimpiarFiltros.Click += bitacoraUIButtonLimpiarFiltros_Click;
+            dataGridViewRegistrosBitacora.AllowUserToAddRows = false;
+            dataGridViewRegistrosBitacora.AllowUserToDeleteRows = false;
+            dataGridViewRegistrosBitacora.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dataGridViewRegistrosBitacora.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewRegistrosBitacora.BackgroundColor = SystemColors.Window;
+            dataGridViewRegistrosBitacora.BorderStyle = BorderStyle.FixedSingle;
+            dataGridViewRegistrosBitacora.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewRegistrosBitacora.EnableHeadersVisualStyles = false;
+            dataGridViewRegistrosBitacora.Location = new Point(16, 48);
+            dataGridViewRegistrosBitacora.MultiSelect = false;
+            dataGridViewRegistrosBitacora.Name = "dataGridViewRegistrosBitacora";
+            dataGridViewRegistrosBitacora.ReadOnly = true;
+            dataGridViewRegistrosBitacora.RowHeadersVisible = false;
+            dataGridViewRegistrosBitacora.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewRegistrosBitacora.Size = new Size(832, 578);
+            dataGridViewRegistrosBitacora.TabIndex = 0;
             // 
             // BitacoraUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(903, 456);
+            BackColor = SystemColors.Control;
+            ClientSize = new Size(1212, 674);
             ControlBox = false;
-            Controls.Add(bitacoraUIButtonLimpiarFiltros);
-            Controls.Add(bitacoraUILabelComboBoxUsername);
-            Controls.Add(comboBoxUsername);
-            Controls.Add(bitacoraUILabelComboBoxAccion);
-            Controls.Add(comboBoxAccion);
-            Controls.Add(bitacoraUILabelGrid);
-            Controls.Add(dataGridViewRegistrosBitacora);
+            Controls.Add(groupBoxListadoBitacora);
+            Controls.Add(groupBoxFiltros);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.None;
+            MinimumSize = new Size(1100, 650);
             Name = "BitacoraUI";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "BitacoraUI";
+            StartPosition = FormStartPosition.Manual;
+            Text = "Bitácora";
             WindowState = FormWindowState.Maximized;
+            groupBoxFiltros.ResumeLayout(false);
+            groupBoxFiltros.PerformLayout();
+            groupBoxListadoBitacora.ResumeLayout(false);
+            groupBoxListadoBitacora.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewRegistrosBitacora).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dataGridViewRegistrosBitacora;
-        private Label bitacoraUILabelGrid;
+        private GroupBox groupBoxFiltros;
+        private Button bitacoraUIButtonLimpiarFiltros;
+        private ComboBox comboBoxUsername;
+        private Label bitacoraUILabelComboBoxUsername;
         private ComboBox comboBoxAccion;
         private Label bitacoraUILabelComboBoxAccion;
-        private Label bitacoraUILabelComboBoxUsername;
-        private ComboBox comboBoxUsername;
-        private Button bitacoraUIButtonLimpiarFiltros;
+        private GroupBox groupBoxListadoBitacora;
+        private Label bitacoraUILabelGrid;
+        private DataGridView dataGridViewRegistrosBitacora;
     }
 }
