@@ -1,10 +1,6 @@
 using BE;
 using BLL;
 using servicios;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
 using UI.Login;
 using UI.Modules;
 
@@ -60,6 +56,7 @@ namespace UI
                     mainUIStripMenuItemBitacora.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-CONSULTA-BIT"));
                     mainUIStripMenuItemHistorialUsuario.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTIONAR-HISTORIAL"));
                     agregarIdiomaToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-AGREGAR-IDM"));
+                    planificacionServicioToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-PLANIFICACION-SERVICIO"));
                 }
                 else
                 {
@@ -213,6 +210,12 @@ namespace UI
         {
             GestionIdiomasUI gestorIdiomasUI = new GestionIdiomasUI();
             cargarFormulario(gestorIdiomasUI);
+        }
+
+        private void gestionParadaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestionParadasUI gestionParadasUI = new GestionParadasUI();
+            cargarFormulario(gestionParadasUI);
         }
     }
 }

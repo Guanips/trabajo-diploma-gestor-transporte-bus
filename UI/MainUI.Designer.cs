@@ -22,10 +22,6 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();
@@ -40,15 +36,17 @@
             mainUIStripMenuItemBitacora = new ToolStripMenuItem();
             mainUIStripMenuItemConsultarBitacora = new ToolStripMenuItem();
             mainUIStripMenuItemHistorialUsuario = new ToolStripMenuItem();
+            agregarIdiomaToolStripMenuItem = new ToolStripMenuItem();
+            planificacionServicioToolStripMenuItem = new ToolStripMenuItem();
+            gestionParadaToolStripMenuItem = new ToolStripMenuItem();
             comboIdiomasGlobal = new ComboBox();
             label1 = new Label();
-            agregarIdiomaToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem, planificacionServicioToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1127, 24);
@@ -66,14 +64,14 @@
             // 
             mainUIStripMenuItemIniciarSesion.Name = "mainUIStripMenuItemIniciarSesion";
             mainUIStripMenuItemIniciarSesion.Size = new Size(142, 22);
-            mainUIStripMenuItemIniciarSesion.Text = "Iniciar sesion";
+            mainUIStripMenuItemIniciarSesion.Text = "Iniciar sesión";
             mainUIStripMenuItemIniciarSesion.Click += mainUIStripMenuItemIniciarSesion_Click;
             // 
             // mainUIStripMenuItemCerrarSesion
             // 
             mainUIStripMenuItemCerrarSesion.Name = "mainUIStripMenuItemCerrarSesion";
             mainUIStripMenuItemCerrarSesion.Size = new Size(142, 22);
-            mainUIStripMenuItemCerrarSesion.Text = "Cerrar sesion";
+            mainUIStripMenuItemCerrarSesion.Text = "Cerrar sesión";
             mainUIStripMenuItemCerrarSesion.Click += mainUIStripMenuItemCerrarSesion_Click;
             // 
             // mainUIStripMenuItemGestionDeUsuarios
@@ -116,13 +114,13 @@
             mainUIStripMenuItemBitacora.DropDownItems.AddRange(new ToolStripItem[] { mainUIStripMenuItemConsultarBitacora });
             mainUIStripMenuItemBitacora.Name = "mainUIStripMenuItemBitacora";
             mainUIStripMenuItemBitacora.Size = new Size(62, 20);
-            mainUIStripMenuItemBitacora.Text = "Bitacora";
+            mainUIStripMenuItemBitacora.Text = "Bitácora";
             // 
             // mainUIStripMenuItemConsultarBitacora
             // 
             mainUIStripMenuItemConsultarBitacora.Name = "mainUIStripMenuItemConsultarBitacora";
             mainUIStripMenuItemConsultarBitacora.Size = new Size(171, 22);
-            mainUIStripMenuItemConsultarBitacora.Text = "Consultar bitacora";
+            mainUIStripMenuItemConsultarBitacora.Text = "Consultar bitácora";
             mainUIStripMenuItemConsultarBitacora.Click += mainUIStripMenuItemConsultarBitacora_Click;
             // 
             // mainUIStripMenuItemHistorialUsuario
@@ -132,42 +130,60 @@
             mainUIStripMenuItemHistorialUsuario.Text = "Historial usuario";
             mainUIStripMenuItemHistorialUsuario.Click += mainUIStripMenuItemHistorialUsuario_Click;
             // 
+            // agregarIdiomaToolStripMenuItem
+            // 
+            agregarIdiomaToolStripMenuItem.Name = "agregarIdiomaToolStripMenuItem";
+            agregarIdiomaToolStripMenuItem.Size = new Size(101, 20);
+            agregarIdiomaToolStripMenuItem.Text = "Agregar idioma";
+            agregarIdiomaToolStripMenuItem.Click += agregarIdiomaToolStripMenuItem_Click;
+            // 
+            // planificacionServicioToolStripMenuItem
+            // 
+            planificacionServicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionParadaToolStripMenuItem });
+            planificacionServicioToolStripMenuItem.Name = "planificacionServicioToolStripMenuItem";
+            planificacionServicioToolStripMenuItem.Size = new Size(146, 20);
+            planificacionServicioToolStripMenuItem.Text = "Planificación de servicio";
+            // 
+            // gestionParadaToolStripMenuItem
+            // 
+            gestionParadaToolStripMenuItem.Name = "gestionParadaToolStripMenuItem";
+            gestionParadaToolStripMenuItem.Size = new Size(180, 22);
+            gestionParadaToolStripMenuItem.Text = "Gestión de paradas";
+            gestionParadaToolStripMenuItem.Click += gestionParadaToolStripMenuItem_Click;
+            // 
             // comboIdiomasGlobal
             // 
+            comboIdiomasGlobal.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboIdiomasGlobal.FormattingEnabled = true;
-            comboIdiomasGlobal.Location = new Point(1064, 42);
+            comboIdiomasGlobal.Location = new Point(1050, 38);
             comboIdiomasGlobal.Name = "comboIdiomasGlobal";
-            comboIdiomasGlobal.Size = new Size(63, 23);
+            comboIdiomasGlobal.Size = new Size(65, 23);
             comboIdiomasGlobal.TabIndex = 1;
             comboIdiomasGlobal.SelectedIndexChanged += ComboIdiomasGlobal_SelectedIndexChanged;
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1064, 24);
+            label1.Location = new Point(1050, 20);
             label1.Name = "label1";
             label1.Size = new Size(44, 15);
             label1.TabIndex = 2;
             label1.Text = "Idioma";
             // 
-            // agregarIdiomaToolStripMenuItem
-            // 
-            agregarIdiomaToolStripMenuItem.Name = "agregarIdiomaToolStripMenuItem";
-            agregarIdiomaToolStripMenuItem.Size = new Size(101, 20);
-            agregarIdiomaToolStripMenuItem.Text = "Agregar Idioma";
-            agregarIdiomaToolStripMenuItem.Click += agregarIdiomaToolStripMenuItem_Click;
-            // 
             // MainUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(1127, 564);
             Controls.Add(label1);
             Controls.Add(comboIdiomasGlobal);
             Controls.Add(menuStrip1);
+            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             MainMenuStrip = menuStrip1;
             Name = "MainUI";
-            Text = "Sistema de gestion";
+            Text = "Sistema de gestión";
             Load += Form1_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -192,5 +208,7 @@
         private Label label1;
         private ToolStripMenuItem mainUIStripMenuItemHistorialUsuario;
         private ToolStripMenuItem agregarIdiomaToolStripMenuItem;
+        private ToolStripMenuItem planificacionServicioToolStripMenuItem;
+        private ToolStripMenuItem gestionParadaToolStripMenuItem;
     }
 }
