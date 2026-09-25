@@ -1,131 +1,68 @@
-CREATE TABLE Usuario (
-    ID UNIQUEIDENTIFIER PRIMARY KEY,
-    Username NVARCHAR(50) NOT NULL UNIQUE,
-    PasswordHash NVARCHAR(100) NOT NULL,
-    Email NVARCHAR(100) NOT NULL,
-    NumTelefono NVARCHAR(20) NOT NULL,
-    EstaBloqueado BIT NOT NULL,
-    Idioma VARCHAR(5) NOT NULL DEFAULT 'ES',
-    IntentosFallidos INT NOT NULL DEFAULT 0,
-	DVH NVARCHAR(256) NULL
-);
+-- EJECUTAR SOLO UNA VEZ QUE SE HAYA INICIALIZADO LA BASE DE DATOS Y SE CREARON LAS TABLAS
+USE GestorTransporteCG;
+GO
 
-CREATE TABLE DVV (
-	NombreTabla NVARCHAR(50) PRIMARY KEY,
-	ValorHash NVARCHAR(100) NOT NULL
-);
+IF NOT EXISTS (SELECT 1 FROM dbo.Usuario WHERE Username = N'admin')
+BEGIN
 
-CREATE TABLE Bitacora (
-	ID INT PRIMARY KEY IDENTITY(0,1),
-	Username NVARCHAR(50) NOT NULL,
-	Fecha DATETIME NOT NULL,
-	Accion NVARCHAR(50) NOT NULL
-);
+    INSERT INTO dbo.Usuario (ID, Username, PasswordHash, Email, NumTelefono, EstaBloqueado, Idioma, IntentosFallidos, DVH)
+    VALUES (
+        'd1eda407-3582-4e0c-85cc-ae51eb67b826',
+        'admin',
+        '8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918',
+        'admin@gmail.com',
+        '+54 1120202020',
+        0,
+        DEFAULT,
+        DEFAULT,
+        '8D35CFBE2038902867920E5E76AFC58508CBDB31EB92820A1F1F444FF994A615'
+    );
 
-CREATE TABLE Permiso (
-    ID INT PRIMARY KEY IDENTITY(0,1),
-    Nombre VARCHAR(30) NOT NULL UNIQUE,
-    EsPerfil BIT NOT NULL
-);
+    INSERT INTO dbo.DVV (NombreTabla, ValorHash)
+    VALUES (
+        'Usuario',
+        'EE3883C5E753048F5D8E02A1EED6B72FE04574293EFC6F894D103D8C94AAF0F2'
+    );
 
-CREATE TABLE PermisoRelacion (
-    ID_Padre INT NOT NULL,
-    ID_Hijo INT NOT NULL,
-    PRIMARY KEY (ID_Padre, ID_Hijo),
-    CONSTRAINT FK_PermisoRelacion_Padre FOREIGN KEY (ID_Padre) REFERENCES Permiso(ID),
-    CONSTRAINT FK_PermisoRelacion_Hijo FOREIGN KEY (ID_Hijo) REFERENCES Permiso(ID)
-);
+    INSERT INTO dbo.Permiso (Nombre, EsPerfil) VALUES
+    ('PERM-GESTIONAR-USR', 0),
+    ('PERM-GESTIONAR-IDM', 0),
+    ('PERM-DESBLOQUEAR-USR', 0),
+    ('PERM-GESTIONAR-PERFIL', 0),
+    ('PERM-CONSULTA-BIT', 0),
+    ('PERM-GESTIONAR-HISTORIAL', 0),
+    ('PERM-AGREGAR-IDM', 0),
+    ('PERF-ADMIN', 1),
+    ('PERM-PLANIFICACION-SERVICIO', 0);
 
-
-CREATE TABLE PerfilUsuario (
-	ID_Usuario UNIQUEIDENTIFIER,
-	ID_Perfil INT,
-	PRIMARY KEY (ID_Usuario, ID_Perfil),
-	CONSTRAINT FK_PerfilUsuarioUsuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID),
-	CONSTRAINT FK_PerfilUsuarioPerfil FOREIGN KEY (ID_Perfil) REFERENCES Permiso(ID)
-);
-
-CREATE TABLE Idioma (
-    Codigo VARCHAR(5) NOT NULL,   -- Ej: 'ES', 'EN'
-    Nombre VARCHAR(50) NOT NULL,  -- Ej: 'Español', 'English'
-    CONSTRAINT PK_Idioma PRIMARY KEY (Codigo)
-);
-
-CREATE TABLE Traduccion (
-    IdTraduccion INT IDENTITY(1,1) NOT NULL,
-    CodigoIdioma VARCHAR(5) NOT NULL,
-    KeyEtiqueta VARCHAR(100) NOT NULL, -- El nombre del control (Ej: loginUILabelUsername)
-    Texto NVARCHAR(MAX) NOT NULL,      -- El texto a mostrar (Ej: 'Nombre de usuario')
-    CONSTRAINT PK_Traduccion PRIMARY KEY (IdTraduccion),
-    CONSTRAINT FK_Traduccion_Idioma FOREIGN KEY (CodigoIdioma) REFERENCES Idioma(Codigo)
-);
-
-CREATE UNIQUE INDEX UIX_Idioma_Etiqueta ON Traduccion(CodigoIdioma, KeyEtiqueta);
-
-CREATE TABLE HistorialUsuario (
-    ID INT PRIMARY KEY IDENTITY(0,1),
-    ID_Usuario UNIQUEIDENTIFIER NOT NULL,
-    Email VARCHAR(100),
-    NumTelefono VARCHAR(20),
-    Fecha DATETIME NOT NULL
-    CONSTRAINT FK_HistorialUsuarioUsuario FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID)
-);
-
-INSERT INTO Usuario VALUES (
-	'd1eda407-3582-4e0c-85cc-ae51eb67b826',
-	'admin',
-	'8C6976E5B5410415BDE908BD4DEE15DFB167A9C873FC4BB8A81F6F2AB448A918',
-	'admin@gmail.com',
-	'+54 1120202020',
-	0,
-	DEFAULT,
-	DEFAULT,
-	'8D35CFBE2038902867920E5E76AFC58508CBDB31EB92820A1F1F444FF994A615'
-);
-
-INSERT INTO DVV VALUES (
-	'Usuario',
-	'EE3883C5E753048F5D8E02A1EED6B72FE04574293EFC6F894D103D8C94AAF0F2'
-);
-
-INSERT INTO Permiso VALUES
-('PERM-GESTIONAR-USR', 0),
-('PERM-GESTIONAR-IDM', 0),
-('PERM-DESBLOQUEAR-USR', 0),
-('PERM-GESTIONAR-PERFIL', 0),
-('PERM-CONSULTA-BIT', 0),
-('PERM-GESTIONAR-HISTORIAL', 0),
-('PERM-AGREGAR-IDM', 0),
-('PERF-ADMIN', 1);
-
-INSERT INTO PermisoRelacion VALUES
-((SELECT ID FROM Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM Permiso WHERE Nombre = 'PERM-GESTIONAR-USR' AND EsPerfil = 0)),
-((SELECT ID FROM Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM Permiso WHERE Nombre = 'PERM-GESTIONAR-IDM' AND EsPerfil = 0)),
-((SELECT ID FROM Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM Permiso WHERE Nombre = 'PERM-GESTIONAR-PERFIL' AND EsPerfil = 0)),
-((SELECT ID FROM Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM Permiso WHERE Nombre = 'PERM-GESTIONAR-HISTORIAL' AND EsPerfil = 0)),
-((SELECT ID FROM Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM Permiso WHERE Nombre = 'PERM-CONSULTA-BIT' AND EsPerfil = 0)),
-((SELECT ID FROM Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM Permiso WHERE Nombre = 'PERM-AGREGAR-IDM' AND EsPerfil = 0));
+    INSERT INTO dbo.PermisoRelacion (ID_Padre, ID_Hijo) VALUES
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-USR' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-IDM' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-PERFIL' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-HISTORIAL' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-CONSULTA-BIT' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-AGREGAR-IDM' AND EsPerfil = 0));
 
 
-INSERT INTO PerfilUsuario VALUES ('d1eda407-3582-4e0c-85cc-ae51eb67b826', (SELECT ID FROM Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1));
--------------
+    INSERT INTO dbo.PerfilUsuario (ID_Usuario, ID_Perfil) VALUES ('d1eda407-3582-4e0c-85cc-ae51eb67b826', (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1));
+    -------------
 
--- ---------------------------------------------------------
--- INSERTS INICIALES
+    -- ---------------------------------------------------------
+    -- INSERTS INICIALES
 
--- ---------------------------------------------------------
--- 1. REGISTRAR LOS IDIOMAS
--- ---------------------------------------------------------
-INSERT INTO Idioma (Codigo, Nombre) VALUES ('ES', 'Español');
-INSERT INTO Idioma (Codigo, Nombre) VALUES ('EN', 'English');
-INSERT INTO Idioma (Codigo, Nombre) VALUES ('PT', 'Português');
+    -- ---------------------------------------------------------
+    -- 1. REGISTRAR LOS IDIOMAS
+    -- ---------------------------------------------------------
+    INSERT INTO dbo.Idioma (Codigo, Nombre) VALUES ('ES', 'Español');
+    INSERT INTO dbo.Idioma (Codigo, Nombre) VALUES ('EN', 'English');
+    INSERT INTO dbo.Idioma (Codigo, Nombre) VALUES ('PT', 'Português');
 
--- ---------------------------------------------------------
-------------------------------------------Separados por Idioma
+    -- ---------------------------------------------------------
+    ------------------------------------------Separados por Idioma
 -- =========================================================================
 -- 1. TRADUCCIONES AL ESPAÑOL (ES)
 -- =========================================================================
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'MainUI', 'Sistema de gestion');
+    INSERT INTO dbo.Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'MainUI', 'Sistema de gestion');
 INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemCerrarSesion', 'Cerrar sesión');
 INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemIniciarSesion', 'Iniciar sesión');
 INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemGestionDeUsuarios', 'Gestión de usuarios');
@@ -470,3 +407,5 @@ INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_Tra
 INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_CargarEtiquetas', 'Error al cargar etiquetas de referencia: ');
 INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_CargarEtiquetas', 'Error loading reference labels: ');
 INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_CargarEtiquetas', 'Erro ao carregar rótulos de referência: ');
+
+END
