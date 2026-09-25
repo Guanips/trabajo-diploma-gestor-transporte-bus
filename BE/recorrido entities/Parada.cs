@@ -16,5 +16,10 @@
             this.direccion = direccion;
             this.habilitada = habilitada;
         }
+
+        public override string ToString()
+        {
+            return $"{id}, {localidad}";
+        }
     }
 }

@@ -3,6 +3,7 @@ using BLL;
 using servicios;
 using UI.Login;
 using UI.Modules;
+using UI.Modules.gestion_rutas;
 
 namespace UI
 {
@@ -216,6 +217,12 @@ namespace UI
         {
             GestionParadasUI gestionParadasUI = new GestionParadasUI();
             cargarFormulario(gestionParadasUI);
+        }
+
+        private void gestionDeRutasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestionRutaUI gestionRutasUI = new GestionRutaUI();
+            cargarFormulario(gestionRutasUI);
         }
     }
 }

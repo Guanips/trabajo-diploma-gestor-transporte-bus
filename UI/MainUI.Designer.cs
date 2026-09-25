@@ -41,6 +41,7 @@
             gestionParadaToolStripMenuItem = new ToolStripMenuItem();
             comboIdiomasGlobal = new ComboBox();
             label1 = new Label();
+            gestionDeRutasToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -139,7 +140,7 @@
             // 
             // planificacionServicioToolStripMenuItem
             // 
-            planificacionServicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionParadaToolStripMenuItem });
+            planificacionServicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionParadaToolStripMenuItem, gestionDeRutasToolStripMenuItem });
             planificacionServicioToolStripMenuItem.Name = "planificacionServicioToolStripMenuItem";
             planificacionServicioToolStripMenuItem.Size = new Size(146, 20);
             planificacionServicioToolStripMenuItem.Text = "Planificación de servicio";
@@ -171,6 +172,13 @@
             label1.TabIndex = 2;
             label1.Text = "Idioma";
             // 
+            // gestionDeRutasToolStripMenuItem
+            // 
+            gestionDeRutasToolStripMenuItem.Name = "gestionDeRutasToolStripMenuItem";
+            gestionDeRutasToolStripMenuItem.Size = new Size(180, 22);
+            gestionDeRutasToolStripMenuItem.Text = "Gestión de rutas";
+            gestionDeRutasToolStripMenuItem.Click += gestionDeRutasToolStripMenuItem_Click;
+            // 
             // MainUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -180,7 +188,7 @@
             Controls.Add(label1);
             Controls.Add(comboIdiomasGlobal);
             Controls.Add(menuStrip1);
-            Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
+            Font = new Font("Segoe UI", 9F);
             MainMenuStrip = menuStrip1;
             Name = "MainUI";
             Text = "Sistema de gestión";
@@ -210,5 +218,6 @@
         private ToolStripMenuItem agregarIdiomaToolStripMenuItem;
         private ToolStripMenuItem planificacionServicioToolStripMenuItem;
         private ToolStripMenuItem gestionParadaToolStripMenuItem;
+        private ToolStripMenuItem gestionDeRutasToolStripMenuItem;
     }
 }
