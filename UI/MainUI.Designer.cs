@@ -39,15 +39,18 @@
             agregarIdiomaToolStripMenuItem = new ToolStripMenuItem();
             planificacionServicioToolStripMenuItem = new ToolStripMenuItem();
             gestionParadaToolStripMenuItem = new ToolStripMenuItem();
+            gestionDeRutasToolStripMenuItem = new ToolStripMenuItem();
             comboIdiomasGlobal = new ComboBox();
             label1 = new Label();
-            gestionDeRutasToolStripMenuItem = new ToolStripMenuItem();
+            choferesInternosToolStripMenuItem = new ToolStripMenuItem();
+            gestionDeChoferesToolStripMenuItem = new ToolStripMenuItem();
+            gestionDeInternosToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem, planificacionServicioToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem, planificacionServicioToolStripMenuItem, choferesInternosToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1127, 24);
@@ -152,6 +155,13 @@
             gestionParadaToolStripMenuItem.Text = "Gestión de paradas";
             gestionParadaToolStripMenuItem.Click += gestionParadaToolStripMenuItem_Click;
             // 
+            // gestionDeRutasToolStripMenuItem
+            // 
+            gestionDeRutasToolStripMenuItem.Name = "gestionDeRutasToolStripMenuItem";
+            gestionDeRutasToolStripMenuItem.Size = new Size(180, 22);
+            gestionDeRutasToolStripMenuItem.Text = "Gestión de rutas";
+            gestionDeRutasToolStripMenuItem.Click += gestionDeRutasToolStripMenuItem_Click;
+            // 
             // comboIdiomasGlobal
             // 
             comboIdiomasGlobal.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -172,12 +182,26 @@
             label1.TabIndex = 2;
             label1.Text = "Idioma";
             // 
-            // gestionDeRutasToolStripMenuItem
+            // choferesInternosToolStripMenuItem
             // 
-            gestionDeRutasToolStripMenuItem.Name = "gestionDeRutasToolStripMenuItem";
-            gestionDeRutasToolStripMenuItem.Size = new Size(180, 22);
-            gestionDeRutasToolStripMenuItem.Text = "Gestión de rutas";
-            gestionDeRutasToolStripMenuItem.Click += gestionDeRutasToolStripMenuItem_Click;
+            choferesInternosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionDeChoferesToolStripMenuItem, gestionDeInternosToolStripMenuItem });
+            choferesInternosToolStripMenuItem.Name = "choferesInternosToolStripMenuItem";
+            choferesInternosToolStripMenuItem.Size = new Size(114, 20);
+            choferesInternosToolStripMenuItem.Text = "Choferes/Internos";
+            // 
+            // gestionDeChoferesToolStripMenuItem
+            // 
+            gestionDeChoferesToolStripMenuItem.Name = "gestionDeChoferesToolStripMenuItem";
+            gestionDeChoferesToolStripMenuItem.Size = new Size(180, 22);
+            gestionDeChoferesToolStripMenuItem.Text = "Gestión de choferes";
+            gestionDeChoferesToolStripMenuItem.Click += gestionDeChoferesToolStripMenuItem_Click;
+            // 
+            // gestionDeInternosToolStripMenuItem
+            // 
+            gestionDeInternosToolStripMenuItem.Name = "gestionDeInternosToolStripMenuItem";
+            gestionDeInternosToolStripMenuItem.Size = new Size(180, 22);
+            gestionDeInternosToolStripMenuItem.Text = "Gestión de internos";
+            gestionDeInternosToolStripMenuItem.Click += gestionDeInternosToolStripMenuItem_Click;
             // 
             // MainUI
             // 
@@ -219,5 +243,8 @@
         private ToolStripMenuItem planificacionServicioToolStripMenuItem;
         private ToolStripMenuItem gestionParadaToolStripMenuItem;
         private ToolStripMenuItem gestionDeRutasToolStripMenuItem;
+        private ToolStripMenuItem choferesInternosToolStripMenuItem;
+        private ToolStripMenuItem gestionDeChoferesToolStripMenuItem;
+        private ToolStripMenuItem gestionDeInternosToolStripMenuItem;
     }
 }

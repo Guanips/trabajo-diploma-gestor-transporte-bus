@@ -157,3 +157,26 @@ BEGIN
         CONSTRAINT FK_Parada_Ruta FOREIGN KEY (id_parada) REFERENCES dbo.Parada(id)
     );
 END
+
+IF OBJECT_ID(N'dbo.Chofer', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Chofer (
+        num_chofer INT IDENTITY(0,1) NOT NULL,
+        dni INT NOT NULL,
+        nombreCompleto VARCHAR(100) NOT NULL,
+        activo BIT NOT NULL DEFAULT 1,
+        CONSTRAINT PK_Chofer PRIMARY KEY (num_chofer)
+    );
+END
+
+IF OBJECT_ID(N'dbo.Interno', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Interno (
+        num_interno INT IDENTITY(0,1) NOT NULL,
+        patente VARCHAR(20) NOT NULL,
+        modelo VARCHAR(50) NOT NULL,
+        fechaIncorporacion DATE NOT NULL,
+        disponible BIT NOT NULL,
+        CONSTRAINT PK_Interno PRIMARY KEY (num_interno),
+    );
+END

@@ -3,6 +3,8 @@ using BLL;
 using servicios;
 using UI.Login;
 using UI.Modules;
+using UI.Modules.gestion_choferes;
+using UI.Modules.gestion_internos;
 using UI.Modules.gestion_rutas;
 
 namespace UI
@@ -58,6 +60,7 @@ namespace UI
                     mainUIStripMenuItemHistorialUsuario.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTIONAR-HISTORIAL"));
                     agregarIdiomaToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-AGREGAR-IDM"));
                     planificacionServicioToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-PLANIFICACION-SERVICIO"));
+                    choferesInternosToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CHOFERES-INTERNOS"));
                 }
                 else
                 {
@@ -223,6 +226,18 @@ namespace UI
         {
             GestionRutaUI gestionRutasUI = new GestionRutaUI();
             cargarFormulario(gestionRutasUI);
+        }
+
+        private void gestionDeChoferesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestionChoferUI gestionChoferUI = new GestionChoferUI();
+            cargarFormulario(gestionChoferUI);
+        }
+
+        private void gestionDeInternosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestionInternoUI gestionInternoUI = new GestionInternoUI();
+            cargarFormulario(gestionInternoUI);
         }
     }
 }
