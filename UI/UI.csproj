@@ -14,4 +14,16 @@
     <ProjectReference Include="..\servicios\servicios.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Modules\gestion choferes\GestionChoferAgregarModificarUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modules\gestion internos\GestionInternoAgregarModificarUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Modules\gestion internos\GestionInternoUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
