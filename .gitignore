@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # enviroment files
 .env
+/appsettings.json
