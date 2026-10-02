@@ -4,6 +4,7 @@ using servicios;
 using UI.Login;
 using UI.Modules;
 using UI.Modules.gestion_choferes;
+using UI.Modules.gestion_cronogramas;
 using UI.Modules.gestion_internos;
 using UI.Modules.gestion_rutas;
 
@@ -61,6 +62,7 @@ namespace UI
                     agregarIdiomaToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-AGREGAR-IDM"));
                     planificacionServicioToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-PLANIFICACION-SERVICIO"));
                     choferesInternosToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CHOFERES-INTERNOS"));
+                    gestionDeCronogramasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
                 }
                 else
                 {
@@ -238,6 +240,12 @@ namespace UI
         {
             GestionInternoUI gestionInternoUI = new GestionInternoUI();
             cargarFormulario(gestionInternoUI);
+        }
+
+        private void gestionDeCronogramasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestionCronogramasUI gestionCronogramaUI = new GestionCronogramasUI();
+            cargarFormulario(gestionCronogramaUI);
         }
     }
 }

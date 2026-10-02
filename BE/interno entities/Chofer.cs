@@ -20,5 +20,10 @@ namespace BE.interno_entities
             this.nombreCompleto = nombreCompleto;
             this.activo = activo;
         }
+
+        public override string ToString()
+        {
+            return $"{num_chofer} - {nombreCompleto}";
+        }
     }
 }

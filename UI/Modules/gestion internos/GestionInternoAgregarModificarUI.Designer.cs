@@ -45,7 +45,7 @@
             labelInternoAltaModificarNum.AutoSize = true;
             labelInternoAltaModificarNum.Location = new Point(18, 10);
             labelInternoAltaModificarNum.Name = "labelInternoAltaModificarNum";
-            labelInternoAltaModificarNum.Size = new Size(113, 15);
+            labelInternoAltaModificarNum.Size = new Size(108, 15);
             labelInternoAltaModificarNum.TabIndex = 0;
             labelInternoAltaModificarNum.Text = "Numero de interno";
             // 
@@ -54,6 +54,7 @@
             textBoxInternoNum.Location = new Point(18, 34);
             textBoxInternoNum.MaxLength = 20;
             textBoxInternoNum.Name = "textBoxInternoNum";
+            textBoxInternoNum.ReadOnly = true;
             textBoxInternoNum.Size = new Size(257, 23);
             textBoxInternoNum.TabIndex = 1;
             // 
@@ -104,7 +105,7 @@
             labelInternoAltaModificarFechaIncorporacion.AutoSize = true;
             labelInternoAltaModificarFechaIncorporacion.Location = new Point(18, 178);
             labelInternoAltaModificarFechaIncorporacion.Name = "labelInternoAltaModificarFechaIncorporacion";
-            labelInternoAltaModificarFechaIncorporacion.Size = new Size(136, 15);
+            labelInternoAltaModificarFechaIncorporacion.Size = new Size(131, 15);
             labelInternoAltaModificarFechaIncorporacion.TabIndex = 6;
             labelInternoAltaModificarFechaIncorporacion.Text = "Fecha de incorporacion";
             // 
@@ -113,7 +114,7 @@
             checkBoxInternoAltaModificarDisponible.AutoSize = true;
             checkBoxInternoAltaModificarDisponible.Location = new Point(18, 234);
             checkBoxInternoAltaModificarDisponible.Name = "checkBoxInternoAltaModificarDisponible";
-            checkBoxInternoAltaModificarDisponible.Size = new Size(116, 19);
+            checkBoxInternoAltaModificarDisponible.Size = new Size(115, 19);
             checkBoxInternoAltaModificarDisponible.TabIndex = 8;
             checkBoxInternoAltaModificarDisponible.Text = "¿Está disponible?";
             checkBoxInternoAltaModificarDisponible.UseVisualStyleBackColor = true;

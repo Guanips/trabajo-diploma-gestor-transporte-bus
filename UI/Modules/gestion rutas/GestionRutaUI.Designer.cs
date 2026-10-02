@@ -52,7 +52,7 @@
             groupBoxRutaDisponibles.Controls.Add(buttonRutaEliminar);
             groupBoxRutaDisponibles.Controls.Add(buttonRutaAlta);
             groupBoxRutaDisponibles.Controls.Add(dataGridViewRutaDisponibles);
-            groupBoxRutaDisponibles.Location = new Point(12, 12);
+            groupBoxRutaDisponibles.Location = new Point(16, 55);
             groupBoxRutaDisponibles.Name = "groupBoxRutaDisponibles";
             groupBoxRutaDisponibles.Size = new Size(400, 449);
             groupBoxRutaDisponibles.TabIndex = 0;
@@ -107,7 +107,7 @@
             // 
             groupBoxRutaParadasDisponibles.Controls.Add(buttonRutaAsignarParada);
             groupBoxRutaParadasDisponibles.Controls.Add(listBoxRutaParadasDisponibles);
-            groupBoxRutaParadasDisponibles.Location = new Point(418, 12);
+            groupBoxRutaParadasDisponibles.Location = new Point(422, 55);
             groupBoxRutaParadasDisponibles.Name = "groupBoxRutaParadasDisponibles";
             groupBoxRutaParadasDisponibles.Size = new Size(297, 449);
             groupBoxRutaParadasDisponibles.TabIndex = 1;
@@ -138,7 +138,7 @@
             groupBoxRutaParadasRuta.Controls.Add(buttonRutaBajarParada);
             groupBoxRutaParadasRuta.Controls.Add(buttonRutaSubirParada);
             groupBoxRutaParadasRuta.Controls.Add(listBoxRutaParadasDeRuta);
-            groupBoxRutaParadasRuta.Location = new Point(721, 12);
+            groupBoxRutaParadasRuta.Location = new Point(725, 55);
             groupBoxRutaParadasRuta.Name = "groupBoxRutaParadasRuta";
             groupBoxRutaParadasRuta.Size = new Size(297, 449);
             groupBoxRutaParadasRuta.TabIndex = 2;
@@ -178,7 +178,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1034, 475);
+            ClientSize = new Size(1034, 516);
             ControlBox = false;
             Controls.Add(groupBoxRutaParadasRuta);
             Controls.Add(groupBoxRutaParadasDisponibles);
@@ -186,6 +186,7 @@
             FormBorderStyle = FormBorderStyle.None;
             Name = "GestionRutaUI";
             Text = "GestionRutaUI";
+            WindowState = FormWindowState.Maximized;
             groupBoxRutaDisponibles.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridViewRutaDisponibles).EndInit();
             groupBoxRutaParadasDisponibles.ResumeLayout(false);

@@ -180,3 +180,39 @@ BEGIN
         CONSTRAINT PK_Interno PRIMARY KEY (num_interno),
     );
 END
+
+IF OBJECT_ID(N'dbo.Cronograma') IS NULL
+BEGIN
+    CREATE TABLE dbo.Cronograma (
+        id INT IDENTITY(0,1) NOT NULL,
+        descripcion NVARCHAR(MAX) NOT NULL,
+        fechaValidez DATE NOT NULL,
+        horaInicio TIME NOT NULL,
+        horaFin TIME NOT NULL,
+        frecuenciaMinutos INT NOT NULL,
+        tiempoDescansoMinutos INT NOT NULL,
+        id_ruta VARCHAR(20) NOT NULL,
+        CONSTRAINT PK_Cronograma PRIMARY KEY (id),
+        CONSTRAINT FK_Cronograma_Ruta FOREIGN KEY (id_ruta) REFERENCES dbo.Ruta(id)
+    );
+END
+
+IF OBJECT_ID(N'dbo.Salida') IS NULL
+BEGIN
+    CREATE TABLE dbo.Salida (
+        id INT IDENTITY(0,1) NOT NULL,
+        id_cronograma INT NOT NULL,
+        num_interno INT,
+        num_chofer INT,
+        horaSalidaTeorica TIME NOT NULL,
+        horaLlegadaTeorica TIME NOT NULL,
+        horaSalidaReal TIME,
+        horaLlegadaReal TIME,
+        estaSuspendida BIT NOT NULL,
+        motivoSuspension NVARCHAR(MAX),
+        CONSTRAINT PK_Salida PRIMARY KEY (id),
+        CONSTRAINT FK_Salida_Cronograma FOREIGN KEY (id_cronograma) REFERENCES dbo.Cronograma(id),
+        CONSTRAINT FK_Salida_Interno FOREIGN KEY (num_interno) REFERENCES dbo.Interno(num_interno),
+        CONSTRAINT FK_Salida_Chofer FOREIGN KEY (num_chofer) REFERENCES dbo.Chofer(num_Chofer)
+    );
+END

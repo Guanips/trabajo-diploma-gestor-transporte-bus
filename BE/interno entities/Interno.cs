@@ -22,5 +22,10 @@ namespace BE.interno_entities
             this.disponible = habilitado;
             this.fechaIncorporacion = fechaIncorporacion;
         }
+
+        public override string ToString()
+        {
+            return $"{num_interno} - {patente}";
+        }
     }
 }

@@ -40,11 +40,12 @@
             planificacionServicioToolStripMenuItem = new ToolStripMenuItem();
             gestionParadaToolStripMenuItem = new ToolStripMenuItem();
             gestionDeRutasToolStripMenuItem = new ToolStripMenuItem();
-            comboIdiomasGlobal = new ComboBox();
-            label1 = new Label();
             choferesInternosToolStripMenuItem = new ToolStripMenuItem();
             gestionDeChoferesToolStripMenuItem = new ToolStripMenuItem();
             gestionDeInternosToolStripMenuItem = new ToolStripMenuItem();
+            comboIdiomasGlobal = new ComboBox();
+            label1 = new Label();
+            gestionDeCronogramasToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -143,7 +144,7 @@
             // 
             // planificacionServicioToolStripMenuItem
             // 
-            planificacionServicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionParadaToolStripMenuItem, gestionDeRutasToolStripMenuItem });
+            planificacionServicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionParadaToolStripMenuItem, gestionDeRutasToolStripMenuItem, gestionDeCronogramasToolStripMenuItem });
             planificacionServicioToolStripMenuItem.Name = "planificacionServicioToolStripMenuItem";
             planificacionServicioToolStripMenuItem.Size = new Size(146, 20);
             planificacionServicioToolStripMenuItem.Text = "Planificación de servicio";
@@ -151,16 +152,37 @@
             // gestionParadaToolStripMenuItem
             // 
             gestionParadaToolStripMenuItem.Name = "gestionParadaToolStripMenuItem";
-            gestionParadaToolStripMenuItem.Size = new Size(180, 22);
+            gestionParadaToolStripMenuItem.Size = new Size(203, 22);
             gestionParadaToolStripMenuItem.Text = "Gestión de paradas";
             gestionParadaToolStripMenuItem.Click += gestionParadaToolStripMenuItem_Click;
             // 
             // gestionDeRutasToolStripMenuItem
             // 
             gestionDeRutasToolStripMenuItem.Name = "gestionDeRutasToolStripMenuItem";
-            gestionDeRutasToolStripMenuItem.Size = new Size(180, 22);
+            gestionDeRutasToolStripMenuItem.Size = new Size(203, 22);
             gestionDeRutasToolStripMenuItem.Text = "Gestión de rutas";
             gestionDeRutasToolStripMenuItem.Click += gestionDeRutasToolStripMenuItem_Click;
+            // 
+            // choferesInternosToolStripMenuItem
+            // 
+            choferesInternosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionDeChoferesToolStripMenuItem, gestionDeInternosToolStripMenuItem });
+            choferesInternosToolStripMenuItem.Name = "choferesInternosToolStripMenuItem";
+            choferesInternosToolStripMenuItem.Size = new Size(114, 20);
+            choferesInternosToolStripMenuItem.Text = "Choferes/Internos";
+            // 
+            // gestionDeChoferesToolStripMenuItem
+            // 
+            gestionDeChoferesToolStripMenuItem.Name = "gestionDeChoferesToolStripMenuItem";
+            gestionDeChoferesToolStripMenuItem.Size = new Size(178, 22);
+            gestionDeChoferesToolStripMenuItem.Text = "Gestión de choferes";
+            gestionDeChoferesToolStripMenuItem.Click += gestionDeChoferesToolStripMenuItem_Click;
+            // 
+            // gestionDeInternosToolStripMenuItem
+            // 
+            gestionDeInternosToolStripMenuItem.Name = "gestionDeInternosToolStripMenuItem";
+            gestionDeInternosToolStripMenuItem.Size = new Size(178, 22);
+            gestionDeInternosToolStripMenuItem.Text = "Gestión de internos";
+            gestionDeInternosToolStripMenuItem.Click += gestionDeInternosToolStripMenuItem_Click;
             // 
             // comboIdiomasGlobal
             // 
@@ -182,26 +204,12 @@
             label1.TabIndex = 2;
             label1.Text = "Idioma";
             // 
-            // choferesInternosToolStripMenuItem
+            // gestionDeCronogramasToolStripMenuItem
             // 
-            choferesInternosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionDeChoferesToolStripMenuItem, gestionDeInternosToolStripMenuItem });
-            choferesInternosToolStripMenuItem.Name = "choferesInternosToolStripMenuItem";
-            choferesInternosToolStripMenuItem.Size = new Size(114, 20);
-            choferesInternosToolStripMenuItem.Text = "Choferes/Internos";
-            // 
-            // gestionDeChoferesToolStripMenuItem
-            // 
-            gestionDeChoferesToolStripMenuItem.Name = "gestionDeChoferesToolStripMenuItem";
-            gestionDeChoferesToolStripMenuItem.Size = new Size(180, 22);
-            gestionDeChoferesToolStripMenuItem.Text = "Gestión de choferes";
-            gestionDeChoferesToolStripMenuItem.Click += gestionDeChoferesToolStripMenuItem_Click;
-            // 
-            // gestionDeInternosToolStripMenuItem
-            // 
-            gestionDeInternosToolStripMenuItem.Name = "gestionDeInternosToolStripMenuItem";
-            gestionDeInternosToolStripMenuItem.Size = new Size(180, 22);
-            gestionDeInternosToolStripMenuItem.Text = "Gestión de internos";
-            gestionDeInternosToolStripMenuItem.Click += gestionDeInternosToolStripMenuItem_Click;
+            gestionDeCronogramasToolStripMenuItem.Name = "gestionDeCronogramasToolStripMenuItem";
+            gestionDeCronogramasToolStripMenuItem.Size = new Size(203, 22);
+            gestionDeCronogramasToolStripMenuItem.Text = "Gestión de cronogramas";
+            gestionDeCronogramasToolStripMenuItem.Click += gestionDeCronogramasToolStripMenuItem_Click;
             // 
             // MainUI
             // 
@@ -246,5 +254,6 @@
         private ToolStripMenuItem choferesInternosToolStripMenuItem;
         private ToolStripMenuItem gestionDeChoferesToolStripMenuItem;
         private ToolStripMenuItem gestionDeInternosToolStripMenuItem;
+        private ToolStripMenuItem gestionDeCronogramasToolStripMenuItem;
     }
 }
