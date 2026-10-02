@@ -6,58 +6,23 @@ namespace servicios
     {
         public static string GetConnectionString()
         {
-            string? connectionString = null;
-            string directorioActualDAO = AppContext.BaseDirectory;
-            DirectoryInfo? directorioRaiz = new DirectoryInfo(directorioActualDAO);
+            // Opcional: permite sobrescribir con una variable de entorno
+            string? cs = Environment.GetEnvironmentVariable("SQL_SERVER_CONNECTION_STRING");
+            if (!string.IsNullOrWhiteSpace(cs)) return cs;
 
-            while (directorioRaiz != null && directorioRaiz.GetFiles("*.sln").Length == 0)
+            string ruta = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+            if (!File.Exists(ruta))
+                throw new FileNotFoundException("No se encontró appsettings.json", ruta);
+
+            using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(ruta));
+            if (doc.RootElement.TryGetProperty("ConnectionStrings", out JsonElement cadenas) &&
+                cadenas.TryGetProperty("Default", out JsonElement def) &&
+                def.ValueKind == JsonValueKind.String)
             {
-                directorioRaiz = directorioRaiz.Parent;
+                return def.GetString()!;
             }
 
-            if (directorioRaiz == null) throw new Exception("Raiz del proyecto no encontrada para cargar archivo de configuración");
-
-            string rutaArchivoEnv = Path.Combine(directorioRaiz.FullName, ".env");
-            if (File.Exists(rutaArchivoEnv))
-            {
-                try { DotNetEnv.Env.Load(rutaArchivoEnv); } catch { }
-            }
-
-            connectionString = Environment.GetEnvironmentVariable("SQL_SERVER_CONNECTION_STRING")
-                ?? Environment.GetEnvironmentVariable("ConnectionStrings__Default")
-                ?? Environment.GetEnvironmentVariable("ConnectionStrings:Default")
-                ?? Environment.GetEnvironmentVariable("DefaultConnection");
-
-            if (connectionString == null)
-            {
-                string rutaAppSettings = Path.Combine(directorioRaiz.FullName, "appsettings.json");
-                if (File.Exists(rutaAppSettings))
-                {
-                    try
-                    {
-                        string json = File.ReadAllText(rutaAppSettings);
-                        using JsonDocument doc = JsonDocument.Parse(json);
-                        JsonElement root = doc.RootElement;
-
-                        if (root.TryGetProperty("ConnectionStrings", out JsonElement cs))
-                        {
-                            if (cs.TryGetProperty("Default", out JsonElement def) && def.ValueKind == JsonValueKind.String)
-                                connectionString = def.GetString();
-                            else if (cs.TryGetProperty("SQL_SERVER_CONNECTION_STRING", out JsonElement ss) && ss.ValueKind == JsonValueKind.String)
-                                connectionString = ss.GetString();
-                        }
-                        else if (root.TryGetProperty("SQL_SERVER_CONNECTION_STRING", out JsonElement top) && top.ValueKind == JsonValueKind.String)
-                        {
-                            connectionString = top.GetString();
-                        }
-                    }
-                    catch { }
-                }
-            }
-
-            if (connectionString == null) throw new Exception("Configuración para conexión no encontrada.");
-
-            return connectionString;
+            throw new Exception("Configuración para conexión no encontrada en appsettings.json.");
         }
     }
 }
