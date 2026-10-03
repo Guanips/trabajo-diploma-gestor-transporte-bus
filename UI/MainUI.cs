@@ -7,6 +7,7 @@ using UI.Modules.gestion_choferes;
 using UI.Modules.gestion_cronogramas;
 using UI.Modules.gestion_internos;
 using UI.Modules.gestion_rutas;
+using UI.Modules.gestion_taller;
 
 namespace UI
 {
@@ -63,6 +64,8 @@ namespace UI
                     planificacionServicioToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-PLANIFICACION-SERVICIO"));
                     choferesInternosToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CHOFERES-INTERNOS"));
                     gestionDeCronogramasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
+                    gestionCargasCombustibleToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
+                    tallerToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-TALLER"));
                 }
                 else
                 {
@@ -246,6 +249,12 @@ namespace UI
         {
             GestionCronogramasUI gestionCronogramaUI = new GestionCronogramasUI();
             cargarFormulario(gestionCronogramaUI);
+        }
+
+        private void gestionCargasCombustibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestionCargasCombustibleUI gestionCargasCombustibleUI = new GestionCargasCombustibleUI();
+            cargarFormulario(gestionCargasCombustibleUI);
         }
     }
 }

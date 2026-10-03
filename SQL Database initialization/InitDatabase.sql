@@ -216,3 +216,19 @@ BEGIN
         CONSTRAINT FK_Salida_Chofer FOREIGN KEY (num_chofer) REFERENCES dbo.Chofer(num_Chofer)
     );
 END
+
+IF OBJECT_ID(N'dbo.CargaCombustible') IS NULL
+BEGIN
+    CREATE TABLE dbo.CargaCombustible (
+        id INT IDENTITY(0,1) NOT NULL,
+        num_interno INT NOT NULL,
+        fechaHora DATETIME NOT NULL,
+        litrosCargados DECIMAL NOT NULL,
+        precioPorLitro DECIMAL NOT NULL,
+        kilometrajeActual INT NOT NULL,
+        anulada BIT NOT NULL,
+        motivoAnulacion NVARCHAR(MAX),
+        CONSTRAINT  PK_CargaCombustible PRIMARY KEY (id),
+        CONSTRAINT FK_CargaCombustible_Interno FOREIGN KEY (num_interno) REFERENCES dbo.Interno(num_interno)
+    );
+END
