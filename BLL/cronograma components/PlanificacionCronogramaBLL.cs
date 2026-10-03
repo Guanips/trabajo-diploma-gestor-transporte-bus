@@ -32,28 +32,42 @@ namespace BLL.cronograma_components
             return salidasGeneradas;
         }
 
-        public void AsignarChoferASalida(Cronograma cronograma, Salida salida, Chofer chofer)
+        public Salida? AsignarChoferASalida(Cronograma cronograma, Salida salida, Chofer chofer)
         {
             if (salida.estaSuspendida)
             {
                 throw new Exception("No se puede asignar un chofer a una salida suspendida.");
             }
 
-            ValidarSolapamientoChofer(cronograma, salida, chofer);
+            Salida? conflicto = ValidarSolapamientoChofer(cronograma, salida, chofer);
+            if (conflicto != null)
+            {
+                // Devuelve la salida en conflicto para que la capa de UI pueda ofrecer la reasignación
+                return conflicto;
+            }
+
             GestorSalida.AsignarChofer(salida.id, chofer);
             salida.AsignarChofer(chofer);
+            return null;
         }
 
-        public void AsignarInternoASalida(Cronograma cronograma, Salida salida, Interno interno)
+        public Salida? AsignarInternoASalida(Cronograma cronograma, Salida salida, Interno interno)
         {
             if (salida.estaSuspendida)
             {
                 throw new Exception("No se puede asignar un interno a una salida suspendida.");
             }
 
-            ValidarSolapamientoInterno(cronograma, salida, interno);
+            Salida? conflicto = ValidarSolapamientoInterno(cronograma, salida, interno);
+            if (conflicto != null)
+            {
+                // Devuelve la salida en conflicto para que la capa de UI pueda ofrecer la reasignación
+                return conflicto;
+            }
+
             GestorSalida.AsignarInterno(salida.id, interno);
             salida.AsignarInterno(interno);
+            return null;
         }
 
         public void DesasignarChoferDeSalida(Salida salida)
@@ -68,7 +82,7 @@ namespace BLL.cronograma_components
             salida.DesasignarInterno();
         }
 
-        private void ValidarSolapamientoChofer(Cronograma cronograma, Salida salidaActual, Chofer chofer)
+        private Salida? ValidarSolapamientoChofer(Cronograma cronograma, Salida salidaActual, Chofer chofer)
         {
             List<Cronograma> cronogramas = GestorCronograma.ObtenerCronogramas();
             List<Salida> salidasMismaFecha = cronogramas
@@ -78,13 +92,10 @@ namespace BLL.cronograma_components
                 .ToList();
 
             Salida? conflicto = salidasMismaFecha.FirstOrDefault(s => SeSolapan(salidaActual, s));
-            if (conflicto != null)
-            {
-                throw new Exception($"El chofer ya tiene una salida solapada entre {conflicto.horaSalidaTeorica:HH\\:mm} y {conflicto.horaLlegadaTeorica:HH\\:mm}.");
-            }
+            return conflicto;
         }
 
-        private void ValidarSolapamientoInterno(Cronograma cronograma, Salida salidaActual, Interno interno)
+        private Salida? ValidarSolapamientoInterno(Cronograma cronograma, Salida salidaActual, Interno interno)
         {
             List<Cronograma> cronogramas = GestorCronograma.ObtenerCronogramas();
             List<Salida> salidasMismaFecha = cronogramas
@@ -94,10 +105,7 @@ namespace BLL.cronograma_components
                 .ToList();
 
             Salida? conflicto = salidasMismaFecha.FirstOrDefault(s => SeSolapan(salidaActual, s));
-            if (conflicto != null)
-            {
-                throw new Exception($"El interno ya tiene una salida solapada entre {conflicto.horaSalidaTeorica:HH\\:mm} y {conflicto.horaLlegadaTeorica:HH\\:mm}.");
-            }
+            return conflicto;
         }
 
         private bool SeSolapan(Salida salidaA, Salida salidaB)

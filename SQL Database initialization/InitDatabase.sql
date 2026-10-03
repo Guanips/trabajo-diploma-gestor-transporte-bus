@@ -51,7 +51,7 @@ IF OBJECT_ID(N'dbo.Permiso', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.Permiso (
         ID INT PRIMARY KEY IDENTITY(0,1),
-        Nombre VARCHAR(30) NOT NULL UNIQUE,
+        Nombre VARCHAR(100) NOT NULL UNIQUE,
         EsPerfil BIT NOT NULL
     );
 END

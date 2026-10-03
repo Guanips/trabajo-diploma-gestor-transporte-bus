@@ -1,5 +1,7 @@
-﻿using BE.cronograma_entities;
+﻿using BE;
+using BE.cronograma_entities;
 using BE.interno_entities;
+using BLL;
 using BLL.cronograma_components;
 using BLL.interno_components;
 using Microsoft.VisualBasic;
@@ -77,11 +79,39 @@ namespace UI.Modules.gestion_cronogramas
                 {
                     comboBoxGestionCronogramasInterno.DataSource = internos;
                 }
+
+                ChequearPermisosDeUsuario();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void ChequearPermisosDeUsuario ()
+        {
+            Usuario? usuarioActual = SessionManager.getInstance.ObtenerUsuarioActivo();
+            if (usuarioActual == null)
+            {
+                MessageBox.Show("No hay un usuario activo en la sesión.");
+                this.Close();
+                return;
+            }
+
+            comboBoxGestionCronogramasChofer.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+            buttonGestionCronogramasAsignarChofer.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+            buttonGestionCronogramasDesasignarChofer.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+
+            comboBoxGestionCronogramasInterno.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+            buttonGestionCronogramasAsignarInterno.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+            buttonGestionCronogramasDesasignarInterno.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+
+            buttonGestionCronogramasGenerarSalidas.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+            buttonGestionCronogramasSuspenderSalida.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+
+            buttonGestionCronogramaAgregarCronograma.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+            buttonGestionCronogramasEliminarCronograma.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
+            buttonGestionCronogramasModificarCronograma.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS-MODIFICAR"));
         }
 
         private void buttonGestionCronogramaAgregarCronograma_Click(object sender, EventArgs e)
