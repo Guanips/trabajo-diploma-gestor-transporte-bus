@@ -62,5 +62,10 @@
 
             recorrido.Insert(nuevaPosicion, parada);
         }
+
+        public override string ToString()
+        {
+            return $"{id} - {sentido}";
+        }
     }
 }

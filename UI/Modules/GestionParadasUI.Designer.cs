@@ -40,10 +40,10 @@
             textBoxParadaAltaID = new TextBox();
             labelParadaAltaId = new Label();
             groupBoxListadoParadas = new GroupBox();
+            buttonParadaToggleHabilitacion = new Button();
             buttonParadaModificarCallModal = new Button();
             buttonParadaBajaConfirmar = new Button();
             dataGridViewParadas = new DataGridView();
-            buttonParadaToggleHabilitacion = new Button();
             groupBoxAltaParada.SuspendLayout();
             groupBoxListadoParadas.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridViewParadas).BeginInit();
@@ -62,7 +62,7 @@
             groupBoxAltaParada.Controls.Add(textBoxParadaAltaID);
             groupBoxAltaParada.Controls.Add(labelParadaAltaId);
             groupBoxAltaParada.Font = new Font("Segoe UI", 9F);
-            groupBoxAltaParada.Location = new Point(16, 16);
+            groupBoxAltaParada.Location = new Point(20, 50);
             groupBoxAltaParada.Name = "groupBoxAltaParada";
             groupBoxAltaParada.Size = new Size(360, 445);
             groupBoxAltaParada.TabIndex = 0;
@@ -166,12 +166,22 @@
             groupBoxListadoParadas.Controls.Add(buttonParadaBajaConfirmar);
             groupBoxListadoParadas.Controls.Add(dataGridViewParadas);
             groupBoxListadoParadas.Font = new Font("Segoe UI", 9F);
-            groupBoxListadoParadas.Location = new Point(392, 16);
+            groupBoxListadoParadas.Location = new Point(396, 50);
             groupBoxListadoParadas.Name = "groupBoxListadoParadas";
             groupBoxListadoParadas.Size = new Size(802, 445);
             groupBoxListadoParadas.TabIndex = 1;
             groupBoxListadoParadas.TabStop = false;
             groupBoxListadoParadas.Text = "Listado de paradas";
+            // 
+            // buttonParadaToggleHabilitacion
+            // 
+            buttonParadaToggleHabilitacion.Location = new Point(16, 386);
+            buttonParadaToggleHabilitacion.Name = "buttonParadaToggleHabilitacion";
+            buttonParadaToggleHabilitacion.Size = new Size(250, 34);
+            buttonParadaToggleHabilitacion.TabIndex = 3;
+            buttonParadaToggleHabilitacion.Text = "Habilitar/Deshabilitar parada seleccionada";
+            buttonParadaToggleHabilitacion.UseVisualStyleBackColor = true;
+            buttonParadaToggleHabilitacion.Click += buttonParadaToggleHabilitacion_Click;
             // 
             // buttonParadaModificarCallModal
             // 
@@ -210,16 +220,6 @@
             dataGridViewParadas.Size = new Size(770, 343);
             dataGridViewParadas.TabIndex = 0;
             // 
-            // buttonParadaToggleHabilitacion
-            // 
-            buttonParadaToggleHabilitacion.Location = new Point(16, 386);
-            buttonParadaToggleHabilitacion.Name = "buttonParadaToggleHabilitacion";
-            buttonParadaToggleHabilitacion.Size = new Size(250, 34);
-            buttonParadaToggleHabilitacion.TabIndex = 3;
-            buttonParadaToggleHabilitacion.Text = "Habilitar/Deshabilitar parada seleccionada";
-            buttonParadaToggleHabilitacion.UseVisualStyleBackColor = true;
-            buttonParadaToggleHabilitacion.Click += buttonParadaToggleHabilitacion_Click;
-            // 
             // GestionParadasUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -233,7 +233,6 @@
             FormBorderStyle = FormBorderStyle.None;
             MinimumSize = new Size(1100, 680);
             Name = "GestionParadasUI";
-            StartPosition = FormStartPosition.Manual;
             Text = "Gestión de paradas";
             WindowState = FormWindowState.Maximized;
             groupBoxAltaParada.ResumeLayout(false);
