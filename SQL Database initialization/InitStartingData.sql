@@ -43,8 +43,12 @@ BEGIN
     ('PERM-PLANIFICACION-SERVICIO', 0),
     ('PERM-GESTION-CHOFERES-INTERNOS', 0),
     ('PERM-GESTION-CARGAS-COMBUSTIBLE', 0),
+    ('PERM-GESTION-CRONOGRAMAS', 0),
     ('PERM-GESTION-CRONOGRAMAS-MODIFICAR', 0),
-    ('PERM-TALLER-AUDITAR', 0);
+    ('PERM-GESTION-TALLER', 0),
+    ('PERM-GESTION-REVISIONES-TALLER', 0),
+    ('PERM-TALLER-AUDITAR', 0),
+    ('PERM-COMBUSTIBLE-ANULAR', 0);
 
     INSERT INTO dbo.PermisoRelacion (ID_Padre, ID_Hijo) VALUES
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-USR' AND EsPerfil = 0)),
@@ -52,7 +56,16 @@ BEGIN
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-PERFIL' AND EsPerfil = 0)),
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-HISTORIAL' AND EsPerfil = 0)),
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-CONSULTA-BIT' AND EsPerfil = 0)),
-    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-AGREGAR-IDM' AND EsPerfil = 0));
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-AGREGAR-IDM' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-PLANIFICACION-SERVICIO' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-CHOFERES-INTERNOS' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-CARGAS-COMBUSTIBLE' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-CRONOGRAMAS' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-CRONOGRAMAS-MODIFICAR' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-TALLER' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-REVISIONES-TALLER' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-TALLER-AUDITAR' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-COMBUSTIBLE-ANULAR' AND EsPerfil = 0));
 
 
     INSERT INTO dbo.PerfilUsuario (ID_Usuario, ID_Perfil) VALUES ('d1eda407-3582-4e0c-85cc-ae51eb67b826', (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1));
