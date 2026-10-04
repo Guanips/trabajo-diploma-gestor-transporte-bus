@@ -48,7 +48,8 @@ BEGIN
     ('PERM-GESTION-TALLER', 0),
     ('PERM-GESTION-REVISIONES-TALLER', 0),
     ('PERM-TALLER-AUDITAR', 0),
-    ('PERM-COMBUSTIBLE-ANULAR', 0);
+    ('PERM-COMBUSTIBLE-ANULAR', 0),
+    ('PERM-ELIMINAR-SANCION', 0);
 
     INSERT INTO dbo.PermisoRelacion (ID_Padre, ID_Hijo) VALUES
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTIONAR-USR' AND EsPerfil = 0)),
@@ -65,7 +66,8 @@ BEGIN
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-TALLER' AND EsPerfil = 0)),
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-GESTION-REVISIONES-TALLER' AND EsPerfil = 0)),
     ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-TALLER-AUDITAR' AND EsPerfil = 0)),
-    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-COMBUSTIBLE-ANULAR' AND EsPerfil = 0));
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-COMBUSTIBLE-ANULAR' AND EsPerfil = 0)),
+    ((SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1), (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0));
 
 
     INSERT INTO dbo.PerfilUsuario (ID_Usuario, ID_Perfil) VALUES ('d1eda407-3582-4e0c-85cc-ae51eb67b826', (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1));
@@ -438,4 +440,28 @@ INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_Car
         IF @@TRANCOUNT > 0 ROLLBACK TRANSACTION;
         THROW;
     END CATCH
+END
+GO
+
+-- ---------------------------------------------------------
+-- PERMISOS AGREGADOS DESPUES DEL SEED INICIAL
+-- El seed de arriba se omite si la base ya existe, por lo que los permisos nuevos se
+-- agregan aca de forma idempotente para que tambien lleguen a instalaciones previas.
+-- ---------------------------------------------------------
+IF NOT EXISTS (SELECT 1 FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0)
+BEGIN
+    INSERT INTO dbo.Permiso (Nombre, EsPerfil) VALUES ('PERM-ELIMINAR-SANCION', 0);
+END
+
+IF EXISTS (SELECT 1 FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1)
+   AND NOT EXISTS (
+       SELECT 1 FROM dbo.PermisoRelacion
+       WHERE ID_Padre = (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1)
+         AND ID_Hijo = (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0))
+BEGIN
+    INSERT INTO dbo.PermisoRelacion (ID_Padre, ID_Hijo)
+    VALUES (
+        (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1),
+        (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0)
+    );
 END

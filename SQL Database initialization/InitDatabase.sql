@@ -269,3 +269,15 @@ BEGIN
         CONSTRAINT FK_DetalleOrdenReparacion_OrdenReparacion FOREIGN KEY (id_ordenReparacion) REFERENCES dbo.OrdenReparacion(id)
     );
 END
+
+IF OBJECT_ID(N'dbo.Sancion') IS NULL
+BEGIN
+    CREATE TABLE dbo.Sancion (
+        id INT IDENTITY(0,1) NOT NULL,
+        num_chofer INT NOT NULL,
+        fecha DATE NOT NULL,
+        motivo NVARCHAR(MAX) NOT NULL,
+        CONSTRAINT PK_Sancion PRIMARY KEY (id),
+        CONSTRAINT FK_Sancion_Chofer FOREIGN KEY (num_chofer) REFERENCES dbo.Chofer(num_chofer)
+    );
+END

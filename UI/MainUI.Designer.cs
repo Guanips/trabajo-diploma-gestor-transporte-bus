@@ -41,6 +41,8 @@
             gestionParadaToolStripMenuItem = new ToolStripMenuItem();
             gestionDeRutasToolStripMenuItem = new ToolStripMenuItem();
             gestionDeCronogramasToolStripMenuItem = new ToolStripMenuItem();
+            auditoriaSalidasToolStripMenuItem = new ToolStripMenuItem();
+            sancionesChoferToolStripMenuItem = new ToolStripMenuItem();
             choferesInternosToolStripMenuItem = new ToolStripMenuItem();
             gestionDeChoferesToolStripMenuItem = new ToolStripMenuItem();
             gestionDeInternosToolStripMenuItem = new ToolStripMenuItem();
@@ -147,7 +149,7 @@
             // 
             // planificacionServicioToolStripMenuItem
             // 
-            planificacionServicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionParadaToolStripMenuItem, gestionDeRutasToolStripMenuItem, gestionDeCronogramasToolStripMenuItem });
+            planificacionServicioToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionParadaToolStripMenuItem, gestionDeRutasToolStripMenuItem, gestionDeCronogramasToolStripMenuItem, auditoriaSalidasToolStripMenuItem, sancionesChoferToolStripMenuItem });
             planificacionServicioToolStripMenuItem.Name = "planificacionServicioToolStripMenuItem";
             planificacionServicioToolStripMenuItem.Size = new Size(146, 20);
             planificacionServicioToolStripMenuItem.Text = "Planificación de servicio";
@@ -173,6 +175,20 @@
             gestionDeCronogramasToolStripMenuItem.Text = "Gestión de cronogramas";
             gestionDeCronogramasToolStripMenuItem.Click += gestionDeCronogramasToolStripMenuItem_Click;
             // 
+            // auditoriaSalidasToolStripMenuItem
+            // 
+            auditoriaSalidasToolStripMenuItem.Name = "auditoriaSalidasToolStripMenuItem";
+            auditoriaSalidasToolStripMenuItem.Size = new Size(203, 22);
+            auditoriaSalidasToolStripMenuItem.Text = "Auditoría de salidas";
+            auditoriaSalidasToolStripMenuItem.Click += auditoriaSalidasToolStripMenuItem_Click;
+            //
+            // sancionesChoferToolStripMenuItem
+            //
+            sancionesChoferToolStripMenuItem.Name = "sancionesChoferToolStripMenuItem";
+            sancionesChoferToolStripMenuItem.Size = new Size(203, 22);
+            sancionesChoferToolStripMenuItem.Text = "Sanciones por chofer";
+            sancionesChoferToolStripMenuItem.Click += sancionesChoferToolStripMenuItem_Click;
+            //
             // choferesInternosToolStripMenuItem
             // 
             choferesInternosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionDeChoferesToolStripMenuItem, gestionDeInternosToolStripMenuItem });
@@ -279,6 +295,8 @@
         private ToolStripMenuItem gestionDeChoferesToolStripMenuItem;
         private ToolStripMenuItem gestionDeInternosToolStripMenuItem;
         private ToolStripMenuItem gestionDeCronogramasToolStripMenuItem;
+        private ToolStripMenuItem auditoriaSalidasToolStripMenuItem;
+        private ToolStripMenuItem sancionesChoferToolStripMenuItem;
         private ToolStripMenuItem tallerToolStripMenuItem;
         private ToolStripMenuItem gestionCargasCombustibleToolStripMenuItem;
         private ToolStripMenuItem gestionRevisionesToolStripMenuItem;
