@@ -1,11 +1,14 @@
-CREATE PROCEDURE usp_Ruta_GetAll
+USE GestorTransporteCG;
+GO
+
+CREATE OR ALTER PROCEDURE usp_Ruta_GetAll
 AS
 BEGIN
 	SELECT * FROM Ruta;
 END
 GO
 
-CREATE PROCEDURE usp_Recorrido_GetForRuta
+CREATE OR ALTER PROCEDURE usp_Recorrido_GetForRuta
 	@id_ruta VARCHAR(20)
 AS
 BEGIN
@@ -13,7 +16,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Ruta_Insert
+CREATE OR ALTER PROCEDURE usp_Ruta_Insert
 	@id VARCHAR(20),
 	@descripcion VARCHAR(255),
 	@sentido VARCHAR(20),
@@ -27,7 +30,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Ruta_Delete
+CREATE OR ALTER PROCEDURE usp_Ruta_Delete
 	@id VARCHAR(20)
 AS
 BEGIN 
@@ -37,7 +40,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Ruta_Update
+CREATE OR ALTER PROCEDURE usp_Ruta_Update
 	@id VARCHAR(20),
 	@descripcion VARCHAR(255),
 	@sentido VARCHAR(20),
@@ -57,7 +60,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Recorrido_AddParada
+CREATE OR ALTER PROCEDURE usp_Recorrido_AddParada
 	@id_ruta VARCHAR(20),
 	@id_parada VARCHAR(20),
 	@orden INT
@@ -72,7 +75,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Recorrido_RemoveParada
+CREATE OR ALTER PROCEDURE usp_Recorrido_RemoveParada
 	@id_ruta VARCHAR(20),
 	@id_parada VARCHAR(20)
 AS
@@ -83,7 +86,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Recorrido_EditParadaOrder
+CREATE OR ALTER PROCEDURE usp_Recorrido_EditParadaOrder
 	@id_ruta VARCHAR(20),
 	@id_parada VARCHAR(20),
 	@orden INT

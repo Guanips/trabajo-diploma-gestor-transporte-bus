@@ -177,7 +177,7 @@ BEGIN
         modelo VARCHAR(50) NOT NULL,
         fechaIncorporacion DATE NOT NULL,
         disponible BIT NOT NULL,
-        CONSTRAINT PK_Interno PRIMARY KEY (num_interno),
+        CONSTRAINT PK_Interno PRIMARY KEY (num_interno)
     );
 END
 
@@ -223,12 +223,49 @@ BEGIN
         id INT IDENTITY(0,1) NOT NULL,
         num_interno INT NOT NULL,
         fechaHora DATETIME NOT NULL,
-        litrosCargados DECIMAL NOT NULL,
-        precioPorLitro DECIMAL NOT NULL,
+        litrosCargados DECIMAL(10,2) NOT NULL,
+        precioPorLitro DECIMAL(10,2) NOT NULL,
         kilometrajeActual INT NOT NULL,
         anulada BIT NOT NULL,
         motivoAnulacion NVARCHAR(MAX),
         CONSTRAINT  PK_CargaCombustible PRIMARY KEY (id),
         CONSTRAINT FK_CargaCombustible_Interno FOREIGN KEY (num_interno) REFERENCES dbo.Interno(num_interno)
+    );
+END
+
+IF OBJECT_ID(N'dbo.RevisionTaller') IS NULL
+BEGIN
+    CREATE TABLE dbo.RevisionTaller (
+        id INT IDENTITY(0,1) NOT NULL,
+        num_interno INT NOT NULL,
+        fecha DATE NOT NULL,
+        descripcion NVARCHAR(MAX) NOT NULL,
+        reparacionRequerida BIT NOT NULL,
+        CONSTRAINT  PK_RevisionTaller PRIMARY KEY (id),
+        CONSTRAINT FK_RevisionTaller_Interno FOREIGN KEY (num_interno) REFERENCES dbo.Interno(num_interno)
+    );
+END
+
+IF OBJECT_ID(N'dbo.OrdenReparacion') IS NULL
+BEGIN
+    CREATE TABLE dbo.OrdenReparacion (
+        id INT IDENTITY(0,1) NOT NULL,
+        id_revision INT NOT NULL,
+        motivoReparacion NVARCHAR(MAX) NOT NULL,
+        CONSTRAINT  PK_OrdenReparacion PRIMARY KEY (id),
+        CONSTRAINT FK_OrdenReparacion_Revision FOREIGN KEY (id_revision) REFERENCES dbo.RevisionTaller(id)
+    );
+END
+
+IF OBJECT_ID(N'dbo.DetalleOrdenReparacion') IS NULL
+BEGIN
+    CREATE TABLE dbo.DetalleOrdenReparacion (
+        id INT IDENTITY(0,1) NOT NULL,
+        id_ordenReparacion INT NOT NULL,
+        insumo NVARCHAR(MAX) NOT NULL,
+        cantidad INT NOT NULL,
+        costoUnitario INT,
+        CONSTRAINT  PK_DetalleOrdenReparacion PRIMARY KEY (id),
+        CONSTRAINT FK_DetalleOrdenReparacion_OrdenReparacion FOREIGN KEY (id_ordenReparacion) REFERENCES dbo.OrdenReparacion(id)
     );
 END

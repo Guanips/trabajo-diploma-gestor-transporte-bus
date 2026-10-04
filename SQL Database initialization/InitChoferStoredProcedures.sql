@@ -1,25 +1,18 @@
+USE GestorTransporteCG;
+GO
+
 -- =========================================================
 -- Stored Procedures: Chofer (Alta, Baja y Modificacion)
 -- =========================================================
 
--- Permite re-ejecutar este script sobre una base que ya tiene los procedimientos creados
-IF OBJECT_ID(N'usp_Chofer_GetAll', N'P') IS NOT NULL DROP PROCEDURE usp_Chofer_GetAll;
-GO
-IF OBJECT_ID(N'usp_Chofer_Insert', N'P') IS NOT NULL DROP PROCEDURE usp_Chofer_Insert;
-GO
-IF OBJECT_ID(N'usp_Chofer_Update', N'P') IS NOT NULL DROP PROCEDURE usp_Chofer_Update;
-GO
-IF OBJECT_ID(N'usp_Chofer_Delete', N'P') IS NOT NULL DROP PROCEDURE usp_Chofer_Delete;
-GO
-
-CREATE PROCEDURE usp_Chofer_GetAll
+CREATE OR ALTER PROCEDURE usp_Chofer_GetAll
 AS
 BEGIN
 	SELECT * FROM Chofer;
 END
 GO
 
-CREATE PROCEDURE usp_Chofer_Insert
+CREATE OR ALTER PROCEDURE usp_Chofer_Insert
 	@dni INT,
 	@nombreCompleto VARCHAR(100),
 	@activo BIT = 1
@@ -37,7 +30,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Chofer_Update
+CREATE OR ALTER PROCEDURE usp_Chofer_Update
 	@num_chofer INT,
 	@dni INT,
 	@nombreCompleto VARCHAR(100),
@@ -59,7 +52,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Chofer_Delete
+CREATE OR ALTER PROCEDURE usp_Chofer_Delete
 	@num_chofer INT
 AS
 BEGIN

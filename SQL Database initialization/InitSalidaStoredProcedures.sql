@@ -1,22 +1,11 @@
+USE GestorTransporteCG;
+GO
+
 -- =========================================================
 -- Stored Procedures: Salida (Alta, Baja y Asignaciones)
 -- =========================================================
 
--- Permite re-ejecutar este script sobre una base que ya tiene los procedimientos creados
-IF OBJECT_ID(N'usp_Salida_GetAll', N'P') IS NOT NULL DROP PROCEDURE usp_Salida_GetAll;
-GO
-IF OBJECT_ID(N'usp_Salida_Insert', N'P') IS NOT NULL DROP PROCEDURE usp_Salida_Insert;
-GO
-IF OBJECT_ID(N'usp_Salida_AssignInterno', N'P') IS NOT NULL DROP PROCEDURE usp_Salida_AssignInterno;
-GO
-IF OBJECT_ID(N'usp_Salida_AssignChofer', N'P') IS NOT NULL DROP PROCEDURE usp_Salida_AssignChofer;
-GO
-IF OBJECT_ID(N'usp_Salida_Suspender', N'P') IS NOT NULL DROP PROCEDURE usp_Salida_Suspender;
-GO
-IF OBJECT_ID(N'usp_Salida_Delete', N'P') IS NOT NULL DROP PROCEDURE usp_Salida_Delete;
-GO
-
-CREATE PROCEDURE usp_Salida_GetAll
+CREATE OR ALTER PROCEDURE usp_Salida_GetAll
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -24,7 +13,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Salida_Insert
+CREATE OR ALTER PROCEDURE usp_Salida_Insert
 	@id_cronograma INT,
 	@num_interno INT = NULL,
 	@num_chofer INT = NULL,
@@ -83,7 +72,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Salida_AssignInterno
+CREATE OR ALTER PROCEDURE usp_Salida_AssignInterno
 	@id INT,	
 	@num_interno INT = NULL
 AS
@@ -108,7 +97,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Salida_AssignChofer
+CREATE OR ALTER PROCEDURE usp_Salida_AssignChofer
 	@id INT,
 	@num_chofer INT = NULL
 AS
@@ -133,7 +122,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Salida_Suspender
+CREATE OR ALTER PROCEDURE usp_Salida_Suspender
 	@id INT,
 	@motivoSuspension NVARCHAR(MAX) = NULL
 AS
@@ -155,7 +144,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Salida_Delete
+CREATE OR ALTER PROCEDURE usp_Salida_Delete
 	@id INT
 AS
 BEGIN
