@@ -510,7 +510,23 @@ namespace UI.Modules.gestion_cronogramas
                     return;
                 }
 
-                planificacionCronogramaBLL.AsignarChoferASalida(cronograma, salida, chofer);
+                List<Salida> conflictos = planificacionCronogramaBLL.ObtenerConflictosChofer(cronograma, salida, chofer);
+
+                if (conflictos.Count == 0)
+                {
+                    planificacionCronogramaBLL.AsignarChoferASalida(cronograma, salida, chofer);
+                }
+                else
+                {
+                    if (!ConfirmarReasignacion($"El chofer {chofer.nombreCompleto}", conflictos))
+                    {
+                        return;
+                    }
+
+                    List<Salida> liberadas = planificacionCronogramaBLL.ReasignarChoferASalida(cronograma, salida, chofer);
+                    SincronizarSalidasLiberadas(liberadas);
+                }
+
                 this.mostrarSalidasCronograma();
             }
             catch (Exception ex)
@@ -535,12 +551,70 @@ namespace UI.Modules.gestion_cronogramas
                     return;
                 }
 
-                planificacionCronogramaBLL.AsignarInternoASalida(cronograma, salida, interno);
+                List<Salida> conflictos = planificacionCronogramaBLL.ObtenerConflictosInterno(cronograma, salida, interno);
+
+                if (conflictos.Count == 0)
+                {
+                    planificacionCronogramaBLL.AsignarInternoASalida(cronograma, salida, interno);
+                }
+                else
+                {
+                    if (!ConfirmarReasignacion($"El interno {interno.patente}", conflictos))
+                    {
+                        return;
+                    }
+
+                    List<Salida> liberadas = planificacionCronogramaBLL.ReasignarInternoASalida(cronograma, salida, interno);
+                    SincronizarSalidasLiberadas(liberadas);
+                }
+
                 this.mostrarSalidasCronograma();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        // Pregunta al usuario si desea liberar al recurso de las salidas en conflicto para reasignarlo
+        private bool ConfirmarReasignacion(string descripcionRecurso, List<Salida> salidasEnConflicto)
+        {
+            string encabezado = salidasEnConflicto.Count == 1
+                ? $"{descripcionRecurso} ya está asignado a la siguiente salida, que se solapa con la seleccionada:"
+                : $"{descripcionRecurso} ya está asignado a las siguientes salidas, que se solapan con la seleccionada:";
+
+            string liberacion = salidasEnConflicto.Count == 1
+                ? "Se liberará de la salida indicada."
+                : "Se liberará de las salidas indicadas.";
+
+            string detalle = string.Join("\n", salidasEnConflicto.Select(s =>
+                $"- Salida de {s.horaSalidaTeorica:HH:mm} a {s.horaLlegadaTeorica:HH:mm}"));
+
+            string mensaje = $"{encabezado}\n\n{detalle}\n\n¿Desea reasignarlo a la salida seleccionada? {liberacion}";
+
+            return MessageBox.Show(mensaje, "Conflicto de asignación", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+        }
+
+        // Refleja en los cronogramas cargados en memoria las desasignaciones hechas en la base de datos
+        private void SincronizarSalidasLiberadas(List<Salida> liberadas)
+        {
+            if (liberadas.Count == 0 || cronogramasActuales == null)
+            {
+                return;
+            }
+
+            List<Salida> salidasEnMemoria = cronogramasActuales.SelectMany(c => c.salidas).ToList();
+
+            foreach (Salida liberada in liberadas)
+            {
+                Salida? enMemoria = salidasEnMemoria.FirstOrDefault(s => s.id == liberada.id);
+                if (enMemoria == null)
+                {
+                    continue;
+                }
+
+                if (liberada.choferAsignado == null) enMemoria.DesasignarChofer();
+                if (liberada.internoAsignado == null) enMemoria.DesasignarInterno();
             }
         }
 

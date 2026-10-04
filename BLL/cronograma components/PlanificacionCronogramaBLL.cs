@@ -39,7 +39,7 @@ namespace BLL.cronograma_components
                 throw new Exception("No se puede asignar un chofer a una salida suspendida.");
             }
 
-            Salida? conflicto = ValidarSolapamientoChofer(cronograma, salida, chofer);
+            Salida? conflicto = ObtenerConflictosChofer(cronograma, salida, chofer).FirstOrDefault();
             if (conflicto != null)
             {
                 // Devuelve la salida en conflicto para que la capa de UI pueda ofrecer la reasignación
@@ -51,6 +51,27 @@ namespace BLL.cronograma_components
             return null;
         }
 
+        // Libera al chofer de todas las salidas que se solapan con la salida destino en la misma
+        // fecha y luego lo asigna a esta última. Devuelve las salidas de las que fue liberado.
+        public List<Salida> ReasignarChoferASalida(Cronograma cronograma, Salida salidaDestino, Chofer chofer)
+        {
+            if (salidaDestino.estaSuspendida)
+            {
+                throw new Exception("No se puede asignar un chofer a una salida suspendida.");
+            }
+
+            List<Salida> salidasEnConflicto = ObtenerConflictosChofer(cronograma, salidaDestino, chofer);
+            foreach (Salida conflicto in salidasEnConflicto)
+            {
+                DesasignarChoferDeSalida(conflicto);
+            }
+
+            GestorSalida.AsignarChofer(salidaDestino.id, chofer);
+            salidaDestino.AsignarChofer(chofer);
+
+            return salidasEnConflicto;
+        }
+
         public Salida? AsignarInternoASalida(Cronograma cronograma, Salida salida, Interno interno)
         {
             if (salida.estaSuspendida)
@@ -58,7 +79,7 @@ namespace BLL.cronograma_components
                 throw new Exception("No se puede asignar un interno a una salida suspendida.");
             }
 
-            Salida? conflicto = ValidarSolapamientoInterno(cronograma, salida, interno);
+            Salida? conflicto = ObtenerConflictosInterno(cronograma, salida, interno).FirstOrDefault();
             if (conflicto != null)
             {
                 // Devuelve la salida en conflicto para que la capa de UI pueda ofrecer la reasignación
@@ -68,6 +89,27 @@ namespace BLL.cronograma_components
             GestorSalida.AsignarInterno(salida.id, interno);
             salida.AsignarInterno(interno);
             return null;
+        }
+
+        // Libera al interno de todas las salidas que se solapan con la salida destino en la misma
+        // fecha y luego lo asigna a esta última. Devuelve las salidas de las que fue liberado.
+        public List<Salida> ReasignarInternoASalida(Cronograma cronograma, Salida salidaDestino, Interno interno)
+        {
+            if (salidaDestino.estaSuspendida)
+            {
+                throw new Exception("No se puede asignar un interno a una salida suspendida.");
+            }
+
+            List<Salida> salidasEnConflicto = ObtenerConflictosInterno(cronograma, salidaDestino, interno);
+            foreach (Salida conflicto in salidasEnConflicto)
+            {
+                DesasignarInternoDeSalida(conflicto);
+            }
+
+            GestorSalida.AsignarInterno(salidaDestino.id, interno);
+            salidaDestino.AsignarInterno(interno);
+
+            return salidasEnConflicto;
         }
 
         public void DesasignarChoferDeSalida(Salida salida)
@@ -82,30 +124,28 @@ namespace BLL.cronograma_components
             salida.DesasignarInterno();
         }
 
-        private Salida? ValidarSolapamientoChofer(Cronograma cronograma, Salida salidaActual, Chofer chofer)
+        // Salidas de la misma fecha, no suspendidas, ya asignadas al chofer, que se solapan con la salida actual
+        public List<Salida> ObtenerConflictosChofer(Cronograma cronograma, Salida salidaActual, Chofer chofer)
         {
             List<Cronograma> cronogramas = GestorCronograma.ObtenerCronogramas();
-            List<Salida> salidasMismaFecha = cronogramas
+            return cronogramas
                 .Where(c => c.fechaValidez == cronograma.fechaValidez)
                 .SelectMany(c => c.salidas)
                 .Where(s => !s.estaSuspendida && s.id != salidaActual.id && s.choferAsignado?.num_chofer == chofer.num_chofer)
+                .Where(s => SeSolapan(salidaActual, s))
                 .ToList();
-
-            Salida? conflicto = salidasMismaFecha.FirstOrDefault(s => SeSolapan(salidaActual, s));
-            return conflicto;
         }
 
-        private Salida? ValidarSolapamientoInterno(Cronograma cronograma, Salida salidaActual, Interno interno)
+        // Salidas de la misma fecha, no suspendidas, ya asignadas al interno, que se solapan con la salida actual
+        public List<Salida> ObtenerConflictosInterno(Cronograma cronograma, Salida salidaActual, Interno interno)
         {
             List<Cronograma> cronogramas = GestorCronograma.ObtenerCronogramas();
-            List<Salida> salidasMismaFecha = cronogramas
+            return cronogramas
                 .Where(c => c.fechaValidez == cronograma.fechaValidez)
                 .SelectMany(c => c.salidas)
                 .Where(s => !s.estaSuspendida && s.id != salidaActual.id && s.internoAsignado?.num_interno == interno.num_interno)
+                .Where(s => SeSolapan(salidaActual, s))
                 .ToList();
-
-            Salida? conflicto = salidasMismaFecha.FirstOrDefault(s => SeSolapan(salidaActual, s));
-            return conflicto;
         }
 
         private bool SeSolapan(Salida salidaA, Salida salidaB)
