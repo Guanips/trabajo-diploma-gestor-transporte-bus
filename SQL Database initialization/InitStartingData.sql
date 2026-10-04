@@ -1,12 +1,13 @@
 -- Requiere que InitDatabase.sql ya se haya ejecutado (tablas creadas).
 -- Es seguro re-ejecutarlo: todo el seed corre en UNA transaccion (todo o nada), y se
--- omite por completo solo si el usuario admin ya existe, lo que implica que el commit llego a ocurrir.
+-- omite por completo solo si el idioma base (ES) ya existe, lo que implica que el commit llego a ocurrir
+-- (el guard no depende del usuario admin: si alguien lo elimina, un reinicio del init no debe re-sembrar y fallar).
 USE GestorTransporteCG;
 GO
 
 SET XACT_ABORT ON;
 
-IF NOT EXISTS (SELECT 1 FROM dbo.Usuario WHERE Username = N'admin')
+IF NOT EXISTS (SELECT 1 FROM dbo.Idioma WHERE Codigo = N'ES')
 BEGIN
     BEGIN TRY
     BEGIN TRANSACTION;

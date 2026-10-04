@@ -12,6 +12,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Scripts SQL embebidos en el ensamblado: el instalador no necesita copiar archivos sueltos -->
+    <EmbeddedResource Include="..\SQL Database initialization\Init*.sql" LogicalName="Sql.%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BE\BE.csproj" />
     <ProjectReference Include="..\servicios\servicios.csproj" />
   </ItemGroup>
