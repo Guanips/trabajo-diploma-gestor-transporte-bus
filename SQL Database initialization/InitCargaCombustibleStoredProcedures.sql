@@ -5,15 +5,7 @@ GO
 -- Stored Procedures: CargaCombustible (Obtener, Insertar, Anular)
 -- =========================================================
 
--- Permite re-ejecutar este script sobre una base que ya tiene los procedimientos creados
-IF OBJECT_ID(N'usp_CargaCombustible_GetAll', N'P') IS NOT NULL DROP PROCEDURE usp_CargaCombustible_GetAll;
-GO
-IF OBJECT_ID(N'usp_CargaCombustible_Insert', N'P') IS NOT NULL DROP PROCEDURE usp_CargaCombustible_Insert;
-GO
-IF OBJECT_ID(N'usp_CargaCombustible_Anular', N'P') IS NOT NULL DROP PROCEDURE usp_CargaCombustible_Anular;
-GO
-
-CREATE PROCEDURE usp_CargaCombustible_GetAll
+CREATE OR ALTER PROCEDURE usp_CargaCombustible_GetAll
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -21,11 +13,11 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_CargaCombustible_Insert
+CREATE OR ALTER PROCEDURE usp_CargaCombustible_Insert
 	@num_interno INT,
 	@fechaHora DATETIME,
-	@litrosCargados DECIMAL,
-	@precioPorLitro DECIMAL,
+	@litrosCargados DECIMAL(10,2),
+	@precioPorLitro DECIMAL(10,2),
 	@kilometrajeActual INT
 AS
 BEGIN
@@ -74,7 +66,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_CargaCombustible_Anular
+CREATE OR ALTER PROCEDURE usp_CargaCombustible_Anular
 	@id INT,
 	@motivoAnulacion NVARCHAR(MAX) = NULL
 AS

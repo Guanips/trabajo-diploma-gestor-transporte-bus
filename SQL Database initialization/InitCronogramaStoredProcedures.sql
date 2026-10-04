@@ -1,18 +1,11 @@
+USE GestorTransporteCG;
+GO
+
 -- =========================================================
 -- Stored Procedures: Cronograma (Alta, Baja y Modificacion)
 -- =========================================================
 
--- Permite re-ejecutar este script sobre una base que ya tiene los procedimientos creados
-IF OBJECT_ID(N'usp_Cronograma_GetAll', N'P') IS NOT NULL DROP PROCEDURE usp_Cronograma_GetAll;
-GO
-IF OBJECT_ID(N'usp_Cronograma_Insert', N'P') IS NOT NULL DROP PROCEDURE usp_Cronograma_Insert;
-GO
-IF OBJECT_ID(N'usp_Cronograma_Update', N'P') IS NOT NULL DROP PROCEDURE usp_Cronograma_Update;
-GO
-IF OBJECT_ID(N'usp_Cronograma_Delete', N'P') IS NOT NULL DROP PROCEDURE usp_Cronograma_Delete;
-GO
-
-CREATE PROCEDURE usp_Cronograma_GetAll
+CREATE OR ALTER PROCEDURE usp_Cronograma_GetAll
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -20,7 +13,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Cronograma_Insert
+CREATE OR ALTER PROCEDURE usp_Cronograma_Insert
 	@descripcion NVARCHAR(MAX),
 	@fechaValidez DATE,
 	@horaInicio TIME,
@@ -65,7 +58,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Cronograma_Update
+CREATE OR ALTER PROCEDURE usp_Cronograma_Update
 	@id INT,
 	@descripcion NVARCHAR(MAX),
 	@fechaValidez DATE,
@@ -96,7 +89,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Cronograma_Delete
+CREATE OR ALTER PROCEDURE usp_Cronograma_Delete
 	@id INT
 AS
 BEGIN

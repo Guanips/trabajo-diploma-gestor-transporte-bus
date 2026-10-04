@@ -161,6 +161,11 @@ namespace UI.Modules.gestion_cronogramas
             try
             {
                 cronogramaSeleccionado = obtenerCronogramaSeleccionado();
+                if (cronogramaSeleccionado == null)
+                {
+                    MessageBox.Show("No se ha seleccionado ningún cronograma para modificar.");
+                    return;
+                }
 
                 using (GestionCronogramasAgregarModificar dialog = new GestionCronogramasAgregarModificar(
                     false,
@@ -211,7 +216,12 @@ namespace UI.Modules.gestion_cronogramas
         {
             try
             {
-                Cronograma cronogramaSeleccionado = obtenerCronogramaSeleccionado();
+                Cronograma? cronogramaSeleccionado = obtenerCronogramaSeleccionado();
+                if (cronogramaSeleccionado == null)
+                {
+                    MessageBox.Show("No se ha seleccionado ningún cronograma para eliminar.");
+                    return;
+                }
 
                 DialogResult confirmacion = MessageBox.Show(
                     $"¿Está seguro de que quiere eliminar el cronograma {cronogramaSeleccionado.id} ({cronogramaSeleccionado.descripcion})?",
@@ -243,7 +253,7 @@ namespace UI.Modules.gestion_cronogramas
             dataGridViewAsignacionSalidas.AutoGenerateColumns = false;
             dataGridViewAsignacionSalidas.Columns.Clear();
 
-            Cronograma cronogramaActual = obtenerCronogramaSeleccionado();
+            Cronograma? cronogramaActual = obtenerCronogramaSeleccionado();
 
             if (cronogramaActual == null)
             {
@@ -383,7 +393,8 @@ namespace UI.Modules.gestion_cronogramas
         {
             try
             {
-                Cronograma cronograma = obtenerCronogramaSeleccionado();
+                Cronograma? cronograma = obtenerCronogramaSeleccionado();
+                if (cronograma == null) return;
 
                 if (cronograma.salidas.Count > 0)
                 {
@@ -487,7 +498,8 @@ namespace UI.Modules.gestion_cronogramas
         {
             try
             {
-                Cronograma cronograma = obtenerCronogramaSeleccionado();
+                Cronograma? cronograma = obtenerCronogramaSeleccionado();
+                if (cronograma == null) return;
                 Salida salida = obtenerSalidaSeleccionada();
                 Chofer chofer = comboBoxGestionCronogramasChofer.SelectedItem as Chofer
                     ?? throw new Exception("No se ha seleccionado ningún chofer.");
@@ -511,7 +523,8 @@ namespace UI.Modules.gestion_cronogramas
         {
             try
             {
-                Cronograma cronograma = obtenerCronogramaSeleccionado();
+                Cronograma? cronograma = obtenerCronogramaSeleccionado();
+                if (cronograma == null) return;
                 Salida salida = obtenerSalidaSeleccionada();
                 Interno interno = comboBoxGestionCronogramasInterno.SelectedItem as Interno
                     ?? throw new Exception("No se ha seleccionado ningún interno.");
@@ -531,9 +544,9 @@ namespace UI.Modules.gestion_cronogramas
             }
         }
 
-        private Cronograma obtenerCronogramaSeleccionado()
+        private Cronograma? obtenerCronogramaSeleccionado() 
         {
-            return listBoxCronogramas.SelectedItem as Cronograma ?? throw new Exception("No se ha seleccionado ningún cronograma.");
+            return listBoxCronogramas.SelectedItem as Cronograma ?? null;
         }
 
         private Salida obtenerSalidaSeleccionada ()

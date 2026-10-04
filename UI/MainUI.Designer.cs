@@ -44,10 +44,11 @@
             choferesInternosToolStripMenuItem = new ToolStripMenuItem();
             gestionDeChoferesToolStripMenuItem = new ToolStripMenuItem();
             gestionDeInternosToolStripMenuItem = new ToolStripMenuItem();
-            comboIdiomasGlobal = new ComboBox();
-            label1 = new Label();
             tallerToolStripMenuItem = new ToolStripMenuItem();
             gestionCargasCombustibleToolStripMenuItem = new ToolStripMenuItem();
+            comboIdiomasGlobal = new ComboBox();
+            label1 = new Label();
+            gestionRevisionesToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -182,16 +183,30 @@
             // gestionDeChoferesToolStripMenuItem
             // 
             gestionDeChoferesToolStripMenuItem.Name = "gestionDeChoferesToolStripMenuItem";
-            gestionDeChoferesToolStripMenuItem.Size = new Size(180, 22);
+            gestionDeChoferesToolStripMenuItem.Size = new Size(178, 22);
             gestionDeChoferesToolStripMenuItem.Text = "Gestión de choferes";
             gestionDeChoferesToolStripMenuItem.Click += gestionDeChoferesToolStripMenuItem_Click;
             // 
             // gestionDeInternosToolStripMenuItem
             // 
             gestionDeInternosToolStripMenuItem.Name = "gestionDeInternosToolStripMenuItem";
-            gestionDeInternosToolStripMenuItem.Size = new Size(180, 22);
+            gestionDeInternosToolStripMenuItem.Size = new Size(178, 22);
             gestionDeInternosToolStripMenuItem.Text = "Gestión de internos";
             gestionDeInternosToolStripMenuItem.Click += gestionDeInternosToolStripMenuItem_Click;
+            // 
+            // tallerToolStripMenuItem
+            // 
+            tallerToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionCargasCombustibleToolStripMenuItem, gestionRevisionesToolStripMenuItem });
+            tallerToolStripMenuItem.Name = "tallerToolStripMenuItem";
+            tallerToolStripMenuItem.Size = new Size(47, 20);
+            tallerToolStripMenuItem.Text = "Taller";
+            // 
+            // gestionCargasCombustibleToolStripMenuItem
+            // 
+            gestionCargasCombustibleToolStripMenuItem.Name = "gestionCargasCombustibleToolStripMenuItem";
+            gestionCargasCombustibleToolStripMenuItem.Size = new Size(252, 22);
+            gestionCargasCombustibleToolStripMenuItem.Text = "Gestion de cargas de combustible";
+            gestionCargasCombustibleToolStripMenuItem.Click += gestionCargasCombustibleToolStripMenuItem_Click;
             // 
             // comboIdiomasGlobal
             // 
@@ -213,19 +228,12 @@
             label1.TabIndex = 2;
             label1.Text = "Idioma";
             // 
-            // tallerToolStripMenuItem
+            // gestionRevisionesToolStripMenuItem
             // 
-            tallerToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionCargasCombustibleToolStripMenuItem });
-            tallerToolStripMenuItem.Name = "tallerToolStripMenuItem";
-            tallerToolStripMenuItem.Size = new Size(47, 20);
-            tallerToolStripMenuItem.Text = "Taller";
-            // 
-            // gestionCargasCombustibleToolStripMenuItem
-            // 
-            gestionCargasCombustibleToolStripMenuItem.Name = "gestionCargasCombustibleToolStripMenuItem";
-            gestionCargasCombustibleToolStripMenuItem.Size = new Size(252, 22);
-            gestionCargasCombustibleToolStripMenuItem.Text = "Gestion de cargas de combustible";
-            gestionCargasCombustibleToolStripMenuItem.Click += gestionCargasCombustibleToolStripMenuItem_Click;
+            gestionRevisionesToolStripMenuItem.Name = "gestionRevisionesToolStripMenuItem";
+            gestionRevisionesToolStripMenuItem.Size = new Size(252, 22);
+            gestionRevisionesToolStripMenuItem.Text = "Gestion de revisiones";
+            gestionRevisionesToolStripMenuItem.Click += gestionRevisionesToolStripMenuItem_Click;
             // 
             // MainUI
             // 
@@ -273,5 +281,6 @@
         private ToolStripMenuItem gestionDeCronogramasToolStripMenuItem;
         private ToolStripMenuItem tallerToolStripMenuItem;
         private ToolStripMenuItem gestionCargasCombustibleToolStripMenuItem;
+        private ToolStripMenuItem gestionRevisionesToolStripMenuItem;
     }
 }

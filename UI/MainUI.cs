@@ -66,6 +66,7 @@ namespace UI
                     gestionDeCronogramasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
                     gestionCargasCombustibleToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
                     tallerToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-TALLER"));
+                    gestionRevisionesToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-REVISIONES-TALLER"));
                 }
                 else
                 {
@@ -255,6 +256,12 @@ namespace UI
         {
             GestionCargasCombustibleUI gestionCargasCombustibleUI = new GestionCargasCombustibleUI();
             cargarFormulario(gestionCargasCombustibleUI);
+        }
+
+        private void gestionRevisionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GestionRevisionesTallerUI gestionRevisionesTallerUI = new GestionRevisionesTallerUI();
+            cargarFormulario(gestionRevisionesTallerUI);
         }
     }
 }

@@ -1,11 +1,14 @@
-CREATE PROCEDURE usp_Parada_GetAll
+USE GestorTransporteCG;
+GO
+
+CREATE OR ALTER PROCEDURE usp_Parada_GetAll
 AS
 BEGIN
 	SELECT * FROM Parada;
 END
 GO
 
-CREATE PROCEDURE usp_Parada_Insert
+CREATE OR ALTER PROCEDURE usp_Parada_Insert
 	@id VARCHAR(20),
 	@descripcion VARCHAR(255),
 	@localidad VARCHAR(100),
@@ -26,7 +29,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Parada_Delete
+CREATE OR ALTER PROCEDURE usp_Parada_Delete
 	@id VARCHAR(20)
 AS
 BEGIN
@@ -37,7 +40,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE usp_Parada_Update
+CREATE OR ALTER PROCEDURE usp_Parada_Update
 	@id VARCHAR(20),
 	@descripcion VARCHAR(255),
 	@localidad VARCHAR(100),
