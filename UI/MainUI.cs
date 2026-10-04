@@ -64,7 +64,9 @@ namespace UI
                     planificacionServicioToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-PLANIFICACION-SERVICIO"));
                     choferesInternosToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CHOFERES-INTERNOS"));
                     gestionDeCronogramasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
-                    gestionCargasCombustibleToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
+                    auditoriaSalidasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
+                    sancionesChoferToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
+                    gestionCargasCombustibleToolStripMenuItem.Enabled =usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
                     tallerToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-TALLER"));
                     gestionRevisionesToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-REVISIONES-TALLER"));
                 }
@@ -250,6 +252,18 @@ namespace UI
         {
             GestionCronogramasUI gestionCronogramaUI = new GestionCronogramasUI();
             cargarFormulario(gestionCronogramaUI);
+        }
+
+        private void auditoriaSalidasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AuditoriaSalidasUI auditoriaSalidasUI = new AuditoriaSalidasUI();
+            cargarFormulario(auditoriaSalidasUI);
+        }
+
+        private void sancionesChoferToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SancionesChoferUI sancionesChoferUI = new SancionesChoferUI();
+            cargarFormulario(sancionesChoferUI);
         }
 
         private void gestionCargasCombustibleToolStripMenuItem_Click(object sender, EventArgs e)
