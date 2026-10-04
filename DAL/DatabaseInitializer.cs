@@ -121,7 +121,11 @@ namespace DAL
                 }
 
                 using SqlCommand seed = new("SELECT COUNT(*) FROM dbo.Idioma WHERE Codigo = N'ES'", connection);
-                return (int)seed.ExecuteScalar()! > 0;
+                if ((int)seed.ExecuteScalar()! == 0) return false;
+
+                // Permisos agregados despues del seed inicial: si faltan, Initialize los completa (es idempotente)
+                using SqlCommand permisos = new("SELECT COUNT(*) FROM dbo.Permiso WHERE Nombre = N'PERM-ELIMINAR-SANCION'", connection);
+                return (int)permisos.ExecuteScalar()! > 0;
             }
             catch
             {

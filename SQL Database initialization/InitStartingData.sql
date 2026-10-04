@@ -441,3 +441,27 @@ INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_Car
         THROW;
     END CATCH
 END
+GO
+
+-- ---------------------------------------------------------
+-- PERMISOS AGREGADOS DESPUES DEL SEED INICIAL
+-- El seed de arriba se omite si la base ya existe, por lo que los permisos nuevos se
+-- agregan aca de forma idempotente para que tambien lleguen a instalaciones previas.
+-- ---------------------------------------------------------
+IF NOT EXISTS (SELECT 1 FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0)
+BEGIN
+    INSERT INTO dbo.Permiso (Nombre, EsPerfil) VALUES ('PERM-ELIMINAR-SANCION', 0);
+END
+
+IF EXISTS (SELECT 1 FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1)
+   AND NOT EXISTS (
+       SELECT 1 FROM dbo.PermisoRelacion
+       WHERE ID_Padre = (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1)
+         AND ID_Hijo = (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0))
+BEGIN
+    INSERT INTO dbo.PermisoRelacion (ID_Padre, ID_Hijo)
+    VALUES (
+        (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1),
+        (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0)
+    );
+END
