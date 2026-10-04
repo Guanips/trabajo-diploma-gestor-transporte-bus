@@ -26,6 +26,8 @@ namespace UI.Modules.gestion_taller
         public GestionRevisionesTallerUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
 
             Usuario? usuarioActual = SessionManager.getInstance.ObtenerUsuarioActivo();
             if (usuarioActual == null)

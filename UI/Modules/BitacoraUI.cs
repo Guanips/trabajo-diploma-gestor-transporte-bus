@@ -8,6 +8,8 @@ namespace UI.Modules
         public BitacoraUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
 
             List<Registro> registros = GestorBitacora.GetInstance.ConsultarBitacoraCompleta();
             List<string> usernames = registros.Select(r => r.Username).Distinct().ToList();

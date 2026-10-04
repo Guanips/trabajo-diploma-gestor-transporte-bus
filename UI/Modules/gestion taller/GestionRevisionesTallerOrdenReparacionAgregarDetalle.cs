@@ -22,6 +22,7 @@ namespace UI.Modules.gestion_taller
         public GestionRevisionesTallerOrdenReparacionAgregarDetalle(RevisionTaller nRevision)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
 
             listBoxGestionRevisionesOrdenesReparacion.DataSource = ordenes;
             listBoxGestionRevisionesOrdenesReparacion.DisplayMember = nameof(OrdenReparacion.motivoReparacion);

@@ -10,6 +10,8 @@ namespace UI.Modules
         public GestionParadasUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             this.AcceptButton = buttonParadaAltaConfirmar;
             this.refrescarParadas();
         }

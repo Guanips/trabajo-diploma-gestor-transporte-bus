@@ -12,6 +12,8 @@ namespace UI.Modules
         public GestionHistorialUsuarioUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             gestorHistorialUsuario = new GestorHistorialUsuario();
             ActualizarDataGridViewUsuarios();
         }

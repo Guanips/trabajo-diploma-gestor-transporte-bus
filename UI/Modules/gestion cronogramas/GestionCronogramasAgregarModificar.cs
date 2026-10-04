@@ -30,6 +30,7 @@ namespace UI.Modules.gestion_cronogramas
         public GestionCronogramasAgregarModificar(bool creacion, DateTime? fechaValidez, string? descripcion, Ruta? ruta, TimeOnly? horaInicio, TimeOnly? horaFin, int? frecuencia, int? tiempoDescanso)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
 
             this.creacion = creacion;
 

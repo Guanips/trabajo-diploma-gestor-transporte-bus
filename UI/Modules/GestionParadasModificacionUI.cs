@@ -9,6 +9,7 @@
         public GestionParadasModificacionUI(string descripcionOriginal, string localidadOriginal, string direccionOriginal)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

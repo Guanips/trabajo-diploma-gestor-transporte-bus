@@ -26,6 +26,7 @@
         {
             menuStrip1 = new MenuStrip();
             mainUIStripMenuItemInicio = new ToolStripMenuItem();
+            mainUIStripMenuItemAdministracion = new ToolStripMenuItem();
             mainUIStripMenuItemIniciarSesion = new ToolStripMenuItem();
             mainUIStripMenuItemCerrarSesion = new ToolStripMenuItem();
             mainUIStripMenuItemGestionDeUsuarios = new ToolStripMenuItem();
@@ -54,7 +55,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem, planificacionServicioToolStripMenuItem, choferesInternosToolStripMenuItem, tallerToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemAdministracion, planificacionServicioToolStripMenuItem, choferesInternosToolStripMenuItem, tallerToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(1127, 24);
@@ -82,8 +83,15 @@
             mainUIStripMenuItemCerrarSesion.Text = "Cerrar sesión";
             mainUIStripMenuItemCerrarSesion.Click += mainUIStripMenuItemCerrarSesion_Click;
             // 
+            // mainUIStripMenuItemAdministracion
+            //
+            mainUIStripMenuItemAdministracion.DropDownItems.AddRange(new ToolStripItem[] { mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem });
+            mainUIStripMenuItemAdministracion.Name = "mainUIStripMenuItemAdministracion";
+            mainUIStripMenuItemAdministracion.Size = new Size(105, 20);
+            mainUIStripMenuItemAdministracion.Text = "Administración";
+            //
             // mainUIStripMenuItemGestionDeUsuarios
-            // 
+            //
             mainUIStripMenuItemGestionDeUsuarios.DropDownItems.AddRange(new ToolStripItem[] { mainUIStripMenuItemABMUsuarios, mainUIStripMenuItemDesbloqueoUsuarios });
             mainUIStripMenuItemGestionDeUsuarios.Name = "mainUIStripMenuItemGestionDeUsuarios";
             mainUIStripMenuItemGestionDeUsuarios.Size = new Size(122, 20);
@@ -212,7 +220,7 @@
             // 
             comboIdiomasGlobal.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboIdiomasGlobal.FormattingEnabled = true;
-            comboIdiomasGlobal.Location = new Point(1050, 38);
+            comboIdiomasGlobal.Location = new Point(1050, 3);
             comboIdiomasGlobal.Name = "comboIdiomasGlobal";
             comboIdiomasGlobal.Size = new Size(65, 23);
             comboIdiomasGlobal.TabIndex = 1;
@@ -222,7 +230,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1050, 20);
+            label1.Location = new Point(1000, 7);
             label1.Name = "label1";
             label1.Size = new Size(44, 15);
             label1.TabIndex = 2;
@@ -259,6 +267,7 @@
 
         private MenuStrip menuStrip1;
         private ToolStripMenuItem mainUIStripMenuItemInicio;
+        private ToolStripMenuItem mainUIStripMenuItemAdministracion;
         private ToolStripMenuItem mainUIStripMenuItemIniciarSesion;
         private ToolStripMenuItem mainUIStripMenuItemCerrarSesion;
         private ToolStripMenuItem mainUIStripMenuItemGestionDeUsuarios;

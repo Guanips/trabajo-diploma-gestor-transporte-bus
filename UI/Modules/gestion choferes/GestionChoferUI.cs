@@ -17,6 +17,8 @@ namespace UI.Modules.gestion_choferes
         public GestionChoferUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             this.refrescarChoferes();
         }
 

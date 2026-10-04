@@ -11,6 +11,8 @@ namespace UI.Modules
         public GestionUsuariosUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             gestorUsuarios = new GestorUsuarios();
         }
         private void CargarGridUsuarios()

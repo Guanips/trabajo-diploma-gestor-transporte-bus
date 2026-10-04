@@ -21,6 +21,7 @@ namespace UI.Modules.gestion_internos
         public GestionInternoAgregarModificarUI(int? numInterno, string? patente, string? modelo, DateOnly? fechaIncorporacion, bool? disponible)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

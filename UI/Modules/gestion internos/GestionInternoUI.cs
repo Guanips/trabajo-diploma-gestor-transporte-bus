@@ -10,6 +10,8 @@ namespace UI.Modules.gestion_internos
         public GestionInternoUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             this.refrescarInternos();
         }
 

@@ -12,6 +12,8 @@ namespace UI.Modules
         public BloqueoUsuariosUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             gestorBloqueos = new GestorBloqueoUsuarios();
             this.Load += BloqueoUsuariosUI_Load;
         }

@@ -19,6 +19,7 @@ namespace UI
         {
             InitializeComponent();
             this.IsMdiContainer = true;
+            Tema.AplicarMain(this, menuStrip1, label1, comboIdiomasGlobal);
             GestorIdioma.GetInstance.Attach(this);
             foreach (ToolStripMenuItem item in menuStrip1.Items)
             {
@@ -67,6 +68,9 @@ namespace UI
                     gestionCargasCombustibleToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
                     tallerToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-TALLER"));
                     gestionRevisionesToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-REVISIONES-TALLER"));
+
+                    mainUIStripMenuItemAdministracion.Enabled = mainUIStripMenuItemAdministracion.DropDownItems
+                        .OfType<ToolStripMenuItem>().Any(i => i.Enabled);
                 }
                 else
                 {

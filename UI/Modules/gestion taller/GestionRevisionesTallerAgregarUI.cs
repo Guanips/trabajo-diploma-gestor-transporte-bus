@@ -20,6 +20,7 @@ namespace UI.Modules.gestion_taller
         public GestionRevisionesTallerAgregarUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
 
             List<Interno> internos = GestorInterno.ObtenerInternos();
             if (internos == null)

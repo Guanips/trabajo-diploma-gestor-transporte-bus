@@ -49,6 +49,8 @@ namespace UI.Modules.gestion_cronogramas
         public GestionCronogramasUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             dataGridViewAsignacionSalidas.DataBindingComplete += dataGridViewAsignacionSalidas_DataBindingComplete;
             this.refrescarListaCronogramas();
             cronogramaSeleccionado = null;

@@ -14,6 +14,7 @@ namespace UI.Login
         public LoginUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
             gestorLogin = new GestorLogin();
             this.AcceptButton = loginUIButtonIniciarSesion;
 

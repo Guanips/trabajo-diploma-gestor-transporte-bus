@@ -9,6 +9,7 @@
         public GestionChoferAgregarModificarUI(int? numChofer, int? dni, string? nombreCompleto, bool? activo)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

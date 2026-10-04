@@ -22,6 +22,8 @@ namespace UI.Modules.gestion_taller
         public GestionCargasCombustibleUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             inicializarComponentes();
         }
 

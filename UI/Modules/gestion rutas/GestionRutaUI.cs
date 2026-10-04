@@ -11,6 +11,8 @@ namespace UI.Modules.gestion_rutas
         public GestionRutaUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             this.refrescarRutas();
             this.paradasDisponibles = GestorParada.ObtenerParadas().FindAll(parada => parada.habilitada);
             listBoxRutaParadasDisponibles.DataSource = paradasDisponibles;

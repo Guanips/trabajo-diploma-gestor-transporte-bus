@@ -11,6 +11,8 @@ namespace UI.Modules
         public GestionPerfilesUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             gestorPerfiles = new GestorPerfiles();
         }
 

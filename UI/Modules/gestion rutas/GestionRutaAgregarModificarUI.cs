@@ -11,6 +11,7 @@
         public GestionRutaAgregarModificarUI(string? id, string? descripcion, string? sentido, int? distanciaTotalKM, int? tiempoEstimadoMin)
         {
             InitializeComponent();
+            Tema.Aplicar(this);
 
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;

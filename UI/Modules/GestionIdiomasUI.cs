@@ -13,6 +13,8 @@ namespace UI.Modules
         public GestionIdiomasUI()
         {
             InitializeComponent();
+            Tema.Aplicar(this);
+            Disposicion.Montar(this, Disponer);
             _traduccionesBaseES = new Dictionary<string, string>();
         }
 
