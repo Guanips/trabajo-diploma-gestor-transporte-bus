@@ -1,6 +1,6 @@
 ﻿namespace UI.Modules.gestion_choferes
 {
-    public partial class GestionChoferAgregarModificarUI : Form
+    public partial class GestionChoferAgregarModificarUI : FormBaseObserver
     {
         public int? dniChofer { get; private set; }
         public string? nombreCompletoChofer { get; private set; }
@@ -44,11 +44,11 @@
             try
             {
                 string unparsedDniChofer = textBoxChoferDni.Text.Trim();
-                int parsedDniChofer = int.TryParse(unparsedDniChofer, out int dniChofer) ? dniChofer : throw new Exception("DNI de chofer inválido");
+                int parsedDniChofer = int.TryParse(unparsedDniChofer, out int dniChofer) ? dniChofer : throw new Exception(T("msg_DniDeChoferInvalido", "DNI de chofer inválido"));
 
                 if (string.IsNullOrWhiteSpace(textBoxChoferNombreCompleto.Text))
                 {
-                    throw new Exception("El nombre completo del chofer no puede estar vacío");
+                    throw new Exception(T("msg_ElNombreCompletoDelChoferNoPuedeEstarVacio", "El nombre completo del chofer no puede estar vacío"));
                 }
 
                 this.nombreCompletoChofer = textBoxChoferNombreCompleto.Text.Trim();

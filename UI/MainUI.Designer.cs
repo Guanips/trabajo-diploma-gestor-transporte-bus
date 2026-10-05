@@ -144,7 +144,7 @@
             // 
             agregarIdiomaToolStripMenuItem.Name = "agregarIdiomaToolStripMenuItem";
             agregarIdiomaToolStripMenuItem.Size = new Size(101, 20);
-            agregarIdiomaToolStripMenuItem.Text = "Agregar idioma";
+            agregarIdiomaToolStripMenuItem.Text = "Gestión de idiomas";
             agregarIdiomaToolStripMenuItem.Click += agregarIdiomaToolStripMenuItem_Click;
             // 
             // planificacionServicioToolStripMenuItem

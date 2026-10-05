@@ -12,6 +12,12 @@ BEGIN
     BEGIN TRY
     BEGIN TRANSACTION;
 
+    -- Idiomas: deben existir antes que los usuarios (FK_Usuario_Idioma).
+    -- Las etiquetas y sus traducciones se cargan al final de este script (TRADUCCIONES INICIALES).
+    INSERT INTO dbo.Idioma (Codigo, Nombre, EsDefault) VALUES ('ES', N'Español', 1);
+    INSERT INTO dbo.Idioma (Codigo, Nombre, EsDefault) VALUES ('EN', N'English', 0);
+    INSERT INTO dbo.Idioma (Codigo, Nombre, EsDefault) VALUES ('PT', N'Português', 0);
+
     INSERT INTO dbo.Usuario (ID, Username, PasswordHash, Email, NumTelefono, EstaBloqueado, Idioma, IntentosFallidos, DVH)
     VALUES (
         'd1eda407-3582-4e0c-85cc-ae51eb67b826',
@@ -71,368 +77,6 @@ BEGIN
 
 
     INSERT INTO dbo.PerfilUsuario (ID_Usuario, ID_Perfil) VALUES ('d1eda407-3582-4e0c-85cc-ae51eb67b826', (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1));
-    -------------
-
-    -- ---------------------------------------------------------
-    -- INSERTS INICIALES
-
-    -- ---------------------------------------------------------
-    -- 1. REGISTRAR LOS IDIOMAS
-    -- ---------------------------------------------------------
-    INSERT INTO dbo.Idioma (Codigo, Nombre) VALUES ('ES', N'Español');
-    INSERT INTO dbo.Idioma (Codigo, Nombre) VALUES ('EN', N'English');
-    INSERT INTO dbo.Idioma (Codigo, Nombre) VALUES ('PT', N'Português');
-
-    -- ---------------------------------------------------------
-    ------------------------------------------Separados por Idioma
--- =========================================================================
--- 1. TRADUCCIONES AL ESPAÑOL (ES)
--- =========================================================================
-    INSERT INTO dbo.Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'MainUI', N'Sistema de gestion');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemCerrarSesion', N'Cerrar sesión');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemIniciarSesion', N'Iniciar sesión');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemGestionDeUsuarios', N'Gestión de usuarios');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemABMUsuarios', N'ABM Usuarios');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemDesbloqueoUsuarios', N'Desploqueo de usuarios');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemGestionDePerfiles', N'Gestión de perfiles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemABMPerfiles', N'Alta y asignación de perfiles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemInicio', N'Inicio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemBitacora', N'Bitacora');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemConsultarBitacora', N'Consultar bitacora');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemPerfiles', N'Perfiles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemGestionarPerfiles', N'Gestionar perfiles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'label1', N'Idioma');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIGroupBoxAltaUsuario', N'Registrar usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIRegistroLabelUsername', N'Username');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIRegistroLabelEmail', N'Email');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIRegistroLabelNumTelefono', N'Número de telefono');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIRegistroLabelContrasena', N'Contraseña');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIRegistroLabelConfirmContrasena', N'Repetir Contraseña');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIButtonConfirmarRegistrarUsuario', N'Confirmar registro');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIGroupBoxListadoUsuarios', N'Listado de usuarios');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIGroupBoxModificacionUsuarios', N'Modificar usuario seleccionado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIButtonConfirmarEliminarUsuario', N'Eliminar usuario seleccionado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIModificacionLabelEmail', N'Email');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIModificacionLabelNumTelefono', N'Número de telefono');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionUsuariosUIModificacionButtonConfirmarModificar', N'Confirmar modificación');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'loginUILabelUsername', N'Usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'loginUILabelContrasena', N'Contraseña');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'loginUIButtonIniciarSesion', N'Iniciar sesión');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilesUIGroupBoxTreeView', N'Arbol de perfiles y permisos');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilesUILabelNombrePerfil', N'Nombre del nuevo perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilesUIButtonCrearPerfil', N'Crear perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilesUIGroupBoxListBoxPerfiles', N'Perfiles disponibles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilUIButtonAsignarPerfil', N'Asignar perfil a perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilesUIGroupBoxUsuarios', N'Usuarios disponibles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilUIButtonAsignarPerfilUsuario', N'Asignar perfil a usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilUIButtonDesasignarPerfilUsuario', N'Desasignar perfil a usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilesUIGroupBoxListBoxPermisos', N'Permisos disponibles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'perfilUIButtonAsignarPermiso', N'Asignar permiso a perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'bitacoraUILabelGrid', N'Registros de la bitacora');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'bitacoraUILabelComboBoxAccion', N'Filtrado por acción');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'bitacoraUILabelComboBoxUsername', N'Filtrado por username');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'bitacoraUIButtonLimpiarFiltros', N'Limpiar filtros');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'msg_InicioSesionExito', N'Inicio de sesión exitoso.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'msg_TituloExito', N'Éxito');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'msg_CierreSesionExito', N'Sesión cerrada correctamente.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'msg_TituloCierreSesion', N'Cerrar sesión');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_MaxIntentos', N'Ha superado los 3 intentos fallidos. Su cuenta ha sido bloqueada por seguridad.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_QuedanIntentos', N'Contraseña incorrecta. Le quedan {0} intentos antes de bloquearse.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_NoUserLogout', N'Usuario activo no encontrado en logout.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'log_InicioSesion', N'Inicio de Sesion');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'log_CierreSesion', N'Cierre de Sesion');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_UsuarioIncorrecto', N'Usuario incorrecto');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_UsuarioBloqueado', N'El usuario se encuentra bloqueado.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_EmailVacio', N'El correo electrónico no puede estar vacío');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_EmailFormato', N'El formato del correo electrónico no es válido');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_UsernameVacio', N'El nombre de usuario no puede estar vacio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_UsernameFormato', N'El nombre de usuario debe tener entre 3 y 16 caracteres y solo puede contener letras, números, guiones bajos y guiones');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_PhoneVacio', N'El número de teléfono no puede estar vacío');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_PhoneFormato', N'El formato del número de teléfono no es válido');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_OnlyLettersVacio', N'El campo de texto no puede estar vacío');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_OnlyLettersFormato', N'El campo solo puede contener letras y espacios (se permiten acentos y eñes)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_AlphaNumStrictVacio', N'El código o ID no puede estar vacío');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_AlphaNumStrictFormato', N'El campo solo puede contener letras (sin acentos) y números, sin espacios');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_AlphaNumSpacesVacio', N'El texto no puede estar vacío');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_AlphaNumSpacesFormato', N'El campo solo puede contener letras, números y espacios (sin caracteres especiales)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_PassVacia', N'La contraseña no puede estar vacía.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_PassNoCoincide', N'Las contraseñas no coinciden.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_NoUserModificar', N'No se ha seleccionado ningún usuario para modificar.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_NoUserEliminar', N'No se ha seleccionado ningún usuario para eliminar.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'msg_TituloError', N'Error');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'btnDesbloquear', N'Desbloquear usuario seleccionado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_NoUserDesbloquear', N'No se ha seleccionado ningún usuario para desbloquear.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'msg_DesbloqueoExito', N'Usuario desbloqueado correctamente.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'LOG_LOGIN', N'Inició sesión en el sistema');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'LOG_LOGOUT', N'Cerró sesión');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'LOG_USER_ADD', N'Registró a un nuevo usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'LOG_USER_MOD', N'Modificó los datos de un usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'LOG_USER_DEL', N'Eliminó a un usuario del sistema');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'LOG_PERFIL_ADD', N'Asignó un perfil a un usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'LOG_PERMISOS_MOD', N'Modificó permisos del sistema');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'GridBitacora_Usuario', N'Usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'GridBitacora_Fecha', N'Fecha y Hora');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'GridBitacora_Accion', N'Acción Realizada');
-
--- =========================================================================
--- 2. TRADUCCIONES AL INGLÉS (EN)
--- =========================================================================
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'MainUI', N'Management System');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemCerrarSesion', N'Logout');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemIniciarSesion', N'Login');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemGestionDeUsuarios', N'User Management');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemABMUsuarios', N'CRUD Users');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemDesbloqueoUsuarios', N'Unlock Users');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemGestionDePerfiles', N'Profile Management');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemABMPerfiles', N'Profile Creation & Assignment');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemInicio', N'Home');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemBitacora', N'Logbook');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemConsultarBitacora', N'View Logbook');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemPerfiles', N'Profiles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemGestionarPerfiles', N'Manage Profiles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'label1', N'Language');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIGroupBoxAltaUsuario', N'Register User');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIRegistroLabelUsername', N'Username');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIRegistroLabelEmail', N'Email');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIRegistroLabelNumTelefono', N'Phone Number');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIRegistroLabelContrasena', N'Password');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIRegistroLabelConfirmContrasena', N'Repeat Password');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIButtonConfirmarRegistrarUsuario', N'Confirm Registration');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIGroupBoxListadoUsuarios', N'User List');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIGroupBoxModificacionUsuarios', N'Modify Selected User');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIButtonConfirmarEliminarUsuario', N'Delete Selected User');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIModificacionLabelEmail', N'Email');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIModificacionLabelNumTelefono', N'Phone Number');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionUsuariosUIModificacionButtonConfirmarModificar', N'Confirm Modification');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'loginUILabelUsername', N'Username');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'loginUILabelContrasena', N'Password');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'loginUIButtonIniciarSesion', N'Login');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilesUIGroupBoxTreeView', N'Profiles and Permissions Tree');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilesUILabelNombrePerfil', N'New Profile Name');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilesUIButtonCrearPerfil', N'Create Profile');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilesUIGroupBoxListBoxPerfiles', N'Available Profiles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilUIButtonAsignarPerfil', N'Assign Profile to Profile');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilesUIGroupBoxUsuarios', N'Available Users');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilUIButtonAsignarPerfilUsuario', N'Assign Profile to User');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilUIButtonDesasignarPerfilUsuario', N'Unassign Profile from User');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilesUIGroupBoxListBoxPermisos', N'Available Permissions');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'perfilUIButtonAsignarPermiso', N'Assign Permission to Profile');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'bitacoraUILabelGrid', N'Binnacle entries');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'bitacoraUILabelComboBoxAccion', N'Filter by action');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'bitacoraUILabelComboBoxUsername', N'Filter by username');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'bitacoraUIButtonLimpiarFiltros', N'Clean filters');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'msg_InicioSesionExito', N'Successful login.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'msg_TituloExito', N'Success');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'msg_CierreSesionExito', N'Session closed successfully.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'msg_TituloCierreSesion', N'Logout');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_MaxIntentos', N'Maximum failed attempts exceeded. Your account has been locked for security.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_QuedanIntentos', N'Incorrect password. You have {0} attempts left before being locked.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_NoUserLogout', N'Active user not found on logout.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'log_InicioSesion', N'Login');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'log_CierreSesion', N'Logout');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_UsuarioIncorrecto', N'Incorrect user');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_UsuarioBloqueado', N'The user is locked.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_EmailVacio', N'Email cannot be empty');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_EmailFormato', N'Invalid email format');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_UsernameVacio', N'Username cannot be empty');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_UsernameFormato', N'Username must be between 3 and 16 characters and can only contain letters, numbers, underscores, and hyphens');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_PhoneVacio', N'Phone number cannot be empty');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_PhoneFormato', N'Invalid phone number format');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_OnlyLettersVacio', N'The text field cannot be empty');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_OnlyLettersFormato', N'The field can only contain letters and spaces (accents and ñ are allowed)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_AlphaNumStrictVacio', N'Code or ID cannot be empty');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_AlphaNumStrictFormato', N'The field can only contain letters (no accents) and numbers, without spaces');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_AlphaNumSpacesVacio', N'Text cannot be empty');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_AlphaNumSpacesFormato', N'The field can only contain letters, numbers, and spaces (no special characters)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_PassVacia', N'Password cannot be empty.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_PassNoCoincide', N'Passwords do not match.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_NoUserModificar', N'No user selected to modify.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_NoUserEliminar', N'No user selected to delete.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'msg_TituloError', N'Error');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'btnDesbloquear', N'Unlock selected user');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_NoUserDesbloquear', N'No user selected to unlock.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'msg_DesbloqueoExito', N'User unlocked successfully.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'LOG_LOGIN', N'Logged into the system');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'LOG_LOGOUT', N'Logged out');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'LOG_USER_ADD', N'Registered a new user');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'LOG_USER_MOD', N'Modified user details');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'LOG_USER_DEL', N'Deleted a user from the system');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'LOG_PERFIL_ADD', N'Assigned a profile to a user');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'LOG_PERMISOS_MOD', N'Modified system permissions');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'GridBitacora_Usuario', N'User');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'GridBitacora_Fecha', N'Date and Time');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'GridBitacora_Accion', N'Action Performed');
-
--- =========================================================================
--- 3. TRADUCCIONES AL PORTUGUÉS (PT)
--- =========================================================================
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'MainUI', N'Sistema de Gestão');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemCerrarSesion', N'Sair');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemIniciarSesion', N'Entrar');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemGestionDeUsuarios', N'Gestão de Usuários');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemABMUsuarios', N'CRUD de Usuários');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemDesbloqueoUsuarios', N'Desbloquear Usuários');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemGestionDePerfiles', N'Gestão de Perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemABMPerfiles', N'Criação e Atribuição de Perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemInicio', N'Início');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemBitacora', N'Livro de Bordo');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemConsultarBitacora', N'Visualizar Livro de Bordo');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemPerfiles', N'Perfis');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemGestionarPerfiles', N'Gerenciar Perfis');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'label1', N'Idioma');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIGroupBoxAltaUsuario', N'Registrar Usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIRegistroLabelUsername', N'Nome de usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIRegistroLabelEmail', N'E-mail');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIRegistroLabelNumTelefono', N'Número de Telefone');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIRegistroLabelContrasena', N'Senha');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIRegistroLabelConfirmContrasena', N'Repetir Senha');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIButtonConfirmarRegistrarUsuario', N'Confirmar Registro');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIGroupBoxListadoUsuarios', N'Lista de Usuários');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIGroupBoxModificacionUsuarios', N'Modificar Usuário Selecionado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIButtonConfirmarEliminarUsuario', N'Excluir Usuário Selecionado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIModificacionLabelEmail', N'E-mail');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIModificacionLabelNumTelefono', N'Número de Telefone');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionUsuariosUIModificacionButtonConfirmarModificar', N'Confirmar Modificação');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'loginUILabelUsername', N'Nome de usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'loginUILabelContrasena', N'Senha');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'loginUIButtonIniciarSesion', N'Entrar');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilesUIGroupBoxTreeView', N'Árvore de Perfis e Permissões');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilesUILabelNombrePerfil', N'Nome do Novo Perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilesUIButtonCrearPerfil', N'Criar Perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilesUIGroupBoxListBoxPerfiles', N'Perfis Disponíveis');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilUIButtonAsignarPerfil', N'Atribuir Perfil a Perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilesUIGroupBoxUsuarios', N'Usuários Disponíveis');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilUIButtonAsignarPerfilUsuario', N'Atribuir Perfil a Usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilUIButtonDesasignarPerfilUsuario', N'Remover Perfil do Usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilesUIGroupBoxListBoxPermisos', N'Permissões Disponíveis');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'perfilUIButtonAsignarPermiso', N'Atribuir Permissão ao Perfil');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'bitacoraUILabelGrid', N'Registros de Borda');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'bitacoraUILabelComboBoxAccion', N'Filtrar por ação');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'bitacoraUILabelComboBoxUsername', N'Filtrar por nome de usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'bitacoraUIButtonLimpiarFiltros', N'Limpar filtros');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'msg_InicioSesionExito', N'Login bem-sucedido.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'msg_TituloExito', N'Sucesso');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'msg_CierreSesionExito', N'Sessão encerrada com sucesso.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'msg_TituloCierreSesion', N'Sair');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_MaxIntentos', N'Limite de tentativas excedido. Sua conta foi bloqueada por segurança.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_QuedanIntentos', N'Senha incorreta. Você tem {0} tentativas restantes antes de ser bloqueado.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_NoUserLogout', N'Usuário ativo não encontrado no logout.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'log_InicioSesion', N'Início de Sessão');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'log_CierreSesion', N'Encerramento de Sessão');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_UsuarioIncorrecto', N'Usuário incorreto');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_UsuarioBloqueado', N'O usuário está bloqueado.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_EmailVacio', N'O e-mail não pode estar vazio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_EmailFormato', N'Formato de e-mail inválido');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_UsernameVacio', N'O nome de usuário não pode estar vazio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_UsernameFormato', N'O nome de usuário deve ter entre 3 e 16 caracteres e só pode conter letras, números, sublinhados e hifens');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_PhoneVacio', N'O número de telefone não pode estar vazio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_PhoneFormato', N'Formato de número de telefone inválido');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_OnlyLettersVacio', N'O campo de texto não pode estar vazio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_OnlyLettersFormato', N'O campo só pode conter letras e espaços (acentos e cedilhas são permitidos)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_AlphaNumStrictVacio', N'O código ou ID não pode estar vazio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_AlphaNumStrictFormato', N'O campo só pode conter letras (sem acentos) e números, sem espaços');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_AlphaNumSpacesVacio', N'O texto não pode estar vazio');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_AlphaNumSpacesFormato', N'O campo só pode conter letras, números e espaços (sem caracteres especiais)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_PassVacia', N'A senha não pode estar vazia.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_PassNoCoincide', N'As senhas não coincidem.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_NoUserModificar', N'Nenhum usuário selecionado para modificar.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_NoUserEliminar', N'Nenhum usuário selecionado para excluir.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'msg_TituloError', N'Erro');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'btnDesbloquear', N'Desbloquear usuário selecionado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_NoUserDesbloquear', N'Nenhum usuário selecionado para desbloquear.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'msg_DesbloqueoExito', N'Usuário desbloqueado com sucesso.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'LOG_LOGIN', N'Entrou no sistema');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'LOG_LOGOUT', N'Saiu do sistema');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'LOG_USER_ADD', N'Registrou um novo usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'LOG_USER_MOD', N'Modificou os dados de um usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'LOG_USER_DEL', N'Excluiu um usuário do sistema');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'LOG_PERFIL_ADD', N'Atribuiu um perfil a um usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'LOG_PERMISOS_MOD', N'Modificou as permissões do sistema');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'GridBitacora_Usuario', N'Usuário');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'GridBitacora_Fecha', N'Data e Hora');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'GridBitacora_Accion', N'Ação Realizada');
-
--- Traducciones para la etiqueta: gestionHistorialUILabelGridUsuarios
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionHistorialUILabelGridUsuarios', N'Usuarios disponibles');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionHistorialUILabelGridUsuarios', N'Available users');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionHistorialUILabelGridUsuarios', N'Usuários disponíveis');
-
--- Traducciones para la etiqueta: gestionHistorialUILabelGridEstadoUsuarios
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionHistorialUILabelGridEstadoUsuarios', N'Historial del usuario seleccionado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionHistorialUILabelGridEstadoUsuarios', N'Selected user history');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionHistorialUILabelGridEstadoUsuarios', N'Histórico do usuário selecionado');
-
--- Traducciones para la etiqueta: mainUIStripMenuItemHistorialUsuario
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'mainUIStripMenuItemHistorialUsuario', N'Historial usuario');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'mainUIStripMenuItemHistorialUsuario', N'User history');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'mainUIStripMenuItemHistorialUsuario', N'Histórico do usuário');
-
--- Traducciones para el botón: gestionHistorialUIButtonRecuperarEstado
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'gestionHistorialUIButtonRecuperarEstado', N'Recuperar estado');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'gestionHistorialUIButtonRecuperarEstado', N'Restore state');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'gestionHistorialUIButtonRecuperarEstado', N'Restaurar estado');
-
--- =========================================================================
--- TRADUCCIONES DEL NUEVO MÓDULO: GESTIÓN DE IDIOMAS
--- =========================================================================
-
--- 1. Botón del Menú Principal (MainUI)
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'agregarIdiomaToolStripMenuItem', N'Agregar Idioma');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'agregarIdiomaToolStripMenuItem', N'Add Language');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'agregarIdiomaToolStripMenuItem', N'Adicionar Idioma');
-
--- 2. Título del Formulario (GestionIdiomasUI)
--- Nota: La Key coincide con la propiedad "Name" del Formulario.
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'GestionIdiomasUI', N'Configuración de Nuevos Idiomas');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'GestionIdiomasUI', N'New Languages Configuration');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'GestionIdiomasUI', N'Configuração de Novos Idiomas');
-
--- 3. Etiquetas (Labels) y Botones del Formulario
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'labelCodigo', N'Código (Ej: FR):');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'labelCodigo', N'Code (e.g., FR):');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'labelCodigo', N'Código (Ex: FR):');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'labelNombre', N'Nombre Idioma:');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'labelNombre', N'Language Name:');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'labelNombre', N'Nome do Idioma:');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'btnGuardarIdioma', N'Guardar Idioma');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'btnGuardarIdioma', N'Save Language');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'btnGuardarIdioma', N'Salvar Idioma');
-
--- 4. Cabeceras del DataGridView (Asignadas dinámicamente)
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'GridIdioma_ColKey', N'Componente / Etiqueta');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'GridIdioma_ColKey', N'Component / Label');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'GridIdioma_ColKey', N'Componente / Rótulo');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'GridIdioma_ColRef', N'Referencia (Español)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'GridIdioma_ColRef', N'Reference (Spanish)');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'GridIdioma_ColRef', N'Referência (Espanhol)');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'GridIdioma_ColNuevo', N'Nueva Traducción');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'GridIdioma_ColNuevo', N'New Translation');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'GridIdioma_ColNuevo', N'Nova Tradução');
-
--- 5. Mensajes de Éxito, Validaciones y Errores (MessageBox / Exceptions)
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'msg_IdiomaGuardadoExito', N'El idioma y sus respectivas traducciones se han guardado exitosamente.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'msg_IdiomaGuardadoExito', N'The language and its translations have been saved successfully.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'msg_IdiomaGuardadoExito', N'O idioma e suas traduções foram salvos com sucesso.');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_CodigoNombreObligatorios', N'El código y el nombre del idioma son obligatorios.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_CodigoNombreObligatorios', N'Language code and name are required.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_CodigoNombreObligatorios', N'O código e o nome do idioma são obrigatórios.');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_IdiomaYaExiste', N'El código de idioma ya se encuentra registrado en el sistema.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_IdiomaYaExiste', N'The language code is already registered in the system.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_IdiomaYaExiste', N'O código do idioma já está registrado no sistema.');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_TraduccionObligatoria', N'Debe proveer al menos una traducción para el nuevo idioma.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_TraduccionObligatoria', N'You must provide at least one translation for the new language.');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_TraduccionObligatoria', N'Você deve fornecer pelo menos uma tradução para o novo idioma.');
-
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('ES', 'err_CargarEtiquetas', N'Error al cargar etiquetas de referencia: ');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('EN', 'err_CargarEtiquetas', N'Error loading reference labels: ');
-INSERT INTO Traduccion (CodigoIdioma, KeyEtiqueta, Texto) VALUES ('PT', 'err_CargarEtiquetas', N'Erro ao carregar rótulos de referência: ');
 
     COMMIT TRANSACTION;
     END TRY
@@ -465,3 +109,552 @@ BEGIN
         (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ELIMINAR-SANCION' AND EsPerfil = 0)
     );
 END
+
+GO
+
+-- ---------------------------------------------------------
+-- TRADUCCIONES INICIALES (ES / EN / PT)
+-- Etiquetas de todos los formularios y mensajes con su texto en los tres idiomas.
+-- Es idempotente y nunca pisa textos existentes: solo agrega las etiquetas y traducciones
+-- que falten, asi tambien completa bases ya inicializadas sin perder lo editado desde la
+-- gestion de idiomas. Las etiquetas que se agreguen en el futuro las registra la aplicacion.
+-- ---------------------------------------------------------
+SET NOCOUNT ON;
+SET XACT_ABORT ON;
+
+DECLARE @Traducciones TABLE (
+    Clave VARCHAR(200) NOT NULL PRIMARY KEY,
+    Formulario VARCHAR(100) NULL,
+    ES NVARCHAR(MAX) NOT NULL,
+    EN NVARCHAR(MAX) NOT NULL,
+    PT NVARCHAR(MAX) NOT NULL
+);
+
+INSERT INTO @Traducciones (Clave, Formulario, ES, EN, PT) VALUES
+('AuditoriaSalidasUI.buttonAuditoriaCronogramasConfirmar', 'AuditoriaSalidasUI', N'Confirmar', N'Confirm', N'Confirmar'),
+('AuditoriaSalidasUI.buttonAuditoriaCronogramasRegistrarLlegada', 'AuditoriaSalidasUI', N'Registrar llegada', N'Register arrival', N'Registrar chegada'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.choferAsignado', 'AuditoriaSalidasUI', N'Chofer asignado', N'Assigned driver', N'Motorista designado'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.estaSuspendida', 'AuditoriaSalidasUI', N'Esta suspendida', N'Suspended', N'Suspensa'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.horaLlegadaReal', 'AuditoriaSalidasUI', N'Hora llegada real', N'Actual arrival time', N'Hora real de chegada'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.horaLlegadaTeorica', 'AuditoriaSalidasUI', N'Hora llegada teorica', N'Scheduled arrival time', N'Hora prevista de chegada'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.horaSalidaTeorica', 'AuditoriaSalidasUI', N'Hora salida teorica', N'Scheduled departure time', N'Hora prevista de partida'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.id', 'AuditoriaSalidasUI', N'Id', N'ID', N'ID'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.internoAsignado', 'AuditoriaSalidasUI', N'Interno asignado', N'Assigned bus', N'Ônibus designado'),
+('AuditoriaSalidasUI.dataGridViewSalidasCronogramaSeleccionado.motivoSuspension', 'AuditoriaSalidasUI', N'Motivo suspension', N'Suspension reason', N'Motivo da suspensão'),
+('AuditoriaSalidasUI.groupBoxAuditoriaCronogramasAplicarSancion', 'AuditoriaSalidasUI', N'Aplicar sancion', N'Apply penalty', N'Aplicar penalidade'),
+('AuditoriaSalidasUI.groupBoxAuditoriaCronogramasLlegadaReal', 'AuditoriaSalidasUI', N'Llegada real', N'Actual arrival', N'Chegada real'),
+('AuditoriaSalidasUI.groupBoxAuditoriaCronogramasSalidas', 'AuditoriaSalidasUI', N'Cronogramas y salidas', N'Schedules and departures', N'Cronogramas e partidas'),
+('AuditoriaSalidasUI.labelAuditoriaCronogramasFechaSancion', 'AuditoriaSalidasUI', N'Fecha', N'Date', N'Data'),
+('AuditoriaSalidasUI.labelAuditoriaCronogramasHoraLlegadaReal', 'AuditoriaSalidasUI', N'Hora de llegada real', N'Actual arrival time', N'Hora real de chegada'),
+('AuditoriaSalidasUI.labelAuditoriaCronogramasListaCronogramas', 'AuditoriaSalidasUI', N'Cronogramas disponibles', N'Available schedules', N'Cronogramas disponíveis'),
+('AuditoriaSalidasUI.labelAuditoriaCronogramasMotivoSancion', 'AuditoriaSalidasUI', N'Motivo', N'Reason', N'Motivo'),
+('AuditoriaSalidasUI.labelAuditoriaCronogramasNombreChofer', 'AuditoriaSalidasUI', N'Chofer a sancionar', N'Driver to penalize', N'Motorista a penalizar'),
+('AuditoriaSalidasUI.labelAuditoriaCronogramasSalidas', 'AuditoriaSalidasUI', N'Salidas del cronograma seleccionado', N'Departures of the selected schedule', N'Partidas do cronograma selecionado'),
+('AuditoriaSalidasUI.labelAuditoriaCronogramasToleranciaRetraso', 'AuditoriaSalidasUI', N'Tolerancia de retraso (minutos)', N'Delay tolerance (minutes)', N'Tolerância de atraso (minutos)'),
+('BitacoraUI', 'BitacoraUI', N'Bitácora', N'Audit log', N'Log de auditoria'),
+('BitacoraUI.bitacoraUIButtonLimpiarFiltros', 'BitacoraUI', N'Limpiar filtros', N'Clear filters', N'Limpar filtros'),
+('BitacoraUI.bitacoraUILabelComboBoxAccion', 'BitacoraUI', N'Filtrado por acción', N'Filter by action', N'Filtrar por ação'),
+('BitacoraUI.bitacoraUILabelComboBoxUsername', 'BitacoraUI', N'Filtrado por username', N'Filter by username', N'Filtrar por usuário'),
+('BitacoraUI.bitacoraUILabelGrid', 'BitacoraUI', N'Registros de la bitácora', N'Audit log records', N'Registros do log de auditoria'),
+('BitacoraUI.dataGridViewRegistrosBitacora.Accion', 'BitacoraUI', N'Accion', N'Action', N'Ação'),
+('BitacoraUI.dataGridViewRegistrosBitacora.Fecha', 'BitacoraUI', N'Fecha', N'Date', N'Data'),
+('BitacoraUI.dataGridViewRegistrosBitacora.Username', 'BitacoraUI', N'Username', N'Username', N'Usuário'),
+('BitacoraUI.groupBoxFiltros', 'BitacoraUI', N'Filtros', N'Filters', N'Filtros'),
+('BitacoraUI.groupBoxListadoBitacora', 'BitacoraUI', N'Registros', N'Records', N'Registros'),
+('BloqueoUsuariosUI', 'BloqueoUsuariosUI', N'Desbloqueo de usuarios', N'Unlock users', N'Desbloqueio de usuários'),
+('BloqueoUsuariosUI.btnDesbloquear', 'BloqueoUsuariosUI', N'Desbloquear seleccionado', N'Unlock selected', N'Desbloquear selecionado'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.DVH', 'BloqueoUsuariosUI', N'Dvh', N'DVH', N'DVH'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.Email', 'BloqueoUsuariosUI', N'Email', N'Email', N'E-mail'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.EstaBloqueado', 'BloqueoUsuariosUI', N'Esta bloqueado', N'Locked', N'Bloqueado'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.Id', 'BloqueoUsuariosUI', N'Id', N'ID', N'ID'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.Idioma', 'BloqueoUsuariosUI', N'Idioma', N'Language', N'Idioma'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.IntentosFallidos', 'BloqueoUsuariosUI', N'Intentos fallidos', N'Failed attempts', N'Tentativas falhas'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.NumTelefono', 'BloqueoUsuariosUI', N'Num telefono', N'Phone number', N'Telefone'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.PasswordHash', 'BloqueoUsuariosUI', N'Password hash', N'Password hash', N'Hash da senha'),
+('BloqueoUsuariosUI.dataGridViewBloqueados.Username', 'BloqueoUsuariosUI', N'Username', N'Username', N'Usuário'),
+('BloqueoUsuariosUI.groupBoxBloqueados', 'BloqueoUsuariosUI', N'Usuarios bloqueados', N'Locked users', N'Usuários bloqueados'),
+('err_AlphaNumSpacesFormato', NULL, N'El campo solo puede contener letras, números y espacios.', N'The field can only contain letters, numbers and spaces.', N'O campo só pode conter letras, números e espaços.'),
+('err_AlphaNumSpacesVacio', NULL, N'El campo no puede estar vacío.', N'The field cannot be empty.', N'O campo não pode ficar vazio.'),
+('err_AlphaNumStrictFormato', NULL, N'El campo solo puede contener letras y números, sin espacios.', N'The field can only contain letters and numbers, without spaces.', N'O campo só pode conter letras e números, sem espaços.'),
+('err_AlphaNumStrictVacio', NULL, N'El campo no puede estar vacío.', N'The field cannot be empty.', N'O campo não pode ficar vazio.'),
+('err_CodigoIdiomaLargo', NULL, N'El código del idioma puede tener como máximo 5 caracteres.', N'The language code can have at most 5 characters.', N'O código do idioma pode ter no máximo 5 caracteres.'),
+('err_CodigoNombreObligatorios', NULL, N'El código y el nombre del idioma son obligatorios.', N'The language code and name are required.', N'O código e o nome do idioma são obrigatórios.'),
+('err_EmailFormato', NULL, N'El formato del email no es válido.', N'The email format is not valid.', N'O formato do e-mail não é válido.'),
+('err_EmailVacio', NULL, N'El email no puede estar vacío.', N'The email cannot be empty.', N'O e-mail não pode ficar vazio.'),
+('err_IdiomaYaExiste', NULL, N'El código de idioma ya se encuentra registrado en el sistema.', N'The language code is already registered in the system.', N'O código do idioma já está registrado no sistema.'),
+('err_IntegridadCorrupta', NULL, N'Alerta Crítica: Se ha detectado una violación en la integridad de la base de datos.' + NCHAR(10) + N'' + NCHAR(10) + N'El sistema ha entrado en Modo de Recuperación. Solo los administradores pueden iniciar sesión.', N'Critical alert: A violation of the database integrity has been detected.' + NCHAR(10) + N'' + NCHAR(10) + N'The system has entered Recovery Mode. Only administrators can log in.', N'Alerta crítico: Foi detectada uma violação na integridade do banco de dados.' + NCHAR(10) + N'' + NCHAR(10) + N'O sistema entrou em Modo de Recuperação. Apenas administradores podem fazer login.'),
+('err_MaxIntentos', NULL, N'Ha superado los 3 intentos fallidos. Su cuenta ha sido bloqueada por seguridad.', N'You have exceeded 3 failed attempts. Your account has been locked for security reasons.', N'Você excedeu 3 tentativas falhas. Sua conta foi bloqueada por segurança.'),
+('err_NombreIdiomaLargo', NULL, N'El nombre del idioma puede tener como máximo 50 caracteres.', N'The language name can have at most 50 characters.', N'O nome do idioma pode ter no máximo 50 caracteres.'),
+('err_NoUserDesbloquear', NULL, N'No se ha seleccionado ningún usuario para desbloquear.', N'No user has been selected to unlock.', N'Nenhum usuário foi selecionado para desbloquear.'),
+('err_NoUserEliminar', NULL, N'No se ha seleccionado ningún usuario para eliminar.', N'No user has been selected to delete.', N'Nenhum usuário foi selecionado para excluir.'),
+('err_NoUserLogout', NULL, N'Usuario activo no encontrado en logout', N'Active user not found on logout', N'Usuário ativo não encontrado ao sair'),
+('err_NoUserModificar', NULL, N'No se ha seleccionado ningún usuario para modificar.', N'No user has been selected to modify.', N'Nenhum usuário foi selecionado para modificar.'),
+('err_OnlyLettersFormato', NULL, N'El campo solo puede contener letras y espacios.', N'The field can only contain letters and spaces.', N'O campo só pode conter letras e espaços.'),
+('err_OnlyLettersVacio', NULL, N'El campo no puede estar vacío.', N'The field cannot be empty.', N'O campo não pode ficar vazio.'),
+('err_PassNoCoincide', NULL, N'Las contraseñas no coinciden.', N'The passwords do not match.', N'As senhas não coincidem.'),
+('err_PassVacia', NULL, N'La contraseña no puede estar vacía.', N'The password cannot be empty.', N'A senha não pode ficar vazia.'),
+('err_PerfilFormato', NULL, N'El nombre del perfil debe comenzar con ''PERF-'' seguido de caracteres (sin espacios).', N'The profile name must start with ''PERF-'' followed by characters (without spaces).', N'O nome do perfil deve começar com ''PERF-'' seguido de caracteres (sem espaços).'),
+('err_PerfilVacio', NULL, N'El nombre del perfil no puede estar vacío.', N'The profile name cannot be empty.', N'O nome do perfil não pode ficar vazio.'),
+('err_PhoneFormato', NULL, N'El teléfono debe tener entre 7 y 15 dígitos (puede comenzar con +).', N'The phone number must have between 7 and 15 digits (it may start with +).', N'O telefone deve ter entre 7 e 15 dígitos (pode começar com +).'),
+('err_PhoneVacio', NULL, N'El teléfono no puede estar vacío.', N'The phone number cannot be empty.', N'O telefone não pode ficar vazio.'),
+('err_QuedanIntentos', NULL, N'Contraseña incorrecta. Le quedan {0} intentos antes de bloquearse.', N'Incorrect password. You have {0} attempts left before being locked.', N'Senha incorreta. Restam {0} tentativas antes do bloqueio.'),
+('err_SoloAdminIntegridad', NULL, N'Acceso denegado. El sistema se encuentra bloqueado por fallas de integridad. Solo el administrador puede acceder.', N'Access denied. The system is locked due to integrity failures. Only the administrator can log in.', N'Acesso negado. O sistema está bloqueado por falhas de integridade. Apenas o administrador pode acessar.'),
+('err_TraduccionDefaultVacia', NULL, N'Los textos del idioma por defecto no pueden quedar vacíos.', N'The texts of the default language cannot be empty.', N'Os textos do idioma padrão não podem ficar vazios.'),
+('err_UsernameFormato', NULL, N'El nombre de usuario debe tener entre 3 y 16 caracteres (letras, números, guion o guion bajo).', N'The username must have between 3 and 16 characters (letters, numbers, hyphen or underscore).', N'O nome de usuário deve ter entre 3 e 16 caracteres (letras, números, hífen ou sublinhado).'),
+('err_UsernameVacio', NULL, N'El nombre de usuario no puede estar vacío.', N'The username cannot be empty.', N'O nome de usuário não pode ficar vazio.'),
+('err_UsuarioBloqueado', NULL, N'El usuario se encuentra bloqueado. Contacte a un administrador para recuperar el acceso.', N'The user is locked. Contact an administrator to regain access.', N'O usuário está bloqueado. Entre em contato com um administrador para recuperar o acesso.'),
+('err_UsuarioIncorrecto', NULL, N'Usuario incorrecto', N'Incorrect user', N'Usuário incorreto'),
+('err_VerificarIntegridad', NULL, N'Error al verificar la integridad del sistema: ', N'Error while verifying the system integrity: ', N'Erro ao verificar a integridade do sistema:'),
+('GestionCargasCombustibleUI.buttonGestionCombustibleAnularCarga', 'GestionCargasCombustibleUI', N'Anular Carga', N'Void refuel', N'Anular abastecimento'),
+('GestionCargasCombustibleUI.buttonGestionCombustibleConfirmarRegistro', 'GestionCargasCombustibleUI', N'Registrar', N'Register', N'Registrar'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.anulada', 'GestionCargasCombustibleUI', N'Anulada', N'Voided', N'Anulado'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.fechaHora', 'GestionCargasCombustibleUI', N'Fecha hora', N'Date and time', N'Data e hora'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.id', 'GestionCargasCombustibleUI', N'Id', N'ID', N'ID'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.interno', 'GestionCargasCombustibleUI', N'Interno', N'Bus', N'Ônibus'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.kilometrajeActual', 'GestionCargasCombustibleUI', N'Kilometraje actual', N'Current mileage', N'Quilometragem atual'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.litrosCargados', 'GestionCargasCombustibleUI', N'Litros cargados', N'Liters loaded', N'Litros abastecidos'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.motivoAnulacion', 'GestionCargasCombustibleUI', N'Motivo anulacion', N'Void reason', N'Motivo da anulação'),
+('GestionCargasCombustibleUI.dataGridViewGestionCombustibleCargas.precioPorLitro', 'GestionCargasCombustibleUI', N'Precio por litro', N'Price per liter', N'Preço por litro'),
+('GestionCargasCombustibleUI.groupBoxGestionCombustibleCargasHechas', 'GestionCargasCombustibleUI', N'Cargas hechas', N'Recorded refuels', N'Abastecimentos realizados'),
+('GestionCargasCombustibleUI.groupBoxGestionCombustibleRegistrar', 'GestionCargasCombustibleUI', N'Registrar carga', N'Register refuel', N'Registrar abastecimento'),
+('GestionCargasCombustibleUI.labelGestionCombustibleFechaHora', 'GestionCargasCombustibleUI', N'Fecha y hora de carga', N'Refuel date and time', N'Data e hora do abastecimento'),
+('GestionCargasCombustibleUI.labelGestionCombustibleInterno', 'GestionCargasCombustibleUI', N'Interno cargado', N'Refueled bus', N'Ônibus abastecido'),
+('GestionCargasCombustibleUI.labelGestionCombustibleKilometrajeActual', 'GestionCargasCombustibleUI', N'Kilometraje del interno', N'Bus mileage', N'Quilometragem do ônibus'),
+('GestionCargasCombustibleUI.labelGestionCombustibleLitros', 'GestionCargasCombustibleUI', N'Litros cargados', N'Liters loaded', N'Litros abastecidos'),
+('GestionCargasCombustibleUI.labelGestionCombustiblePrecioPorLitro', 'GestionCargasCombustibleUI', N'Precio por litro', N'Price per liter', N'Preço por litro'),
+('GestionChoferAgregarModificarUI', 'GestionChoferAgregarModificarUI', N'Gestion chofer', N'Driver management', N'Gestão de motorista'),
+('GestionChoferAgregarModificarUI.buttonChoferAltaModificarConfirmar', 'GestionChoferAgregarModificarUI', N'Confirmar', N'Confirm', N'Confirmar'),
+('GestionChoferAgregarModificarUI.checkBoxChoferAltaModificarActivo', 'GestionChoferAgregarModificarUI', N'¿Está activo?', N'Is active?', N'Está ativo?'),
+('GestionChoferAgregarModificarUI.labelChoferAltaModificacionNombre', 'GestionChoferAgregarModificarUI', N'Nombre completo', N'Full name', N'Nome completo'),
+('GestionChoferAgregarModificarUI.labelChoferAltaModificarDni', 'GestionChoferAgregarModificarUI', N'DNI', N'ID number', N'Documento'),
+('GestionChoferAgregarModificarUI.labelChoferAltaModificarNumChofer', 'GestionChoferAgregarModificarUI', N'Numero de chofer', N'Driver number', N'Número do motorista'),
+('GestionChoferUI', 'GestionChoferUI', N'Gestion choferes', N'Driver management', N'Gestão de motoristas'),
+('GestionChoferUI.buttonChoferEliminar', 'GestionChoferUI', N'Eliminar chofer', N'Delete driver', N'Excluir motorista'),
+('GestionChoferUI.buttonChoferesAgregar', 'GestionChoferUI', N'Agregar chofer', N'Add driver', N'Adicionar motorista'),
+('GestionChoferUI.buttonChoferModificar', 'GestionChoferUI', N'Modificar chofer', N'Modify driver', N'Modificar motorista'),
+('GestionChoferUI.dataGridViewChoferes.activo', 'GestionChoferUI', N'Activo', N'Active', N'Ativo'),
+('GestionChoferUI.dataGridViewChoferes.dni', 'GestionChoferUI', N'Dni', N'ID number', N'Documento'),
+('GestionChoferUI.dataGridViewChoferes.nombreCompleto', 'GestionChoferUI', N'Nombre completo', N'Full name', N'Nome completo'),
+('GestionChoferUI.dataGridViewChoferes.num_chofer', 'GestionChoferUI', N'Num chofer', N'Driver number', N'Número do motorista'),
+('GestionChoferUI.groupBoxGestionChofer', 'GestionChoferUI', N'Gestion de choferes', N'Driver management', N'Gestão de motoristas'),
+('GestionCronogramasAgregarModificar', 'GestionCronogramasAgregarModificar', N'Gestion cronograma', N'Schedule management', N'Gestão de cronograma'),
+('GestionCronogramasAgregarModificar.buttonCronogramaAgregarModificarConfirmar', 'GestionCronogramasAgregarModificar', N'Confirmar', N'Confirm', N'Confirmar'),
+('GestionCronogramasAgregarModificar.groupBoxCronogramaAltaModificarSeleccionRuta', 'GestionCronogramasAgregarModificar', N'Selección de ruta', N'Route selection', N'Seleção de rota'),
+('GestionCronogramasAgregarModificar.labelCronogramaAgregarModificarDescripcion', 'GestionCronogramasAgregarModificar', N'Descripcion', N'Description', N'Descrição'),
+('GestionCronogramasAgregarModificar.labelCronogramaAgregarModificarFechaValidez', 'GestionCronogramasAgregarModificar', N'Fecha validez', N'Valid date', N'Data de validade'),
+('GestionCronogramasAgregarModificar.labelCronogramaAgregarModificarFrecuenciaMin', 'GestionCronogramasAgregarModificar', N'Frecuencia (minutos)', N'Frequency (minutes)', N'Frequência (minutos)'),
+('GestionCronogramasAgregarModificar.labelCronogramaAgregarModificarHoraFin', 'GestionCronogramasAgregarModificar', N'Hora fin', N'End time', N'Hora de término'),
+('GestionCronogramasAgregarModificar.labelCronogramaAgregarModificarHoraInicio', 'GestionCronogramasAgregarModificar', N'Hora inicio', N'Start time', N'Hora de início'),
+('GestionCronogramasAgregarModificar.labelCronogramaAgregarModificarTiempoDescanso', 'GestionCronogramasAgregarModificar', N'Tiempo de descanso entre salidas (minutos)', N'Rest time between departures (minutes)', N'Tempo de descanso entre partidas (minutos)'),
+('GestionCronogramasUI.buttonGestionCronogramaAgregarCronograma', 'GestionCronogramasUI', N'Agregar cronograma', N'Add schedule', N'Adicionar cronograma'),
+('GestionCronogramasUI.buttonGestionCronogramasAsignarChofer', 'GestionCronogramasUI', N'Asignar chofer', N'Assign driver', N'Designar motorista'),
+('GestionCronogramasUI.buttonGestionCronogramasAsignarInterno', 'GestionCronogramasUI', N'Asignar interno', N'Assign bus', N'Designar ônibus'),
+('GestionCronogramasUI.buttonGestionCronogramasDesasignarChofer', 'GestionCronogramasUI', N'Desasignar chofer', N'Unassign driver', N'Remover motorista'),
+('GestionCronogramasUI.buttonGestionCronogramasDesasignarInterno', 'GestionCronogramasUI', N'Desasignar interno', N'Unassign bus', N'Remover ônibus'),
+('GestionCronogramasUI.buttonGestionCronogramasEliminarCronograma', 'GestionCronogramasUI', N'Eliminar cronograma', N'Delete schedule', N'Excluir cronograma'),
+('GestionCronogramasUI.buttonGestionCronogramasGenerarSalidas', 'GestionCronogramasUI', N'Generar salidas', N'Generate departures', N'Gerar partidas'),
+('GestionCronogramasUI.buttonGestionCronogramasModificarCronograma', 'GestionCronogramasUI', N'Modificar cronograma', N'Modify schedule', N'Modificar cronograma'),
+('GestionCronogramasUI.buttonGestionCronogramasSuspenderSalida', 'GestionCronogramasUI', N'Suspender salida', N'Suspend departure', N'Suspender partida'),
+('GestionCronogramasUI.dataGridViewAsignacionSalidas.ChoferAsignado', 'GestionCronogramasUI', N'Chofer asignado', N'Assigned driver', N'Motorista designado'),
+('GestionCronogramasUI.dataGridViewAsignacionSalidas.EstaSuspendida', 'GestionCronogramasUI', N'Está suspendida', N'Suspended', N'Suspensa'),
+('GestionCronogramasUI.dataGridViewAsignacionSalidas.HoraLlegadaTeorica', 'GestionCronogramasUI', N'Hora llegada teórica', N'Scheduled arrival time', N'Hora prevista de chegada'),
+('GestionCronogramasUI.dataGridViewAsignacionSalidas.HoraSalidaTeorica', 'GestionCronogramasUI', N'Hora salida teórica', N'Scheduled departure time', N'Hora prevista de partida'),
+('GestionCronogramasUI.dataGridViewAsignacionSalidas.InternoAsignado', 'GestionCronogramasUI', N'Interno asignado', N'Assigned bus', N'Ônibus designado'),
+('GestionCronogramasUI.dataGridViewAsignacionSalidas.MotivoSuspension', 'GestionCronogramasUI', N'Motivo', N'Reason', N'Motivo'),
+('GestionCronogramasUI.groupBoxGestionCronogramasSeccionAsignacionSalidas', 'GestionCronogramasUI', N'Asignación de salidas', N'Departure assignment', N'Designação de partidas'),
+('GestionCronogramasUI.groupBoxGestionCronogramasSeccionCronogramas', 'GestionCronogramasUI', N'Cronogramas', N'Schedules', N'Cronogramas'),
+('GestionCronogramasUI.groupBoxGestionCronogramasSeccionDetalle', 'GestionCronogramasUI', N'Detalle del cronograma seleccionado', N'Selected schedule details', N'Detalhes do cronograma selecionado'),
+('GestionCronogramasUI.labelGestioCronogramaDetalleDescanso', 'GestionCronogramasUI', N'Min. Descanso', N'Rest (min.)', N'Descanso (min.)'),
+('GestionCronogramasUI.labelGestioCronogramaDetalleFecha', 'GestionCronogramasUI', N'Fecha de validez', N'Valid date', N'Data de validade'),
+('GestionCronogramasUI.labelGestioCronogramaDetalleFrecuencia', 'GestionCronogramasUI', N'Min. Frecuencia', N'Frequency (min.)', N'Frequência (min.)'),
+('GestionCronogramasUI.labelGestioCronogramaDetalleHoraFin', 'GestionCronogramasUI', N'Hora de fin', N'End time', N'Hora de término'),
+('GestionCronogramasUI.labelGestioCronogramaDetalleHoraInicio', 'GestionCronogramasUI', N'Hora de inicio', N'Start time', N'Hora de início'),
+('GestionCronogramasUI.labelGestioCronogramaDetalleRuta', 'GestionCronogramasUI', N'Ruta', N'Route', N'Rota'),
+('GestionCronogramasUI.labelGestionCronogramaDetalleDescripcion', 'GestionCronogramasUI', N'Descripción', N'Description', N'Descrição'),
+('GestionCronogramasUI.labelGestionCronogramaDetalleId', 'GestionCronogramasUI', N'Id del cronograma', N'Schedule ID', N'ID do cronograma'),
+('GestionCronogramasUI.labelGestionCronogramasChofer', 'GestionCronogramasUI', N'Chofer', N'Driver', N'Motorista'),
+('GestionCronogramasUI.labelGestionCronogramasInterno', 'GestionCronogramasUI', N'Interno', N'Bus', N'Ônibus'),
+('GestionHistorialUsuarioUI', 'GestionHistorialUsuarioUI', N'Historial de usuarios', N'User history', N'Histórico de usuários'),
+('GestionHistorialUsuarioUI.dataGridViewHistorial.Fecha', 'GestionHistorialUsuarioUI', N'Fecha', N'Date', N'Data'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.DVH', 'GestionHistorialUsuarioUI', N'Dvh', N'DVH', N'DVH'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.Email', 'GestionHistorialUsuarioUI', N'Email', N'Email', N'E-mail'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.EstaBloqueado', 'GestionHistorialUsuarioUI', N'Esta bloqueado', N'Locked', N'Bloqueado'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.Id', 'GestionHistorialUsuarioUI', N'Id', N'ID', N'ID'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.Idioma', 'GestionHistorialUsuarioUI', N'Idioma', N'Language', N'Idioma'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.IntentosFallidos', 'GestionHistorialUsuarioUI', N'Intentos fallidos', N'Failed attempts', N'Tentativas falhas'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.NumTelefono', 'GestionHistorialUsuarioUI', N'Num telefono', N'Phone number', N'Telefone'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.PasswordHash', 'GestionHistorialUsuarioUI', N'Password hash', N'Password hash', N'Hash da senha'),
+('GestionHistorialUsuarioUI.dataGridViewUsuarios.Username', 'GestionHistorialUsuarioUI', N'Username', N'Username', N'Usuário'),
+('GestionHistorialUsuarioUI.gestionHistorialUIButtonRecuperarEstado', 'GestionHistorialUsuarioUI', N'Recuperar estado', N'Restore state', N'Recuperar estado'),
+('GestionHistorialUsuarioUI.gestionHistorialUILabelGridEstadoUsuarios', 'GestionHistorialUsuarioUI', N'Historial del usuario seleccionado', N'Selected user history', N'Histórico do usuário selecionado'),
+('GestionHistorialUsuarioUI.gestionHistorialUILabelGridUsuarios', 'GestionHistorialUsuarioUI', N'Usuarios disponibles', N'Available users', N'Usuários disponíveis'),
+('GestionHistorialUsuarioUI.groupBoxAcciones', 'GestionHistorialUsuarioUI', N'Acciones', N'Actions', N'Ações'),
+('GestionHistorialUsuarioUI.groupBoxHistorial', 'GestionHistorialUsuarioUI', N'Historial', N'History', N'Histórico'),
+('GestionHistorialUsuarioUI.groupBoxUsuarios', 'GestionHistorialUsuarioUI', N'Usuarios disponibles', N'Available users', N'Usuários disponíveis'),
+('GestionIdiomasUI', 'GestionIdiomasUI', N'Gestión de idiomas', N'Language management', N'Gestão de idiomas'),
+('GestionIdiomasUI.btnDescartarCambios', 'GestionIdiomasUI', N'Descartar cambios', N'Discard changes', N'Descartar alterações'),
+('GestionIdiomasUI.btnGuardarIdioma', 'GestionIdiomasUI', N'Guardar idioma', N'Save language', N'Salvar idioma'),
+('GestionIdiomasUI.btnGuardarTraducciones', 'GestionIdiomasUI', N'Guardar traducciones', N'Save translations', N'Salvar traduções'),
+('GestionIdiomasUI.btnNuevoIdioma', 'GestionIdiomasUI', N'Nuevo idioma', N'New language', N'Novo idioma'),
+('GestionIdiomasUI.checkBoxSoloFaltantes', 'GestionIdiomasUI', N'Solo sin traducir', N'Untranslated only', N'Somente sem tradução'),
+('GestionIdiomasUI.dataGridViewIdiomas.colIdiomaAvance', 'GestionIdiomasUI', N'Avance', N'Progress', N'Progresso'),
+('GestionIdiomasUI.dataGridViewIdiomas.colIdiomaCodigo', 'GestionIdiomasUI', N'Código', N'Code', N'Código'),
+('GestionIdiomasUI.dataGridViewIdiomas.colIdiomaNombre', 'GestionIdiomasUI', N'Nombre', N'Name', N'Nome'),
+('GestionIdiomasUI.dataGridViewTraducciones.colClave', 'GestionIdiomasUI', N'Etiqueta', N'Label', N'Rótulo'),
+('GestionIdiomasUI.dataGridViewTraducciones.colReferencia', 'GestionIdiomasUI', N'Texto en idioma por defecto', N'Text in default language', N'Texto no idioma padrão'),
+('GestionIdiomasUI.dataGridViewTraducciones.colTraduccion', 'GestionIdiomasUI', N'Traducción', N'Translation', N'Tradução'),
+('GestionIdiomasUI.groupBoxIdioma', 'GestionIdiomasUI', N'Datos del idioma', N'Language data', N'Dados do idioma'),
+('GestionIdiomasUI.groupBoxIdiomas', 'GestionIdiomasUI', N'Idiomas', N'Languages', N'Idiomas'),
+('GestionIdiomasUI.groupBoxTraducciones', 'GestionIdiomasUI', N'Traducciones', N'Translations', N'Traduções'),
+('GestionIdiomasUI.labelBuscar', 'GestionIdiomasUI', N'Buscar', N'Search', N'Pesquisar'),
+('GestionIdiomasUI.labelCodigo', 'GestionIdiomasUI', N'Código (Ej: FR)', N'Code (e.g. FR)', N'Código (ex.: FR)'),
+('GestionIdiomasUI.labelFormulario', 'GestionIdiomasUI', N'Formulario', N'Form', N'Formulário'),
+('GestionIdiomasUI.labelNombre', 'GestionIdiomasUI', N'Nombre', N'Name', N'Nome'),
+('GestionIdiomasUI_CambiosPendientes', NULL, N'({0} cambios sin guardar)', N'({0} unsaved changes)', N'({0} alterações não salvas)'),
+('GestionIdiomasUI_FiltroMensajes', NULL, N'(Mensajes)', N'(Messages)', N'(Mensagens)'),
+('GestionIdiomasUI_FiltroTodos', NULL, N'(Todos)', N'(All)', N'(Todos)'),
+('GestionIdiomasUI_Progreso', NULL, N'Traducidas: {0} de {1}', N'Translated: {0} of {1}', N'Traduzidos: {0} de {1}'),
+('GestionInternoAgregarModificarUI', 'GestionInternoAgregarModificarUI', N'Gestion interno', N'Bus management', N'Gestão de ônibus'),
+('GestionInternoAgregarModificarUI.buttonInternoAltaModificarConfirmar', 'GestionInternoAgregarModificarUI', N'Confirmar', N'Confirm', N'Confirmar'),
+('GestionInternoAgregarModificarUI.checkBoxInternoAltaModificarDisponible', 'GestionInternoAgregarModificarUI', N'¿Está disponible?', N'Is available?', N'Está disponível?'),
+('GestionInternoAgregarModificarUI.labelInternoAltaModificarFechaIncorporacion', 'GestionInternoAgregarModificarUI', N'Fecha de incorporacion', N'Date added to fleet', N'Data de incorporação'),
+('GestionInternoAgregarModificarUI.labelInternoAltaModificarModelo', 'GestionInternoAgregarModificarUI', N'Modelo', N'Model', N'Modelo'),
+('GestionInternoAgregarModificarUI.labelInternoAltaModificarNum', 'GestionInternoAgregarModificarUI', N'Numero de interno', N'Bus number', N'Número do ônibus'),
+('GestionInternoAgregarModificarUI.labelInternoAltaModificarPatente', 'GestionInternoAgregarModificarUI', N'Patente', N'License plate', N'Placa'),
+('GestionInternoUI', 'GestionInternoUI', N'Gestion internos', N'Bus management', N'Gestão de ônibus'),
+('GestionInternoUI.buttonInternoAgregar', 'GestionInternoUI', N'Agregar interno', N'Add bus', N'Adicionar ônibus'),
+('GestionInternoUI.buttonInternoEliminar', 'GestionInternoUI', N'Eliminar interno', N'Delete bus', N'Excluir ônibus'),
+('GestionInternoUI.buttonInternoModificar', 'GestionInternoUI', N'Modificar interno', N'Modify bus', N'Modificar ônibus'),
+('GestionInternoUI.dataGridViewInternos.disponible', 'GestionInternoUI', N'Disponible', N'Available', N'Disponível'),
+('GestionInternoUI.dataGridViewInternos.fechaIncorporacion', 'GestionInternoUI', N'Fecha incorporacion', N'Date added to fleet', N'Data de incorporação'),
+('GestionInternoUI.dataGridViewInternos.modelo', 'GestionInternoUI', N'Modelo', N'Model', N'Modelo'),
+('GestionInternoUI.dataGridViewInternos.num_interno', 'GestionInternoUI', N'Num interno', N'Bus number', N'Número do ônibus'),
+('GestionInternoUI.dataGridViewInternos.patente', 'GestionInternoUI', N'Patente', N'License plate', N'Placa'),
+('GestionInternoUI.groupBoxGestionInterno', 'GestionInternoUI', N'Gestion de internos', N'Bus management', N'Gestão de ônibus'),
+('GestionParadasModificacionUI', 'GestionParadasModificacionUI', N'Modificar parada', N'Modify stop', N'Modificar parada'),
+('GestionParadasModificacionUI.buttonParadaModificarConfirmar', 'GestionParadasModificacionUI', N'Confirmar', N'Confirm', N'Confirmar'),
+('GestionParadasModificacionUI.label1', 'GestionParadasModificacionUI', N'Direccion', N'Address', N'Endereço'),
+('GestionParadasModificacionUI.label2', 'GestionParadasModificacionUI', N'Localidad', N'City', N'Localidade'),
+('GestionParadasModificacionUI.labelParadaModificarDescripcion', 'GestionParadasModificacionUI', N'Descripcion', N'Description', N'Descrição'),
+('GestionParadasModificacionUI.labelParadaModificarTitle', 'GestionParadasModificacionUI', N'Ingrese los nuevos valores', N'Enter the new values', N'Insira os novos valores'),
+('GestionParadasUI', 'GestionParadasUI', N'Gestión de paradas', N'Stop management', N'Gestão de paradas'),
+('GestionParadasUI.buttonParadaAltaConfirmar', 'GestionParadasUI', N'Confirmar alta', N'Confirm creation', N'Confirmar cadastro'),
+('GestionParadasUI.buttonParadaBajaConfirmar', 'GestionParadasUI', N'Eliminar parada seleccionada', N'Delete selected stop', N'Excluir parada selecionada'),
+('GestionParadasUI.buttonParadaModificarCallModal', 'GestionParadasUI', N'Modificar parada seleccionada', N'Modify selected stop', N'Modificar parada selecionada'),
+('GestionParadasUI.buttonParadaToggleHabilitacion', 'GestionParadasUI', N'Habilitar/Deshabilitar parada seleccionada', N'Enable/Disable selected stop', N'Habilitar/Desabilitar parada selecionada'),
+('GestionParadasUI.checkBoxParadaAltaHabilitada', 'GestionParadasUI', N'¿Está habilitada?', N'Is enabled?', N'Está habilitada?'),
+('GestionParadasUI.dataGridViewParadas.descripcion', 'GestionParadasUI', N'Descripcion', N'Description', N'Descrição'),
+('GestionParadasUI.dataGridViewParadas.direccion', 'GestionParadasUI', N'Direccion', N'Address', N'Endereço'),
+('GestionParadasUI.dataGridViewParadas.habilitada', 'GestionParadasUI', N'Habilitada', N'Enabled', N'Habilitada'),
+('GestionParadasUI.dataGridViewParadas.id', 'GestionParadasUI', N'Id', N'ID', N'ID'),
+('GestionParadasUI.dataGridViewParadas.localidad', 'GestionParadasUI', N'Localidad', N'City', N'Localidade'),
+('GestionParadasUI.groupBoxAltaParada', 'GestionParadasUI', N'Nueva parada', N'New stop', N'Nova parada'),
+('GestionParadasUI.groupBoxListadoParadas', 'GestionParadasUI', N'Listado de paradas', N'Stop list', N'Lista de paradas'),
+('GestionParadasUI.labelParadaAltaDescripcion', 'GestionParadasUI', N'Descripción', N'Description', N'Descrição'),
+('GestionParadasUI.labelParadaAltaDireccion', 'GestionParadasUI', N'Dirección', N'Address', N'Endereço'),
+('GestionParadasUI.labelParadaAltaId', 'GestionParadasUI', N'ID', N'ID', N'ID'),
+('GestionParadasUI.labelParadaAltaLocalidad', 'GestionParadasUI', N'Localidad', N'City', N'Localidade'),
+('GestionPerfilesUI.dataGridViewUsuarios.DVH', 'GestionPerfilesUI', N'Dvh', N'DVH', N'DVH'),
+('GestionPerfilesUI.dataGridViewUsuarios.Email', 'GestionPerfilesUI', N'Email', N'Email', N'E-mail'),
+('GestionPerfilesUI.dataGridViewUsuarios.EstaBloqueado', 'GestionPerfilesUI', N'Esta bloqueado', N'Locked', N'Bloqueado'),
+('GestionPerfilesUI.dataGridViewUsuarios.Id', 'GestionPerfilesUI', N'Id', N'ID', N'ID'),
+('GestionPerfilesUI.dataGridViewUsuarios.Idioma', 'GestionPerfilesUI', N'Idioma', N'Language', N'Idioma'),
+('GestionPerfilesUI.dataGridViewUsuarios.IntentosFallidos', 'GestionPerfilesUI', N'Intentos fallidos', N'Failed attempts', N'Tentativas falhas'),
+('GestionPerfilesUI.dataGridViewUsuarios.NumTelefono', 'GestionPerfilesUI', N'Num telefono', N'Phone number', N'Telefone'),
+('GestionPerfilesUI.dataGridViewUsuarios.PasswordHash', 'GestionPerfilesUI', N'Password hash', N'Password hash', N'Hash da senha'),
+('GestionPerfilesUI.dataGridViewUsuarios.Username', 'GestionPerfilesUI', N'Username', N'Username', N'Usuário'),
+('GestionPerfilesUI.perfilesUIButtonCrearPerfil', 'GestionPerfilesUI', N'Crear perfil', N'Create profile', N'Criar perfil'),
+('GestionPerfilesUI.perfilesUIGroupBoxListBoxPerfiles', 'GestionPerfilesUI', N'Perfiles disponibles', N'Available profiles', N'Perfis disponíveis'),
+('GestionPerfilesUI.perfilesUIGroupBoxListBoxPermisos', 'GestionPerfilesUI', N'Permisos disponibles', N'Available permissions', N'Permissões disponíveis'),
+('GestionPerfilesUI.perfilesUIGroupBoxTreeView', 'GestionPerfilesUI', N'Arbol de perfiles', N'Profile tree', N'Árvore de perfis'),
+('GestionPerfilesUI.perfilesUIGroupBoxUsuarios', 'GestionPerfilesUI', N'Usuarios disponibles', N'Available users', N'Usuários disponíveis'),
+('GestionPerfilesUI.perfilesUILabelNombrePerfil', 'GestionPerfilesUI', N'Nombre del nuevo perfil', N'New profile name', N'Nome do novo perfil'),
+('GestionPerfilesUI.perfilUIButtonAsignarPerfil', 'GestionPerfilesUI', N'Asignar perfil a perfil', N'Assign profile to profile', N'Atribuir perfil a perfil'),
+('GestionPerfilesUI.perfilUIButtonAsignarPerfilUsuario', 'GestionPerfilesUI', N'Asignar perfil a usuario', N'Assign profile to user', N'Atribuir perfil a usuário'),
+('GestionPerfilesUI.perfilUIButtonAsignarPermiso', 'GestionPerfilesUI', N'Asignar permiso a perfil', N'Assign permission to profile', N'Atribuir permissão a perfil'),
+('GestionPerfilesUI.perfilUIButtonDesasignarPerfilUsuario', 'GestionPerfilesUI', N'Desasignar perfil a usuario', N'Unassign profile from user', N'Remover perfil do usuário'),
+('GestionRevisionesTallerAgregarUI', 'GestionRevisionesTallerAgregarUI', N'Agregar revisión', N'Add inspection', N'Adicionar revisão'),
+('GestionRevisionesTallerAgregarUI.buttonGestionRevisionAgregarConfirmar', 'GestionRevisionesTallerAgregarUI', N'Confirmar', N'Confirm', N'Confirmar'),
+('GestionRevisionesTallerAgregarUI.checkBoxGestionRevisionAgregarRequiereReparacion', 'GestionRevisionesTallerAgregarUI', N'Requiere reparación', N'Requires repair', N'Requer reparo'),
+('GestionRevisionesTallerAgregarUI.labelGestionRevisionAgregarDescripcion', 'GestionRevisionesTallerAgregarUI', N'Descripción', N'Description', N'Descrição'),
+('GestionRevisionesTallerAgregarUI.labelGestionRevisionAgregarFecha', 'GestionRevisionesTallerAgregarUI', N'Fecha', N'Date', N'Data'),
+('GestionRevisionesTallerAgregarUI.labelGestionRevisionAgregarInterno', 'GestionRevisionesTallerAgregarUI', N'Interno', N'Bus', N'Ônibus'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Alta de ordenes de reparación', N'New repair orders', N'Cadastro de ordens de reparo'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.buttonGestionRevisionesAltaOrdenAgregarInsumo', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Agregar insumo', N'Add supply', N'Adicionar insumo'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.buttonGestionRevisionesAltaOrdenAgregarOrden', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Agregar orden de reparación', N'Add repair order', N'Adicionar ordem de reparo'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.buttonGestionRevisionesAltaOrdenesReparacionConfirmar', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Confirmar', N'Confirm', N'Confirmar'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.dataGridViewGestionRevisionesOrdenesInsumos.cantidad', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Cantidad', N'Quantity', N'Quantidade'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.dataGridViewGestionRevisionesOrdenesInsumos.insumo', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Insumo', N'Supply', N'Insumo'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.groupBoxGestionRevisionesAltaOrden', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Ordenes de reparación', N'Repair orders', N'Ordens de reparo'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.groupBoxGestionRevisionesOrdenesInsumos', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Insumos', N'Supplies', N'Insumos'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.groupBoxGestionRevisionesOrdenReparacion', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Detalles de orden de reparación', N'Repair order details', N'Detalhes da ordem de reparo'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.labelGestionRevisionesAltaOrdenCantidadInsumo', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Cantidad', N'Quantity', N'Quantidade'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.labelGestionRevisionesAltaOrdenMotivoReparacion', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Motivo de reparacion', N'Repair reason', N'Motivo do reparo'),
+('GestionRevisionesTallerOrdenReparacionAgregarDetalle.labelGestionRevisionesAltaOrdenNombreInsumo', 'GestionRevisionesTallerOrdenReparacionAgregarDetalle', N'Nombre del insumo', N'Supply name', N'Nome do insumo'),
+('GestionRevisionesTallerUI.buttonGestionRevisionesAgregar', 'GestionRevisionesTallerUI', N'Agregar revisión', N'Add inspection', N'Adicionar revisão'),
+('GestionRevisionesTallerUI.buttonGestionRevisionesAuditarInsumo', 'GestionRevisionesTallerUI', N'Cargar costo insumo', N'Enter supply cost', N'Informar custo do insumo'),
+('GestionRevisionesTallerUI.dataGridViewDetallesOrdenReparacion.cantidad', 'GestionRevisionesTallerUI', N'Cantidad', N'Quantity', N'Quantidade'),
+('GestionRevisionesTallerUI.dataGridViewDetallesOrdenReparacion.costoUnitario', 'GestionRevisionesTallerUI', N'Costo unitario', N'Unit cost', N'Custo unitário'),
+('GestionRevisionesTallerUI.dataGridViewDetallesOrdenReparacion.id', 'GestionRevisionesTallerUI', N'Id', N'ID', N'ID'),
+('GestionRevisionesTallerUI.dataGridViewDetallesOrdenReparacion.insumo', 'GestionRevisionesTallerUI', N'Insumo', N'Supply', N'Insumo'),
+('GestionRevisionesTallerUI.groupBoxGestionRevisionesAgregar', 'GestionRevisionesTallerUI', N'Revisiones', N'Inspections', N'Revisões'),
+('GestionRevisionesTallerUI.groupBoxGestionRevisionesAuditarDetalle', 'GestionRevisionesTallerUI', N'Auditar costos de insumos', N'Audit supply costs', N'Auditar custos de insumos'),
+('GestionRevisionesTallerUI.groupBoxGestionRevisionesDetalle', 'GestionRevisionesTallerUI', N'Detalle de la revisión seleccionada', N'Selected inspection details', N'Detalhes da revisão selecionada'),
+('GestionRevisionesTallerUI.groupBoxGestionRevisionesOrdenReparacion', 'GestionRevisionesTallerUI', N'Detalles de orden de reparación', N'Repair order details', N'Detalhes da ordem de reparo'),
+('GestionRevisionesTallerUI.labelGestionRevisionesCostoInsumo', 'GestionRevisionesTallerUI', N'Costo del insumo seleccionado', N'Selected supply cost', N'Custo do insumo selecionado'),
+('GestionRevisionesTallerUI.labelGestionRevisionesDetalleDescripcion', 'GestionRevisionesTallerUI', N'Descripción', N'Description', N'Descrição'),
+('GestionRevisionesTallerUI.labelGestionRevisionesDetalleFecha', 'GestionRevisionesTallerUI', N'Fecha de la revisión', N'Inspection date', N'Data da revisão'),
+('GestionRevisionesTallerUI.labelGestionRevisionesDetalleId', 'GestionRevisionesTallerUI', N'Id de la revisión', N'Inspection ID', N'ID da revisão'),
+('GestionRevisionesTallerUI.labelGestionRevisionesDetalleInterno', 'GestionRevisionesTallerUI', N'Interno', N'Bus', N'Ônibus'),
+('GestionRevisionesTallerUI.labelGestionRevisionesDetalleReparacionRequerida', 'GestionRevisionesTallerUI', N'Reparación requerida', N'Repair required', N'Reparo necessário'),
+('GestionRevisionesTallerUI.labelGestionRevisionesInsumos', 'GestionRevisionesTallerUI', N'Insumos asociados', N'Associated supplies', N'Insumos associados'),
+('GestionRevisionesTallerUI.labelGestionRevisionesOrdenesReparacion', 'GestionRevisionesTallerUI', N'Ordenes de reparación', N'Repair orders', N'Ordens de reparo'),
+('GestionRutaAgregarModificarUI.buttonRutaAltaModificarConfirmar', 'GestionRutaAgregarModificarUI', N'Confirmar', N'Confirm', N'Confirmar'),
+('GestionRutaAgregarModificarUI.labelRutaAltaModificarDescripcion', 'GestionRutaAgregarModificarUI', N'Descripción', N'Description', N'Descrição'),
+('GestionRutaAgregarModificarUI.labelRutaAltaModificarDistancia', 'GestionRutaAgregarModificarUI', N'Largo estimado del recorrido (KM)', N'Estimated route length (KM)', N'Extensão estimada do percurso (KM)'),
+('GestionRutaAgregarModificarUI.labelRutaAltaModificarId', 'GestionRutaAgregarModificarUI', N'ID', N'ID', N'ID'),
+('GestionRutaAgregarModificarUI.labelRutaAltaModificarSentido', 'GestionRutaAgregarModificarUI', N'Sentido', N'Direction', N'Sentido'),
+('GestionRutaAgregarModificarUI.labelRutaAltaModificarTiempoEstimado', 'GestionRutaAgregarModificarUI', N'Tiempo estimado del recorrido (minutos)', N'Estimated route time (minutes)', N'Tempo estimado do percurso (minutos)'),
+('GestionRutaAgregarModificarUI.radioButtonRutaAltaModificarSentidoIda', 'GestionRutaAgregarModificarUI', N'Ida', N'Outbound', N'Ida'),
+('GestionRutaAgregarModificarUI.radioButtonRutaAltaModificarSentidoVuelta', 'GestionRutaAgregarModificarUI', N'Vuelta', N'Return', N'Volta'),
+('GestionRutaUI.buttonRutaAlta', 'GestionRutaUI', N'Agregar Ruta', N'Add route', N'Adicionar rota'),
+('GestionRutaUI.buttonRutaAsignarParada', 'GestionRutaUI', N'Asignar parada a ruta seleccionada', N'Assign stop to selected route', N'Atribuir parada à rota selecionada'),
+('GestionRutaUI.buttonRutaBajarParada', 'GestionRutaUI', N'Bajar parada en ruta', N'Move stop down in route', N'Descer parada na rota'),
+('GestionRutaUI.buttonRutaEliminar', 'GestionRutaUI', N'Eliminar Ruta', N'Delete route', N'Excluir rota'),
+('GestionRutaUI.buttonRutaModificar', 'GestionRutaUI', N'Modificar Ruta', N'Modify route', N'Modificar rota'),
+('GestionRutaUI.buttonRutaSubirParada', 'GestionRutaUI', N'Subir parada en ruta', N'Move stop up in route', N'Subir parada na rota'),
+('GestionRutaUI.dataGridViewRutaDisponibles.descripcion', 'GestionRutaUI', N'Descripcion', N'Description', N'Descrição'),
+('GestionRutaUI.dataGridViewRutaDisponibles.distanciaTotalKM', 'GestionRutaUI', N'Distancia total km', N'Total distance (km)', N'Distância total (km)'),
+('GestionRutaUI.dataGridViewRutaDisponibles.id', 'GestionRutaUI', N'Id', N'ID', N'ID'),
+('GestionRutaUI.dataGridViewRutaDisponibles.sentido', 'GestionRutaUI', N'Sentido', N'Direction', N'Sentido'),
+('GestionRutaUI.dataGridViewRutaDisponibles.tiempoEstimadoMin', 'GestionRutaUI', N'Tiempo estimado min', N'Estimated time (min)', N'Tempo estimado (min)'),
+('GestionRutaUI.groupBoxRutaDisponibles', 'GestionRutaUI', N'Rutas', N'Routes', N'Rotas'),
+('GestionRutaUI.groupBoxRutaParadasDisponibles', 'GestionRutaUI', N'Paradas disponibles', N'Available stops', N'Paradas disponíveis'),
+('GestionRutaUI.groupBoxRutaParadasRuta', 'GestionRutaUI', N'Paradas disponibles', N'Available stops', N'Paradas disponíveis'),
+('GestionUsuariosUI', 'GestionUsuariosUI', N'Gestión de usuarios', N'User management', N'Gestão de usuários'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.DVH', 'GestionUsuariosUI', N'Dvh', N'DVH', N'DVH'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.Email', 'GestionUsuariosUI', N'Email', N'Email', N'E-mail'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.EstaBloqueado', 'GestionUsuariosUI', N'Esta bloqueado', N'Locked', N'Bloqueado'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.Id', 'GestionUsuariosUI', N'Id', N'ID', N'ID'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.Idioma', 'GestionUsuariosUI', N'Idioma', N'Language', N'Idioma'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.IntentosFallidos', 'GestionUsuariosUI', N'Intentos fallidos', N'Failed attempts', N'Tentativas falhas'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.NumTelefono', 'GestionUsuariosUI', N'Num telefono', N'Phone number', N'Telefone'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.PasswordHash', 'GestionUsuariosUI', N'Password hash', N'Password hash', N'Hash da senha'),
+('GestionUsuariosUI.dataGridViewListadoUsuarios.Username', 'GestionUsuariosUI', N'Username', N'Username', N'Usuário'),
+('GestionUsuariosUI.gestionUsuariosUIButtonConfirmarEliminarUsuario', 'GestionUsuariosUI', N'Eliminar usuario seleccionado', N'Delete selected user', N'Excluir usuário selecionado'),
+('GestionUsuariosUI.gestionUsuariosUIButtonConfirmarRegistrarUsuario', 'GestionUsuariosUI', N'Confirmar registro', N'Confirm registration', N'Confirmar cadastro'),
+('GestionUsuariosUI.gestionUsuariosUIGroupBoxAltaUsuario', 'GestionUsuariosUI', N'Registrar usuario', N'Register user', N'Cadastrar usuário'),
+('GestionUsuariosUI.gestionUsuariosUIGroupBoxListadoUsuarios', 'GestionUsuariosUI', N'Listado de usuarios', N'User list', N'Lista de usuários'),
+('GestionUsuariosUI.gestionUsuariosUIGroupBoxModificacionUsuarios', 'GestionUsuariosUI', N'Modificar usuario seleccionado', N'Modify selected user', N'Modificar usuário selecionado'),
+('GestionUsuariosUI.gestionUsuariosUIModificacionButtonConfirmarModificarUsuario', 'GestionUsuariosUI', N'Confirmar modificación', N'Confirm changes', N'Confirmar alteração'),
+('GestionUsuariosUI.gestionUsuariosUIModificacionLabelEmail', 'GestionUsuariosUI', N'Email', N'Email', N'E-mail'),
+('GestionUsuariosUI.gestionUsuariosUIModificacionLabelNumTelefono', 'GestionUsuariosUI', N'Número de telefono', N'Phone number', N'Número de telefone'),
+('GestionUsuariosUI.gestionUsuariosUIRegistroLabelConfirmContrasena', 'GestionUsuariosUI', N'Repetir Contraseña', N'Repeat password', N'Repetir senha'),
+('GestionUsuariosUI.gestionUsuariosUIRegistroLabelContrasena', 'GestionUsuariosUI', N'Contraseña', N'Password', N'Senha'),
+('GestionUsuariosUI.gestionUsuariosUIRegistroLabelEmail', 'GestionUsuariosUI', N'Email', N'Email', N'E-mail'),
+('GestionUsuariosUI.gestionUsuariosUIRegistroLabelNumTelefono', 'GestionUsuariosUI', N'Número de telefono', N'Phone number', N'Número de telefone'),
+('GestionUsuariosUI.gestionUsuariosUIRegistroLabelUsername', 'GestionUsuariosUI', N'Username', N'Username', N'Usuário'),
+('log_CierreSesion', NULL, N'Cierre de Sesion', N'Logout', N'Encerramento de sessão'),
+('log_InicioSesion', NULL, N'Inicio De Sesion', N'Login', N'Início de sessão'),
+('LoginUI.loginGroupBox', 'LoginUI', N'Inicio de sesión', N'Log in', N'Login'),
+('LoginUI.loginUIButtonIniciarSesion', 'LoginUI', N'Iniciar sesión', N'Log in', N'Entrar'),
+('LoginUI.loginUILabelContrasena', 'LoginUI', N'Contraseña', N'Password', N'Senha'),
+('LoginUI.loginUILabelUsername', 'LoginUI', N'Username', N'Username', N'Usuário'),
+('MainUI', 'MainUI', N'Sistema de gestión', N'Management system', N'Sistema de gestão'),
+('MainUI.agregarIdiomaToolStripMenuItem', 'MainUI', N'Gestión de idiomas', N'Language management', N'Gestão de idiomas'),
+('MainUI.auditoriaSalidasToolStripMenuItem', 'MainUI', N'Auditoría de salidas', N'Departure audit', N'Auditoria de partidas'),
+('MainUI.choferesInternosToolStripMenuItem', 'MainUI', N'Choferes/Internos', N'Drivers/Buses', N'Motoristas/Ônibus'),
+('MainUI.gestionCargasCombustibleToolStripMenuItem', 'MainUI', N'Gestion de cargas de combustible', N'Refuel management', N'Gestão de abastecimentos'),
+('MainUI.gestionDeChoferesToolStripMenuItem', 'MainUI', N'Gestión de choferes', N'Driver management', N'Gestão de motoristas'),
+('MainUI.gestionDeCronogramasToolStripMenuItem', 'MainUI', N'Gestión de cronogramas', N'Schedule management', N'Gestão de cronogramas'),
+('MainUI.gestionDeInternosToolStripMenuItem', 'MainUI', N'Gestión de internos', N'Bus management', N'Gestão de ônibus'),
+('MainUI.gestionDeRutasToolStripMenuItem', 'MainUI', N'Gestión de rutas', N'Route management', N'Gestão de rotas'),
+('MainUI.gestionParadaToolStripMenuItem', 'MainUI', N'Gestión de paradas', N'Stop management', N'Gestão de paradas'),
+('MainUI.gestionRevisionesToolStripMenuItem', 'MainUI', N'Gestion de revisiones', N'Inspection management', N'Gestão de revisões'),
+('MainUI.label1', 'MainUI', N'Idioma', N'Language', N'Idioma'),
+('MainUI.mainUIStripMenuItemABMPerfiles', 'MainUI', N'Alta y asignación de perfiles', N'Profile creation and assignment', N'Cadastro e atribuição de perfis'),
+('MainUI.mainUIStripMenuItemABMUsuarios', 'MainUI', N'ABM Usuarios', N'Manage users', N'Cadastro de usuários'),
+('MainUI.mainUIStripMenuItemBitacora', 'MainUI', N'Bitácora', N'Audit log', N'Log de auditoria'),
+('MainUI.mainUIStripMenuItemCerrarSesion', 'MainUI', N'Cerrar sesión', N'Log out', N'Sair'),
+('MainUI.mainUIStripMenuItemConsultarBitacora', 'MainUI', N'Consultar bitácora', N'View audit log', N'Consultar log de auditoria'),
+('MainUI.mainUIStripMenuItemDesbloqueoUsuarios', 'MainUI', N'Desbloqueo de usuarios', N'Unlock users', N'Desbloqueio de usuários'),
+('MainUI.mainUIStripMenuItemGestionDePerfiles', 'MainUI', N'Gestión de perfiles', N'Profile management', N'Gestão de perfis'),
+('MainUI.mainUIStripMenuItemGestionDeUsuarios', 'MainUI', N'Gestión de usuarios', N'User management', N'Gestão de usuários'),
+('MainUI.mainUIStripMenuItemHistorialUsuario', 'MainUI', N'Historial usuario', N'User history', N'Histórico de usuários'),
+('MainUI.mainUIStripMenuItemIniciarSesion', 'MainUI', N'Iniciar sesión', N'Log in', N'Entrar'),
+('MainUI.mainUIStripMenuItemInicio', 'MainUI', N'Inicio', N'Home', N'Início'),
+('MainUI.planificacionServicioToolStripMenuItem', 'MainUI', N'Planificación de servicio', N'Service planning', N'Planejamento do serviço'),
+('MainUI.sancionesChoferToolStripMenuItem', 'MainUI', N'Sanciones por chofer', N'Driver penalties', N'Penalidades por motorista'),
+('MainUI.tallerToolStripMenuItem', 'MainUI', N'Taller', N'Workshop', N'Oficina'),
+('msg_AgregueAlMenosUnaOrdenDeReparacion', NULL, N'Agregue al menos una orden de reparación.', N'Add at least one repair order.', N'Adicione pelo menos uma ordem de reparo.'),
+('msg_AnularCargaDeCombustible', NULL, N'Anular carga de combustible', N'Void refuel', N'Anular abastecimento'),
+('msg_Atencion', NULL, N'Atención', N'Attention', N'Atenção'),
+('msg_CamposIncompletos', NULL, N'Campos incompletos', N'Incomplete fields', N'Campos incompletos'),
+('msg_CierreSesionExito', NULL, N'Sesión cerrada correctamente.', N'Logged out successfully.', N'Sessão encerrada com sucesso.'),
+('msg_ConfirmarAnulacion', NULL, N'Confirmar anulación', N'Confirm void', N'Confirmar anulação'),
+('msg_ConfirmarEliminacion', NULL, N'Confirmar eliminación', N'Confirm deletion', N'Confirmar exclusão'),
+('msg_ConfirmarEliminarChofer', NULL, N'¿Está seguro de que quiere eliminar al chofer {0} (DNI {1})?', N'Are you sure you want to delete driver {0} (ID number {1})?', N'Tem certeza de que deseja excluir o motorista {0} (documento {1})?'),
+('msg_ConfirmarEliminarCronograma', NULL, N'¿Está seguro de que quiere eliminar el cronograma {0} ({1})?', N'Are you sure you want to delete schedule {0} ({1})?', N'Tem certeza de que deseja excluir o cronograma {0} ({1})?'),
+('msg_ConfirmarEliminarInterno', NULL, N'¿Está seguro de que quiere eliminar el interno {0} (patente {1})?', N'Are you sure you want to delete bus {0} (license plate {1})?', N'Tem certeza de que deseja excluir o ônibus {0} (placa {1})?'),
+('msg_ConfirmarSuspension', NULL, N'Confirmar suspensión', N'Confirm suspension', N'Confirmar suspensão'),
+('msg_ConflictoAsignacionUnaSalida', NULL, N'{0} ya está asignado a la siguiente salida, que se solapa con la seleccionada:', N'{0} is already assigned to the following departure, which overlaps with the selected one:', N'{0} já está designado para a seguinte partida, que se sobrepõe à selecionada:'),
+('msg_ConflictoAsignacionVariasSalidas', NULL, N'{0} ya está asignado a las siguientes salidas, que se solapan con la seleccionada:', N'{0} is already assigned to the following departures, which overlap with the selected one:', N'{0} já está designado para as seguintes partidas, que se sobrepõem à selecionada:'),
+('msg_ConflictoDeAsignacion', NULL, N'Conflicto de asignación', N'Assignment conflict', N'Conflito de designação'),
+('msg_DatosInvalidos', NULL, N'Datos inválidos', N'Invalid data', N'Dados inválidos'),
+('msg_DebeAgregarAlMenosUnaOrdenDeReparacionSiLaRevisionRequiereRe', NULL, N'Debe agregar al menos una orden de reparación si la revisión requiere reparación.', N'You must add at least one repair order if the inspection requires repair.', N'É necessário adicionar pelo menos uma ordem de reparo se a revisão exigir reparo.'),
+('msg_DebeIngresarUnMotivoDeAnulacion', NULL, N'Debe ingresar un motivo de anulación.', N'You must enter a void reason.', N'É necessário informar um motivo de anulação.'),
+('msg_DebeIngresarUnMotivoDeSancion', NULL, N'Debe ingresar un motivo de sanción.', N'You must enter a penalty reason.', N'É necessário informar um motivo de penalidade.'),
+('msg_DebeSeleccionarUnaRutaParaElCronograma', NULL, N'Debe seleccionar una ruta para el cronograma.', N'You must select a route for the schedule.', N'É necessário selecionar uma rota para o cronograma.'),
+('msg_DebeSeleccionarUnaSalida', NULL, N'Debe seleccionar una salida.', N'You must select a departure.', N'É necessário selecionar uma partida.'),
+('msg_DebeSeleccionarUnPerfil', NULL, N'Debe seleccionar un perfil.', N'You must select a profile.', N'É necessário selecionar um perfil.'),
+('msg_DebeSeleccionarUnPerfilHijoEnLaLista', NULL, N'Debe seleccionar un perfil hijo en la lista.', N'You must select a child profile in the list.', N'É necessário selecionar um perfil filho na lista.'),
+('msg_DebeSeleccionarUnPerfilPadreEnElArbol', NULL, N'Debe seleccionar un perfil padre en el árbol.', N'You must select a parent profile in the tree.', N'É necessário selecionar um perfil pai na árvore.'),
+('msg_DebeSeleccionarUnPerfilParaAsignarElPermiso', NULL, N'Debe seleccionar un perfil para asignar el permiso.', N'You must select a profile to assign the permission to.', N'É necessário selecionar um perfil para atribuir a permissão.'),
+('msg_DebeSeleccionarUnPermisoOPerfilParaDesasignar', NULL, N'Debe seleccionar un permiso o perfil para desasignar.', N'You must select a permission or profile to unassign.', N'É necessário selecionar uma permissão ou perfil para remover.'),
+('msg_DebeSeleccionarUnPermisoParaAsignar', NULL, N'Debe seleccionar un permiso para asignar.', N'You must select a permission to assign.', N'É necessário selecionar uma permissão para atribuir.'),
+('msg_DebeSeleccionarUnUsuario', NULL, N'Debe seleccionar un usuario.', N'You must select a user.', N'É necessário selecionar um usuário.'),
+('msg_DesbloqueoExito', NULL, N'Usuario desbloqueado correctamente.', N'User unlocked successfully.', N'Usuário desbloqueado com sucesso.'),
+('msg_DescartarTraducciones', NULL, N'Hay traducciones sin guardar. ¿Desea descartarlas?', N'There are unsaved translations. Do you want to discard them?', N'Há traduções não salvas. Deseja descartá-las?'),
+('msg_DeseaReasignarloALaSalidaSeleccionada', NULL, N'¿Desea reasignarlo a la salida seleccionada?', N'Do you want to reassign it to the selected departure?', N'Deseja redesigná-lo para a partida selecionada?'),
+('msg_DetalleSalidaConflicto', NULL, N'- Salida de {0} a {1}', N'- Departure from {0} to {1}', N'- Partida das {0} às {1}'),
+('msg_DniDeChoferInvalido', NULL, N'DNI de chofer inválido', N'Invalid driver ID number', N'Documento do motorista inválido'),
+('msg_ElChoferSeleccionadoYaEstaAsignadoALaSalida', NULL, N'El chofer seleccionado ya está asignado a la salida.', N'The selected driver is already assigned to the departure.', N'O motorista selecionado já está designado para a partida.'),
+('msg_ElCronogramaYaTieneSalidasGeneradasNoSePuedenGenerarAutomati', NULL, N'El cronograma ya tiene salidas generadas, no se pueden generar automaticamente salidas nuevas.', N'The schedule already has generated departures; new departures cannot be generated automatically.', N'O cronograma já possui partidas geradas; não é possível gerar novas partidas automaticamente.'),
+('msg_ElEstadoDelUsuarioSeHaRecuperadoExitosamente', NULL, N'El estado del usuario se ha recuperado exitosamente.', N'The user state was restored successfully.', N'O estado do usuário foi recuperado com sucesso.'),
+('msg_ElInternoSeleccionadoYaEstaAsignadoALaSalida', NULL, N'El interno seleccionado ya está asignado a la salida.', N'The selected bus is already assigned to the departure.', N'O ônibus selecionado já está designado para a partida.'),
+('msg_ElModeloDelInternoNoPuedeEstarVacio', NULL, N'El modelo del interno no puede estar vacío', N'The bus model cannot be empty', N'O modelo do ônibus não pode ficar vazio'),
+('msg_ElNombreCompletoDelChoferNoPuedeEstarVacio', NULL, N'El nombre completo del chofer no puede estar vacío', N'The driver''s full name cannot be empty', N'O nome completo do motorista não pode ficar vazio'),
+('msg_Error', NULL, N'Error', N'Error', N'Erro'),
+('msg_ErrorAlActualizarLaGrillaDeCargasDeCombustible', NULL, N'Error al actualizar la grilla de cargas de combustible: ', N'Error updating the refuel grid: ', N'Erro ao atualizar a grade de abastecimentos:'),
+('msg_ErrorAlActualizarLaGrillaDeSanciones', NULL, N'Error al actualizar la grilla de sanciones: ', N'Error updating the penalty grid: ', N'Erro ao atualizar a grade de penalidades:'),
+('msg_ErrorAlAgregarElChofer', NULL, N'Error al agregar el chofer: ', N'Error adding the driver: ', N'Erro ao adicionar o motorista:'),
+('msg_ErrorAlAgregarElCronograma', NULL, N'Error al agregar el cronograma: ', N'Error adding the schedule: ', N'Erro ao adicionar o cronograma:'),
+('msg_ErrorAlAgregarElInterno', NULL, N'Error al agregar el interno: ', N'Error adding the bus: ', N'Erro ao adicionar o ônibus:'),
+('msg_ErrorAlAsignarLaParadaALaRuta', NULL, N'Error al asignar la parada a la ruta: ', N'Error assigning the stop to the route: ', N'Erro ao atribuir a parada à rota:'),
+('msg_ErrorAlCargarLosPerfilesYPermisos', NULL, N'Error al cargar los perfiles y permisos: ', N'Error loading profiles and permissions: ', N'Erro ao carregar os perfis e permissões:'),
+('msg_ErrorAlCrearLaParada', NULL, N'Error al crear la parada: ', N'Error creating the stop: ', N'Erro ao criar a parada:'),
+('msg_ErrorAlCrearLaRuta', NULL, N'Error al crear la ruta: ', N'Error creating the route: ', N'Erro ao criar a rota:'),
+('msg_ErrorAlEliminarElChofer', NULL, N'Error al eliminar el chofer: ', N'Error deleting the driver: ', N'Erro ao excluir o motorista:'),
+('msg_ErrorAlEliminarElCronograma', NULL, N'Error al eliminar el cronograma: ', N'Error deleting the schedule: ', N'Erro ao excluir o cronograma:'),
+('msg_ErrorAlEliminarElInterno', NULL, N'Error al eliminar el interno: ', N'Error deleting the bus: ', N'Erro ao excluir o ônibus:'),
+('msg_ErrorAlEliminarLaParada', NULL, N'Error al eliminar la parada: ', N'Error deleting the stop: ', N'Erro ao excluir a parada:'),
+('msg_ErrorAlEliminarLaRuta', NULL, N'Error al eliminar la ruta: ', N'Error deleting the route: ', N'Erro ao excluir a rota:'),
+('msg_ErrorAlModificarElChofer', NULL, N'Error al modificar el chofer: ', N'Error modifying the driver: ', N'Erro ao modificar o motorista:'),
+('msg_ErrorAlModificarElCronograma', NULL, N'Error al modificar el cronograma: ', N'Error modifying the schedule: ', N'Erro ao modificar o cronograma:'),
+('msg_ErrorAlModificarElInterno', NULL, N'Error al modificar el interno: ', N'Error modifying the bus: ', N'Erro ao modificar o ônibus:'),
+('msg_ErrorAlModificarLaParada', NULL, N'Error al modificar la parada: ', N'Error modifying the stop: ', N'Erro ao modificar a parada:'),
+('msg_ErrorAlMoverLaParadaHaciaAbajo', NULL, N'Error al mover la parada hacia abajo: ', N'Error moving the stop down: ', N'Erro ao mover a parada para baixo:'),
+('msg_ErrorAlMoverLaParadaHaciaArriba', NULL, N'Error al mover la parada hacia arriba: ', N'Error moving the stop up: ', N'Erro ao mover a parada para cima:'),
+('msg_ErrorAlRefrescarLasParadasDeLaRutaSeleccionada', NULL, N'Error al refrescar las paradas de la ruta seleccionada: ', N'Error refreshing the stops of the selected route: ', N'Erro ao atualizar as paradas da rota selecionada:'),
+('msg_ErrorAlRefrescarLasRutas', NULL, N'Error al refrescar las rutas: ', N'Error refreshing the routes: ', N'Erro ao atualizar as rotas:'),
+('msg_ErrorAlRefrescarLosChoferes', NULL, N'Error al refrescar los choferes: ', N'Error refreshing the drivers: ', N'Erro ao atualizar os motoristas:'),
+('msg_ErrorAlRefrescarLosCronogramas', NULL, N'Error al refrescar los cronogramas: ', N'Error refreshing the schedules: ', N'Erro ao atualizar os cronogramas:'),
+('msg_ErrorAlRefrescarLosInternos', NULL, N'Error al refrescar los internos: ', N'Error refreshing the buses: ', N'Erro ao atualizar os ônibus:'),
+('msg_ErrorAlSeleccionarLaRuta', NULL, N'Error al seleccionar la ruta: ', N'Error selecting the route: ', N'Erro ao selecionar a rota:'),
+('msg_ErrorDeCarga', NULL, N'Error de Carga', N'Loading error', N'Erro de carregamento'),
+('msg_ErrorEnLaCreacionDeLaRevision', NULL, N'Error en la creación de la revisión', N'Error creating the inspection', N'Erro na criação da revisão'),
+('msg_EstaSeguroDeQueDeseaAnularLaCargaSeleccionada', NULL, N'¿Está seguro de que desea anular la carga seleccionada?', N'Are you sure you want to void the selected refuel?', N'Tem certeza de que deseja anular o abastecimento selecionado?'),
+('msg_EstaSeguroDeQueDeseaEliminarLaSancionSeleccionada', NULL, N'¿Está seguro de que desea eliminar la sanción seleccionada?', N'Are you sure you want to delete the selected penalty?', N'Tem certeza de que deseja excluir a penalidade selecionada?'),
+('msg_EstaSeguroDeQueDeseaSuspenderLaSalidaSeleccionada', NULL, N'¿Está seguro de que desea suspender la salida seleccionada?', N'Are you sure you want to suspend the selected departure?', N'Tem certeza de que deseja suspender a partida selecionada?'),
+('msg_EstasSeguroDeQueQuieresEliminarEstaRuta', NULL, N'¿Estas seguro de que quieres eliminar esta ruta?', N'Are you sure you want to delete this route?', N'Tem certeza de que deseja excluir esta rota?'),
+('msg_Exito', NULL, N'Éxito', N'Success', N'Sucesso'),
+('msg_HoraDeLlegadaRealRegistradaExitosamente', NULL, N'Hora de llegada real registrada exitosamente.', N'Actual arrival time registered successfully.', N'Hora real de chegada registrada com sucesso.'),
+('msg_HoraFinInvalida', NULL, N'La hora de fin no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30).', N'The end time is not valid. Enter the time in HH:mm format (for example, 08:30).', N'A hora de término não é válida. Informe o horário no formato HH:mm (por exemplo, 08:30).'),
+('msg_HoraInicioInvalida', NULL, N'La hora de inicio no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30).', N'The start time is not valid. Enter the time in HH:mm format (for example, 08:30).', N'A hora de início não é válida. Informe o horário no formato HH:mm (por exemplo, 08:30).'),
+('msg_IdiomaCreadoExito', NULL, N'El idioma se creó correctamente. Mientras no tenga traducciones se mostrarán los textos del idioma por defecto.', N'The language was created successfully. Until it has translations, the texts of the default language will be shown.', N'O idioma foi criado com sucesso. Enquanto não tiver traduções, serão exibidos os textos do idioma padrão.'),
+('msg_IdiomaModificadoExito', NULL, N'El idioma se modificó correctamente.', N'The language was modified successfully.', N'O idioma foi modificado com sucesso.'),
+('msg_Informacion', NULL, N'Información', N'Information', N'Informação'),
+('msg_IngreseElMotivoDeLaAnulacion', NULL, N'Ingrese el motivo de la anulación:', N'Enter the void reason:', N'Informe o motivo da anulação:'),
+('msg_IngreseElMotivoDeLaReparacion', NULL, N'Ingrese el motivo de la reparación.', N'Enter the repair reason.', N'Informe o motivo do reparo.'),
+('msg_IngreseElMotivoDeLaSuspension', NULL, N'Ingrese el motivo de la suspensión:', N'Enter the suspension reason:', N'Informe o motivo da suspensão:'),
+('msg_IngreseElNombreDelInsumo', NULL, N'Ingrese el nombre del insumo.', N'Enter the supply name.', N'Informe o nome do insumo.'),
+('msg_IngreseUnaCantidadMayorACero', NULL, N'Ingrese una cantidad mayor a cero.', N'Enter a quantity greater than zero.', N'Informe uma quantidade maior que zero.'),
+('msg_IngreseUnaDescripcionParaLaRevision', NULL, N'Ingrese una descripción para la revisión.', N'Enter a description for the inspection.', N'Informe uma descrição para a revisão.'),
+('msg_InicioSesionExito', NULL, N'Inicio de sesión exitoso.', N'Logged in successfully.', N'Login realizado com sucesso.'),
+('msg_LaCargaSeleccionadaYaEstaAnulada', NULL, N'La carga seleccionada ya está anulada.', N'The selected refuel is already voided.', N'O abastecimento selecionado já está anulado.'),
+('msg_LaDescripcionDelCronogramaNoPuedeEstarVacia', NULL, N'La descripción del cronograma no puede estar vacía.', N'The schedule description cannot be empty.', N'A descrição do cronograma não pode ficar vazia.'),
+('msg_LaFrecuenciaDebeSerMayorA0Minutos', NULL, N'La frecuencia debe ser mayor a 0 minutos.', N'The frequency must be greater than 0 minutes.', N'A frequência deve ser maior que 0 minutos.'),
+('msg_LaHoraDeFinDebeSerPosteriorALaHoraDeInicio', NULL, N'La hora de fin debe ser posterior a la hora de inicio.', N'The end time must be later than the start time.', N'A hora de término deve ser posterior à hora de início.'),
+('msg_LaParadaNoExisteEnElRecorridoDeLaRutaSeleccionada', NULL, N'La parada no existe en el recorrido de la ruta seleccionada.', N'The stop does not exist in the selected route''s path.', N'A parada não existe no percurso da rota selecionada.'),
+('msg_LaParadaYaEstaAsignadaALaRuta', NULL, N'La parada ya está asignada a la ruta.', N'The stop is already assigned to the route.', N'A parada já está atribuída à rota.'),
+('msg_LaPatenteDelInternoNoPuedeEstarVacia', NULL, N'La patente del interno no puede estar vacía', N'The bus license plate cannot be empty', N'A placa do ônibus não pode ficar vazia'),
+('msg_LaSalidaSeleccionadaNoTieneChoferAsignado', NULL, N'La salida seleccionada no tiene chofer asignado.', N'The selected departure has no assigned driver.', N'A partida selecionada não tem motorista designado.'),
+('msg_LaSalidaSeleccionadaNoTieneInternoAsignado', NULL, N'La salida seleccionada no tiene interno asignado.', N'The selected departure has no assigned bus.', N'A partida selecionada não tem ônibus designado.'),
+('msg_LaSalidaSeleccionadaNoTieneUnChoferAsignado', NULL, N'La salida seleccionada no tiene un chofer asignado.', N'The selected departure does not have an assigned driver.', N'A partida selecionada não tem um motorista designado.'),
+('msg_LaSalidaSeleccionadaYaEstaSuspendida', NULL, N'La salida seleccionada ya está suspendida.', N'The selected departure is already suspended.', N'A partida selecionada já está suspensa.'),
+('msg_LasSalidasFueronGeneradasExitosamente', NULL, N'Las salidas fueron generadas exitosamente', N'The departures were generated successfully', N'As partidas foram geradas com sucesso'),
+('msg_LoginError', NULL, N'Login error', N'Login error', N'Erro de login'),
+('msg_No', NULL, N'No', N'No', N'Não'),
+('msg_NoHayChoferesDisponibles', NULL, N'No hay choferes disponibles.', N'There are no drivers available.', N'Não há motoristas disponíveis.'),
+('msg_NoHayCronogramasDisponiblesParaAuditar', NULL, N'No hay cronogramas disponibles para auditar.', N'There are no schedules available to audit.', N'Não há cronogramas disponíveis para auditar.'),
+('msg_NoHayInternosDisponibles', NULL, N'No hay internos disponibles', N'There are no buses available', N'Não há ônibus disponíveis'),
+('msg_NoHayUnUsuarioActivoEnLaSesion', NULL, N'No hay un usuario activo en la sesión.', N'There is no active user in the session.', N'Não há um usuário ativo na sessão.'),
+('msg_NoSeHaEncontradoLaParadaSeleccionada', NULL, N'No se ha encontrado la parada seleccionada.', N'The selected stop was not found.', N'A parada selecionada não foi encontrada.'),
+('msg_NoSeHaSeleccionadoNingunaCargaDeCombustible', NULL, N'No se ha seleccionado ninguna carga de combustible.', N'No refuel has been selected.', N'Nenhum abastecimento foi selecionado.'),
+('msg_NoSeHaSeleccionadoNingunaParada', NULL, N'No se ha seleccionado ninguna parada.', N'No stop has been selected.', N'Nenhuma parada foi selecionada.'),
+('msg_NoSeHaSeleccionadoNingunaRuta', NULL, N'No se ha seleccionado ninguna ruta.', N'No route has been selected.', N'Nenhuma rota foi selecionada.'),
+('msg_NoSeHaSeleccionadoNingunaSalida', NULL, N'No se ha seleccionado ninguna salida.', N'No departure has been selected.', N'Nenhuma partida foi selecionada.'),
+('msg_NoSeHaSeleccionadoNingunaSancion', NULL, N'No se ha seleccionado ninguna sanción.', N'No penalty has been selected.', N'Nenhuma penalidade foi selecionada.'),
+('msg_NoSeHaSeleccionadoNingunChofer', NULL, N'No se ha seleccionado ningún chofer.', N'No driver has been selected.', N'Nenhum motorista foi selecionado.'),
+('msg_NoSeHaSeleccionadoNingunCronogramaParaEliminar', NULL, N'No se ha seleccionado ningún cronograma para eliminar.', N'No schedule has been selected to delete.', N'Nenhum cronograma foi selecionado para excluir.'),
+('msg_NoSeHaSeleccionadoNingunCronogramaParaModificar', NULL, N'No se ha seleccionado ningún cronograma para modificar.', N'No schedule has been selected to modify.', N'Nenhum cronograma foi selecionado para modificar.'),
+('msg_NoSeHaSeleccionadoNingunInterno', NULL, N'No se ha seleccionado ningún interno.', N'No bus has been selected.', N'Nenhum ônibus foi selecionado.'),
+('msg_NoSeHaSeleccionadoUnInternoValido', NULL, N'No se ha seleccionado un interno válido.', N'No valid bus has been selected.', N'Nenhum ônibus válido foi selecionado.'),
+('msg_NoSePudoDeterminarLaRutaDelCronogramaAModificar', NULL, N'No se pudo determinar la ruta del cronograma a modificar.', N'The route of the schedule to modify could not be determined.', N'Não foi possível determinar a rota do cronograma a modificar.'),
+('msg_NumeroDeInternoInvalido', NULL, N'Número de interno inválido', N'Invalid bus number', N'Número do ônibus inválido'),
+('msg_OcurrioUnErrorAlIntentarRecuperarElEstado', NULL, N'Ocurrió un error al intentar recuperar el estado: ', N'An error occurred while trying to restore the state: ', N'Ocorreu um erro ao tentar recuperar o estado:'),
+('msg_OrdenSinInsumos', NULL, N'La orden "{0}" debe tener al menos un insumo.', N'The order "{0}" must have at least one supply.', N'A ordem "{0}" deve ter pelo menos um insumo.'),
+('msg_ParadaCreadaExitosamente', NULL, N'Parada creada exitosamente.', N'Stop created successfully.', N'Parada criada com sucesso.'),
+('msg_ParadaEliminadaExitosamente', NULL, N'Parada eliminada exitosamente.', N'Stop deleted successfully.', N'Parada excluída com sucesso.'),
+('msg_ParadaModificadaExitosamente', NULL, N'Parada modificada exitosamente.', N'Stop modified successfully.', N'Parada modificada com sucesso.'),
+('msg_PorFavorCompleteTodosLosCamposObligatorios', NULL, N'Por favor, complete todos los campos obligatorios.', N'Please fill in all required fields.', N'Por favor, preencha todos os campos obrigatórios.'),
+('msg_PorFavorSeleccioneUnUsuarioYUnEstadoHistoricoParaRecuperar', NULL, N'Por favor, seleccione un usuario y un estado histórico para recuperar.', N'Please select a user and a historical state to restore.', N'Por favor, selecione um usuário e um estado histórico para recuperar.'),
+('msg_RecursoChofer', NULL, N'El chofer {0}', N'Driver {0}', N'O motorista {0}'),
+('msg_RecursoInterno', NULL, N'El interno {0}', N'Bus {0}', N'O ônibus {0}'),
+('msg_RutaNoEncontrada', NULL, N'Ruta no encontrada.', N'Route not found.', N'Rota não encontrada.'),
+('msg_SancionEliminadaExitosamente', NULL, N'Sanción eliminada exitosamente.', N'Penalty deleted successfully.', N'Penalidade excluída com sucesso.'),
+('msg_SancionRegistradaExitosamente', NULL, N'Sanción registrada exitosamente.', N'Penalty registered successfully.', N'Penalidade registrada com sucesso.'),
+('msg_SeleccioneElInsumoCuyoCostoDeseaAuditar', NULL, N'Seleccione el insumo cuyo costo desea auditar.', N'Select the supply whose cost you want to audit.', N'Selecione o insumo cujo custo deseja auditar.'),
+('msg_SeleccioneUnaOrdenDeReparacionAntesDeAgregarInsumos', NULL, N'Seleccione una orden de reparación antes de agregar insumos.', N'Select a repair order before adding supplies.', N'Selecione uma ordem de reparo antes de adicionar insumos.'),
+('msg_SeleccioneUnaOrdenDeReparacionAntesDeAuditarSusCostos', NULL, N'Seleccione una orden de reparación antes de auditar sus costos.', N'Select a repair order before auditing its costs.', N'Selecione uma ordem de reparo antes de auditar seus custos.'),
+('msg_SeleccioneUnInternoValido', NULL, N'Seleccione un interno válido.', N'Select a valid bus.', N'Selecione um ônibus válido.'),
+('msg_SeLiberaraDeLaSalidaIndicada', NULL, N'Se liberará de la salida indicada.', N'It will be released from the indicated departure.', N'Ele será liberado da partida indicada.'),
+('msg_SeLiberaraDeLasSalidasIndicadas', NULL, N'Se liberará de las salidas indicadas.', N'It will be released from the indicated departures.', N'Ele será liberado das partidas indicadas.'),
+('msg_Si', NULL, N'Sí', N'Yes', N'Sim'),
+('msg_SoloSePuedenDesasignarPerfilesNoPermisosSimples', NULL, N'Solo se pueden desasignar perfiles, no permisos simples.', N'Only profiles can be unassigned, not simple permissions.', N'Somente perfis podem ser removidos, não permissões simples.'),
+('msg_SuspenderSalida', NULL, N'Suspender salida', N'Suspend departure', N'Suspender partida'),
+('msg_TituloCierreSesion', NULL, N'Cerrar sesión', N'Log out', N'Sair'),
+('msg_TituloConfirmacion', NULL, N'Confirmación', N'Confirmation', N'Confirmação'),
+('msg_TituloError', NULL, N'Error', N'Error', N'Erro'),
+('msg_TituloErrorIntegridad', NULL, N'Error Crítico de Integridad', N'Critical integrity error', N'Erro crítico de integridade'),
+('msg_TituloExito', NULL, N'Éxito', N'Success', N'Sucesso'),
+('msg_TodosLosCamposSonObligatorios', NULL, N'Todos los campos son obligatorios.', N'All fields are required.', N'Todos os campos são obrigatórios.'),
+('msg_TraduccionesGuardadasExito', NULL, N'Las traducciones se guardaron correctamente.', N'The translations were saved successfully.', N'As traduções foram salvas com sucesso.'),
+('msg_YaExisteUnaParadaConElMismoId', NULL, N'Ya existe una parada con el mismo ID.', N'A stop with the same ID already exists.', N'Já existe uma parada com o mesmo ID.'),
+('SancionesChoferUI.buttonSancionesChoferEliminar', 'SancionesChoferUI', N'Eliminar sanción', N'Delete penalty', N'Excluir penalidade'),
+('SancionesChoferUI.dataGridViewSancionesChofer.choferSancionado', 'SancionesChoferUI', N'Chofer sancionado', N'Penalized driver', N'Motorista penalizado'),
+('SancionesChoferUI.dataGridViewSancionesChofer.fecha', 'SancionesChoferUI', N'Fecha', N'Date', N'Data'),
+('SancionesChoferUI.dataGridViewSancionesChofer.id', 'SancionesChoferUI', N'Id', N'ID', N'ID'),
+('SancionesChoferUI.dataGridViewSancionesChofer.motivo', 'SancionesChoferUI', N'Motivo', N'Reason', N'Motivo'),
+('SancionesChoferUI.groupBoxSancionesChoferChoferes', 'SancionesChoferUI', N'Choferes', N'Drivers', N'Motoristas'),
+('SancionesChoferUI.groupBoxSancionesChoferSanciones', 'SancionesChoferUI', N'Sanciones', N'Penalties', N'Penalidades'),
+('SancionesChoferUI.labelSancionesChoferListaChoferes', 'SancionesChoferUI', N'Choferes disponibles', N'Available drivers', N'Motoristas disponíveis'),
+('SancionesChoferUI.labelSancionesChoferListaSanciones', 'SancionesChoferUI', N'Sanciones del chofer seleccionado', N'Selected driver''s penalties', N'Penalidades do motorista selecionado');
+
+BEGIN TRANSACTION;
+
+INSERT INTO dbo.Etiqueta (Clave, Formulario)
+SELECT t.Clave, t.Formulario
+FROM @Traducciones t
+WHERE NOT EXISTS (SELECT 1 FROM dbo.Etiqueta e WHERE e.Clave = t.Clave);
+
+INSERT INTO dbo.Traduccion (IdEtiqueta, CodigoIdioma, Texto)
+SELECT e.IdEtiqueta, v.CodigoIdioma, v.Texto
+FROM @Traducciones t
+INNER JOIN dbo.Etiqueta e ON e.Clave = t.Clave
+CROSS APPLY (VALUES ('ES', t.ES), ('EN', t.EN), ('PT', t.PT)) v (CodigoIdioma, Texto)
+WHERE EXISTS (SELECT 1 FROM dbo.Idioma i WHERE i.Codigo = v.CodigoIdioma)
+  AND NOT EXISTS (SELECT 1 FROM dbo.Traduccion tr WHERE tr.IdEtiqueta = e.IdEtiqueta AND tr.CodigoIdioma = v.CodigoIdioma);
+
+COMMIT TRANSACTION;
+GO

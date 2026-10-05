@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace UI.Modules.gestion_cronogramas
 {
-    public partial class GestionCronogramasAgregarModificar : Form
+    public partial class GestionCronogramasAgregarModificar : FormBaseObserver
     {
         private const string formatoHora = "HH:mm";
 
@@ -104,20 +104,20 @@ namespace UI.Modules.gestion_cronogramas
             {
                 if (string.IsNullOrWhiteSpace(this.textBoxDescripcion.Text))
                 {
-                    throw new Exception("La descripción del cronograma no puede estar vacía.");
+                    throw new Exception(T("msg_LaDescripcionDelCronogramaNoPuedeEstarVacia", "La descripción del cronograma no puede estar vacía."));
                 }
 
-                TimeOnly horaInicio = parsearHora(this.maskedTextBoxHoraInicio, "hora de inicio");
-                TimeOnly horaFin = parsearHora(this.maskedTextBoxHoraFin, "hora de fin");
+                TimeOnly horaInicio = parsearHora(this.maskedTextBoxHoraInicio, T("msg_HoraInicioInvalida", "La hora de inicio no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30)."));
+                TimeOnly horaFin = parsearHora(this.maskedTextBoxHoraFin, T("msg_HoraFinInvalida", "La hora de fin no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30)."));
 
                 if (horaFin <= horaInicio)
                 {
-                    throw new Exception("La hora de fin debe ser posterior a la hora de inicio.");
+                    throw new Exception(T("msg_LaHoraDeFinDebeSerPosteriorALaHoraDeInicio", "La hora de fin debe ser posterior a la hora de inicio."));
                 }
 
                 if (this.numericUpDownFrecuencia.Value <= 0)
                 {
-                    throw new Exception("La frecuencia debe ser mayor a 0 minutos.");
+                    throw new Exception(T("msg_LaFrecuenciaDebeSerMayorA0Minutos", "La frecuencia debe ser mayor a 0 minutos."));
                 }
 
                 Ruta rutaDelCronograma;
@@ -125,12 +125,12 @@ namespace UI.Modules.gestion_cronogramas
                 if (this.creacion)
                 {
                     rutaDelCronograma = this.listBoxRutas.SelectedItem as Ruta
-                        ?? throw new Exception("Debe seleccionar una ruta para el cronograma.");
+                        ?? throw new Exception(T("msg_DebeSeleccionarUnaRutaParaElCronograma", "Debe seleccionar una ruta para el cronograma."));
                 }
                 else
                 {
                     rutaDelCronograma = this.rutaSeleccionada
-                        ?? throw new Exception("No se pudo determinar la ruta del cronograma a modificar.");
+                        ?? throw new Exception(T("msg_NoSePudoDeterminarLaRutaDelCronogramaAModificar", "No se pudo determinar la ruta del cronograma a modificar."));
                 }
 
                 this.descripcionCronograma = this.textBoxDescripcion.Text.Trim();
@@ -146,12 +146,12 @@ namespace UI.Modules.gestion_cronogramas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Datos inválidos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, T("msg_DatosInvalidos", "Datos inválidos"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
         // El MaskedTextBox usa el separador horario de la cultura actual, por eso se normaliza antes de parsear
-        private static TimeOnly parsearHora(MaskedTextBox maskedTextBoxHora, string nombreCampo)
+        private static TimeOnly parsearHora(MaskedTextBox maskedTextBoxHora, string mensajeHoraInvalida)
         {
             string separadorHorario = CultureInfo.CurrentCulture.DateTimeFormat.TimeSeparator;
             string horaSinParsear = maskedTextBoxHora.Text.Trim();
@@ -163,7 +163,7 @@ namespace UI.Modules.gestion_cronogramas
 
             if (!TimeOnly.TryParseExact(horaSinParsear, new[] { formatoHora, "H:mm" }, CultureInfo.InvariantCulture, DateTimeStyles.None, out TimeOnly hora))
             {
-                throw new Exception($"La {nombreCampo} no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30).");
+                throw new Exception(mensajeHoraInvalida);
             }
 
             return hora;

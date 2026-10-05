@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace UI.Modules.gestion_choferes
 {
-    public partial class GestionChoferUI : Form
+    public partial class GestionChoferUI : FormBaseObserver
     {
         public GestionChoferUI()
         {
@@ -32,7 +32,7 @@ namespace UI.Modules.gestion_choferes
                     {
                         if (dialog.dniChofer == null || dialog.nombreCompletoChofer == null || dialog.activoChofer == null)
                         {
-                            throw new Exception("Todos los campos son obligatorios.");
+                            throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
                         }
 
                         // numero de chofer en -1 porque es temporal, la base de datos lo asigna automaticamente porque es PK con auto increment
@@ -44,7 +44,7 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al agregar el chofer: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlAgregarElChofer", "Error al agregar el chofer: ") + ex.Message);
             }
         }
 
@@ -62,7 +62,7 @@ namespace UI.Modules.gestion_choferes
                     {
                         if (dialog.dniChofer == null || dialog.nombreCompletoChofer == null || dialog.activoChofer == null)
                         {
-                            throw new Exception("Todos los campos son obligatorios.");
+                            throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
                         }
 
                         // El num_chofer es la clave primaria (IDENTITY), por lo que no se modifica.
@@ -74,7 +74,7 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al modificar el chofer: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlModificarElChofer", "Error al modificar el chofer: ") + ex.Message);
             }
         }
 
@@ -85,8 +85,8 @@ namespace UI.Modules.gestion_choferes
                 Chofer choferSeleccionado = obtenerChoferSeleccionado();
 
                 DialogResult confirmacion = MessageBox.Show(
-                    $"¿Está seguro de que quiere eliminar al chofer {choferSeleccionado.nombreCompleto} (DNI {choferSeleccionado.dni})?",
-                    "Confirmar eliminación",
+                    string.Format(T("msg_ConfirmarEliminarChofer", "¿Está seguro de que quiere eliminar al chofer {0} (DNI {1})?"), choferSeleccionado.nombreCompleto, choferSeleccionado.dni),
+                    T("msg_ConfirmarEliminacion", "Confirmar eliminación"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
@@ -98,13 +98,13 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar el chofer: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlEliminarElChofer", "Error al eliminar el chofer: ") + ex.Message);
             }
         }
 
         private Chofer obtenerChoferSeleccionado()
         {
-            return dataGridViewChoferes.CurrentRow?.DataBoundItem as Chofer ?? throw new Exception("No se ha seleccionado ningún chofer.");
+            return dataGridViewChoferes.CurrentRow?.DataBoundItem as Chofer ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunChofer", "No se ha seleccionado ningún chofer."));
         }
 
         private void refrescarChoferes()
@@ -116,7 +116,7 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al refrescar los choferes: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlRefrescarLosChoferes", "Error al refrescar los choferes: ") + ex.Message);
             }
         }
     }

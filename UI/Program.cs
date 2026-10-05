@@ -45,6 +45,16 @@ namespace UI
                 }
             }
 
+            // Autodetección: registra las etiquetas de todos los formularios que aún no estén en la base
+            try
+            {
+                RegistroInicialEtiquetas.Ejecutar(Log);
+            }
+            catch (Exception ex)
+            {
+                Log($"No se pudieron registrar las etiquetas de los formularios: {ex}");
+            }
+
             Application.Run(new MainUI());
             return 0;
         }

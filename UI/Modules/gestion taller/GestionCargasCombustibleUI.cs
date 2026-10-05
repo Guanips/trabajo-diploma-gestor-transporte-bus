@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace UI.Modules.gestion_taller
 {
-    public partial class GestionCargasCombustibleUI : Form
+    public partial class GestionCargasCombustibleUI : FormBaseObserver
     {
         public GestionCargasCombustibleUI()
         {
@@ -30,7 +30,7 @@ namespace UI.Modules.gestion_taller
             Usuario? usuarioActual = SessionManager.getInstance.ObtenerUsuarioActivo();
             if (usuarioActual == null)
             {
-                MessageBox.Show("No hay un usuario activo en la sesión.");
+                MessageBox.Show(T("msg_NoHayUnUsuarioActivoEnLaSesion", "No hay un usuario activo en la sesión."));
                 this.Close();
                 return;
             }
@@ -70,19 +70,19 @@ namespace UI.Modules.gestion_taller
 
                 if (cargaSeleccionada.anulada)
                 {
-                    MessageBox.Show("La carga seleccionada ya está anulada.");
+                    MessageBox.Show(T("msg_LaCargaSeleccionadaYaEstaAnulada", "La carga seleccionada ya está anulada."));
                     return;
                 }
 
-                if (MessageBox.Show("¿Está seguro de que desea anular la carga seleccionada?", "Confirmar anulación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show(T("msg_EstaSeguroDeQueDeseaAnularLaCargaSeleccionada", "¿Está seguro de que desea anular la carga seleccionada?"), T("msg_ConfirmarAnulacion", "Confirmar anulación"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     return;
                 }
 
-                string motivoAnulacion = Interaction.InputBox("Ingrese el motivo de la anulación:", "Anular carga de combustible", "");
+                string motivoAnulacion = Interaction.InputBox(T("msg_IngreseElMotivoDeLaAnulacion", "Ingrese el motivo de la anulación:"), T("msg_AnularCargaDeCombustible", "Anular carga de combustible"), "");
                 if (string.IsNullOrWhiteSpace(motivoAnulacion))
                 {
-                    MessageBox.Show("Debe ingresar un motivo de anulación.");
+                    MessageBox.Show(T("msg_DebeIngresarUnMotivoDeAnulacion", "Debe ingresar un motivo de anulación."));
                     return;
                 }
 
@@ -97,7 +97,7 @@ namespace UI.Modules.gestion_taller
 
         private CargaCombustible ObtenerCargaSeleccionada ()
         {
-            return dataGridViewGestionCombustibleCargas.CurrentRow?.DataBoundItem as CargaCombustible ?? throw new Exception("No se ha seleccionado ninguna carga de combustible.");
+            return dataGridViewGestionCombustibleCargas.CurrentRow?.DataBoundItem as CargaCombustible ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaCargaDeCombustible", "No se ha seleccionado ninguna carga de combustible."));
         }
 
         private Interno ObtenerInternoSeleccionado ()
@@ -108,7 +108,7 @@ namespace UI.Modules.gestion_taller
             }
             else
             {
-                throw new InvalidOperationException("No se ha seleccionado un interno válido.");
+                throw new InvalidOperationException(T("msg_NoSeHaSeleccionadoUnInternoValido", "No se ha seleccionado un interno válido."));
             }
         }
 
@@ -121,7 +121,7 @@ namespace UI.Modules.gestion_taller
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al actualizar la grilla de cargas de combustible: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlActualizarLaGrillaDeCargasDeCombustible", "Error al actualizar la grilla de cargas de combustible: ") + ex.Message);
             }
         }
     }

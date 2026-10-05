@@ -206,5 +206,19 @@ namespace DAL
                 DAO.GetInstance.SubirCambiosBD();
             }
         }
+
+        public void ActualizarIdioma(string username, string codigoIdioma)
+        {
+            DataSet ds = DAO.GetInstance.ObtenerDataSet();
+            DataTable dtUsuarios = ds.Tables["Usuario"];
+            DataRow? filaUsuario = dtUsuarios.AsEnumerable()
+                .FirstOrDefault(r => string.Equals(r["Username"].ToString(), username, StringComparison.OrdinalIgnoreCase));
+
+            if (filaUsuario != null)
+            {
+                filaUsuario["Idioma"] = codigoIdioma;
+                DAO.GetInstance.SubirCambiosBD();
+            }
+        }
     }
 }

@@ -17,76 +17,76 @@ namespace servicios
         public static ValidationResult ValidateUsername(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
-                return new ValidationResult(false, "err_UsernameVacio");
+                return new ValidationResult(false, "err_UsernameVacio", "El nombre de usuario no puede estar vacío.");
 
             bool isValid = UsernameRegex.IsMatch(username.Trim());
             if (isValid) return new ValidationResult(true);
 
-            return new ValidationResult(false, "err_UsernameFormato");
+            return new ValidationResult(false, "err_UsernameFormato", "El nombre de usuario debe tener entre 3 y 16 caracteres (letras, números, guion o guion bajo).");
         }
 
         public static ValidationResult ValidateEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
-                return new ValidationResult(false, "err_EmailVacio");
+                return new ValidationResult(false, "err_EmailVacio", "El email no puede estar vacío.");
 
             bool isValid = EmailRegex.IsMatch(email.Trim());
             if (isValid) return new ValidationResult(true);
 
-            return new ValidationResult(false, "err_EmailFormato");
+            return new ValidationResult(false, "err_EmailFormato", "El formato del email no es válido.");
         }
 
         public static ValidationResult ValidatePhone(string phone)
         {
             if (string.IsNullOrWhiteSpace(phone))
-                return new ValidationResult(false, "err_PhoneVacio");
+                return new ValidationResult(false, "err_PhoneVacio", "El teléfono no puede estar vacío.");
 
             bool isValid = PhoneRegex.IsMatch(phone.Trim());
             if (isValid) return new ValidationResult(true);
 
-            return new ValidationResult(false, "err_PhoneFormato");
+            return new ValidationResult(false, "err_PhoneFormato", "El teléfono debe tener entre 7 y 15 dígitos (puede comenzar con +).");
         }
 
         public static ValidationResult ValidateOnlyLetters(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
-                return new ValidationResult(false, "err_OnlyLettersVacio");
+                return new ValidationResult(false, "err_OnlyLettersVacio", "El campo no puede estar vacío.");
 
             bool isValid = OnlyLettersRegex.IsMatch(text.Trim());
             if (isValid) return new ValidationResult(true);
 
-            return new ValidationResult(false, "err_OnlyLettersFormato");
+            return new ValidationResult(false, "err_OnlyLettersFormato", "El campo solo puede contener letras y espacios.");
         }
 
         public static ValidationResult ValidateAlphaNumericStrict(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
-                return new ValidationResult(false, "err_AlphaNumStrictVacio");
+                return new ValidationResult(false, "err_AlphaNumStrictVacio", "El campo no puede estar vacío.");
 
             bool isValid = AlphaNumericStrictRegex.IsMatch(text.Trim());
             if (isValid) return new ValidationResult(true);
 
-            return new ValidationResult(false, "err_AlphaNumStrictFormato");
+            return new ValidationResult(false, "err_AlphaNumStrictFormato", "El campo solo puede contener letras y números, sin espacios.");
         }
 
         public static ValidationResult ValidateAlphaNumericWithSpaces(string text)
         {
             if (string.IsNullOrWhiteSpace(text))
-                return new ValidationResult(false, "err_AlphaNumSpacesVacio");
+                return new ValidationResult(false, "err_AlphaNumSpacesVacio", "El campo no puede estar vacío.");
 
             bool isValid = AlphaNumericWithSpacesRegex.IsMatch(text.Trim());
             if (isValid) return new ValidationResult(true);
 
-            return new ValidationResult(false, "err_AlphaNumSpacesFormato");
+            return new ValidationResult(false, "err_AlphaNumSpacesFormato", "El campo solo puede contener letras, números y espacios.");
         }
 
         public static ValidationResult ValidateProfileName(string profileName)
         {
-            if (string.IsNullOrWhiteSpace(profileName)) return new ValidationResult(false, "El nombre del perfil no puede estar vacío");
+            if (string.IsNullOrWhiteSpace(profileName)) return new ValidationResult(false, "err_PerfilVacio", "El nombre del perfil no puede estar vacío.");
 
             bool isValid = ProfileNameRegex.IsMatch(profileName.Trim());
             if (isValid) return new ValidationResult(true);
-            return new ValidationResult(false, "El nombre del perfil debe comenzar con 'PERF-' seguido de caracteres (sin espacios)");
+            return new ValidationResult(false, "err_PerfilFormato", "El nombre del perfil debe comenzar con 'PERF-' seguido de caracteres (sin espacios).");
         }
     }
 }

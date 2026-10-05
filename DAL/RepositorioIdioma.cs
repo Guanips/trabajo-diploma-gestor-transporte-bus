@@ -1,101 +1,173 @@
-﻿using BE;
-using System;
-using System.Collections.Generic;
+using BE;
+using Microsoft.Data.SqlClient;
+using servicios;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL
 {
+    /// <summary>
+    /// Acceso a idiomas, etiquetas y traducciones mediante stored procedures (InitIdiomaStoredProcedures.sql).
+    /// </summary>
     public class RepositorioIdioma
     {
-        public RepositorioIdioma() { }
-
-        public Dictionary<string, string> ObtenerTraducciones(string codigoIdioma)
-        {
-            var diccionarioResult = new Dictionary<string, string>();
-
-            try
-            {
-                DataSet ds = DAO.GetInstance.ObtenerDataSet();
-
-                DataTable dtTraducciones = ds.Tables["Traduccion"];
-
-                if (dtTraducciones != null)
-                {
-                    DataRow[] filasFiltradas = dtTraducciones.Select($"CodigoIdioma = '{codigoIdioma}'");
-
-                    foreach (DataRow fila in filasFiltradas)
-                    {
-                        string keyEtiqueta = fila["KeyEtiqueta"].ToString() ?? string.Empty;
-                        string textoTraducido = fila["Texto"].ToString() ?? string.Empty;
-
-                        if (!string.IsNullOrEmpty(keyEtiqueta) && !diccionarioResult.ContainsKey(keyEtiqueta))
-                        {
-                            diccionarioResult.Add(keyEtiqueta, textoTraducido);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error al recuperar las traducciones para el idioma '{codigoIdioma}': " + ex.Message);
-            }
-
-            return diccionarioResult;
-        }
-
         public List<Idioma> ObtenerTodosLosIdiomas()
         {
-            List<Idioma> lista = new List<Idioma>();
+            List<Idioma> idiomas = new List<Idioma>();
 
-            DataSet ds = DAO.GetInstance.ObtenerDataSet();
-            DataTable dtIdiomas = ds.Tables["Idioma"];
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Idioma_GetAll", conn);
+            using SqlDataReader reader = cmd.ExecuteReader();
 
-            if (dtIdiomas != null)
+            while (reader.Read())
             {
-                foreach (DataRow row in dtIdiomas.Rows)
+                idiomas.Add(new Idioma(reader["Codigo"].ToString()!, reader["Nombre"].ToString()!, Convert.ToBoolean(reader["EsDefault"]))
                 {
-                    string codigo = row["Codigo"].ToString() ?? string.Empty;
-                    string nombre = row["Nombre"].ToString() ?? string.Empty;
-
-                    lista.Add(new Idioma(codigo, nombre));
-                }
+                    TotalEtiquetas = Convert.ToInt32(reader["TotalEtiquetas"]),
+                    EtiquetasTraducidas = Convert.ToInt32(reader["EtiquetasTraducidas"])
+                });
             }
 
-            return lista;
+            return idiomas;
         }
 
-        public void GuardarNuevoIdiomaConTraducciones(Idioma nuevoIdioma, Dictionary<string, string> traducciones)
+        public void InsertarIdioma(Idioma idioma)
         {
-            DAO dao = DAO.GetInstance;
-            DataSet ds = dao.ObtenerDataSet();
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Idioma_Insert", conn);
+            cmd.Parameters.Add("@Codigo", SqlDbType.VarChar, 5).Value = idioma.Codigo;
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 50).Value = idioma.Nombre;
+            cmd.ExecuteNonQuery();
+        }
 
-            DataTable? dtIdioma = ds.Tables["Idioma"];
-            DataTable? dtTraduccion = ds.Tables["Traduccion"];
+        public void ModificarIdioma(Idioma idioma)
+        {
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Idioma_Update", conn);
+            cmd.Parameters.Add("@Codigo", SqlDbType.VarChar, 5).Value = idioma.Codigo;
+            cmd.Parameters.Add("@Nombre", SqlDbType.NVarChar, 50).Value = idioma.Nombre;
+            cmd.ExecuteNonQuery();
+        }
 
-            if (dtIdioma == null || dtTraduccion == null)
-                throw new Exception("Error: No se encontraron las tablas de Idioma o Traducción en el DataSet.");
+        public HashSet<string> ObtenerClavesEtiquetas()
+        {
+            HashSet<string> claves = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-            
-            DataRow rowIdioma = dtIdioma.NewRow();
-            rowIdioma["Codigo"] = nuevoIdioma.Codigo;
-            rowIdioma["Nombre"] = nuevoIdioma.Nombre;
-            dtIdioma.Rows.Add(rowIdioma);
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Etiqueta_GetClaves", conn);
+            using SqlDataReader reader = cmd.ExecuteReader();
 
-            
-            foreach (KeyValuePair<string, string> kvp in traducciones)
+            while (reader.Read())
             {
-                DataRow rowTraduccion = dtTraduccion.NewRow();
-                rowTraduccion["CodigoIdioma"] = nuevoIdioma.Codigo;
-                rowTraduccion["KeyEtiqueta"] = kvp.Key;
-                rowTraduccion["Texto"] = string.IsNullOrWhiteSpace(kvp.Value) ? kvp.Key : kvp.Value;
-                dtTraduccion.Rows.Add(rowTraduccion);
+                claves.Add(reader["Clave"].ToString()!);
             }
 
-            
-            dao.SubirCambiosBD();
+            return claves;
+        }
+
+        /// <summary>
+        /// Registra las etiquetas que no existan, con su texto como traducción del idioma por defecto.
+        /// Las que ya existen se ignoran. Devuelve cuántas se registraron.
+        /// </summary>
+        public int RegistrarEtiquetasFaltantes(IEnumerable<(string Clave, string? Formulario, string Texto)> etiquetas)
+        {
+            DataTable tabla = new DataTable();
+            tabla.Columns.Add("Clave", typeof(string));
+            tabla.Columns.Add("Formulario", typeof(string));
+            tabla.Columns.Add("Texto", typeof(string));
+
+            foreach (var etiqueta in etiquetas)
+            {
+                tabla.Rows.Add(etiqueta.Clave, (object?)etiqueta.Formulario ?? DBNull.Value, etiqueta.Texto);
+            }
+
+            if (tabla.Rows.Count == 0) return 0;
+
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Etiqueta_RegistrarFaltantes", conn);
+            SqlParameter param = cmd.Parameters.AddWithValue("@Etiquetas", tabla);
+            param.SqlDbType = SqlDbType.Structured;
+            param.TypeName = "dbo.EtiquetaTablaTipo";
+
+            return Convert.ToInt32(cmd.ExecuteScalar());
+        }
+
+        /// <summary>
+        /// Textos de todas las etiquetas en el idioma indicado (con el idioma por defecto como respaldo).
+        /// </summary>
+        public Dictionary<string, string> ObtenerTraducciones(string codigoIdioma)
+        {
+            Dictionary<string, string> traducciones = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Traduccion_GetByIdioma", conn);
+            cmd.Parameters.Add("@CodigoIdioma", SqlDbType.VarChar, 5).Value = codigoIdioma;
+            using SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                traducciones[reader["Clave"].ToString()!] = reader["Texto"].ToString()!;
+            }
+
+            return traducciones;
+        }
+
+        public List<EtiquetaTraduccion> ObtenerMatrizTraduccion(string codigoIdioma)
+        {
+            List<EtiquetaTraduccion> filas = new List<EtiquetaTraduccion>();
+
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Traduccion_GetMatriz", conn);
+            cmd.Parameters.Add("@CodigoIdioma", SqlDbType.VarChar, 5).Value = codigoIdioma;
+            using SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                filas.Add(new EtiquetaTraduccion(
+                    reader["Clave"].ToString()!,
+                    reader["Formulario"] == DBNull.Value ? null : reader["Formulario"].ToString(),
+                    reader["TextoReferencia"] == DBNull.Value ? string.Empty : reader["TextoReferencia"].ToString()!,
+                    reader["TextoTraducido"] == DBNull.Value ? null : reader["TextoTraducido"].ToString()
+                ));
+            }
+
+            return filas;
+        }
+
+        /// <summary>
+        /// Guarda un lote de traducciones. Un texto vacío elimina la traducción (salvo en el idioma por defecto).
+        /// </summary>
+        public void GuardarTraducciones(string codigoIdioma, Dictionary<string, string?> traducciones)
+        {
+            DataTable tabla = new DataTable();
+            tabla.Columns.Add("Clave", typeof(string));
+            tabla.Columns.Add("Texto", typeof(string));
+
+            foreach (KeyValuePair<string, string?> kvp in traducciones)
+            {
+                tabla.Rows.Add(kvp.Key, (object?)kvp.Value ?? DBNull.Value);
+            }
+
+            if (tabla.Rows.Count == 0) return;
+
+            using SqlConnection conn = AbrirConexion();
+            using SqlCommand cmd = CrearComando("usp_Traduccion_GuardarLote", conn);
+            cmd.Parameters.Add("@CodigoIdioma", SqlDbType.VarChar, 5).Value = codigoIdioma;
+            SqlParameter param = cmd.Parameters.AddWithValue("@Traducciones", tabla);
+            param.SqlDbType = SqlDbType.Structured;
+            param.TypeName = "dbo.TraduccionTablaTipo";
+            cmd.ExecuteNonQuery();
+        }
+
+        private static SqlConnection AbrirConexion()
+        {
+            SqlConnection conn = new SqlConnection(EnvGetterService.GetConnectionString());
+            conn.Open();
+            return conn;
+        }
+
+        private static SqlCommand CrearComando(string storedProcedure, SqlConnection conn)
+        {
+            return new SqlCommand(storedProcedure, conn) { CommandType = CommandType.StoredProcedure };
         }
     }
 }

@@ -44,6 +44,7 @@ namespace DAL
             "InitCargaCombustibleStoredProcedures.sql",
             "InitRevisionTallerStoredProcedures.sql",
             "InitAuditoriaCronogramasStoredProcedures.sql",
+            "InitIdiomaStoredProcedures.sql",
             "InitStartingData.sql"
         };
 

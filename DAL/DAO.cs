@@ -13,8 +13,8 @@ namespace DAL
 
         private DataSet mainDataSet;
 
-        private SqlDataAdapter daUsers, daBitacora, daPermiso, daPermisoRelacion, daIdioma, daTraduccion, daPerfilUsuario, daHistorialUsuario, daDVV;
-        private SqlCommandBuilder cbUsers, cbBitacora, cbPermiso, cbPermisoRelacion, cbIdioma, cbTraduccion, cbPerfilUsuario, cbHistorialUsuario, cbDVV;
+        private SqlDataAdapter daUsers, daBitacora, daPermiso, daPermisoRelacion, daPerfilUsuario, daHistorialUsuario, daDVV;
+        private SqlCommandBuilder cbUsers, cbBitacora, cbPermiso, cbPermisoRelacion, cbPerfilUsuario, cbHistorialUsuario, cbDVV;
 
         private DAO()
         {
@@ -24,8 +24,6 @@ namespace DAL
             daBitacora = new SqlDataAdapter("Select * From Bitacora", connectionString);
             daPermiso = new SqlDataAdapter("Select * From Permiso", connectionString);
             daPermisoRelacion = new SqlDataAdapter("Select * From PermisoRelacion", connectionString);
-            daIdioma = new SqlDataAdapter("Select * From Idioma", connectionString);
-            daTraduccion = new SqlDataAdapter("Select * From Traduccion", connectionString);
             daPerfilUsuario = new SqlDataAdapter("Select * From PerfilUsuario", connectionString);
             daHistorialUsuario = new SqlDataAdapter("Select * From HistorialUsuario", connectionString);
             daDVV = new SqlDataAdapter("Select * From DVV", connectionString);
@@ -34,8 +32,6 @@ namespace DAL
             daBitacora.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             daPermiso.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             daPermisoRelacion.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-            daIdioma.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-            daTraduccion.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             daPerfilUsuario.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             daHistorialUsuario.MissingSchemaAction = MissingSchemaAction.AddWithKey;
             daDVV.MissingSchemaAction = MissingSchemaAction.AddWithKey;
@@ -44,8 +40,6 @@ namespace DAL
             cbBitacora = new SqlCommandBuilder(daBitacora);
             cbPermiso = new SqlCommandBuilder(daPermiso);
             cbPermisoRelacion = new SqlCommandBuilder(daPermisoRelacion);
-            cbIdioma = new SqlCommandBuilder(daIdioma);
-            cbTraduccion = new SqlCommandBuilder(daTraduccion);
             cbPerfilUsuario = new SqlCommandBuilder(daPerfilUsuario);
 
             mainDataSet = new DataSet("Users");
@@ -59,8 +53,6 @@ namespace DAL
                 CargarTablaConEsquema(daBitacora, "Bitacora", conn);
                 CargarTablaConEsquema(daPermiso, "Permiso", conn);
                 CargarTablaConEsquema(daPermisoRelacion, "PermisoRelacion", conn);
-                CargarTablaConEsquema(daIdioma, "Idioma", conn);
-                CargarTablaConEsquema(daTraduccion, "Traduccion", conn);
                 CargarTablaConEsquema(daPerfilUsuario, "PerfilUsuario", conn);
                 CargarTablaConEsquema(daHistorialUsuario, "HistorialUsuario", conn);
                 CargarTablaConEsquema(daDVV, "DVV", conn);
@@ -154,18 +146,6 @@ namespace DAL
             mainDataSet.Relations.Add(drPermisoPadre);
             mainDataSet.Relations.Add(drPermisoHijo);
 
-            DataTable? dtIdioma = mainDataSet.Tables["Idioma"];
-            DataTable? dtTraduccion = mainDataSet.Tables["Traduccion"];
-
-            if (dtIdioma == null || dtTraduccion == null) throw new Exception("Error en el armado de relaciones DAO para Idiomas");
-
-            DataRelation drIdiomaTraduccion = new DataRelation(
-                "FK_Traduccion_Idioma",
-                dtIdioma.Columns["Codigo"]!,
-                dtTraduccion.Columns["CodigoIdioma"]!
-            );
-
-            mainDataSet.Relations.Add(drIdiomaTraduccion);
             mainDataSet.Relations.Add(drPerfilUsuarioUsuario);
             mainDataSet.Relations.Add(drPerfilUsuarioPerfil);
         }
@@ -190,16 +170,6 @@ namespace DAL
                 columnaIdRegistroPermiso.AutoIncrement = true;
                 columnaIdRegistroPermiso.AutoIncrementSeed = maxIdPermiso + 1;
                 columnaIdRegistroPermiso.AutoIncrementStep = 1;
-            }
-
-            if (mainDataSet.Tables.Contains("Traduccion") && mainDataSet.Tables["Traduccion"]!.Columns.Contains("IdTraduccion"))
-            {
-                DataTable dtTraduccion = mainDataSet.Tables["Traduccion"]!;
-                DataColumn colIdTrad = dtTraduccion.Columns["IdTraduccion"]!;
-                int maxIdTrad = dtTraduccion.Rows.Count > 0 ? dtTraduccion.AsEnumerable().Max(r => r["IdTraduccion"] == DBNull.Value ? 0 : Convert.ToInt32(r["IdTraduccion"])) : 0;
-                colIdTrad.AutoIncrement = true;
-                colIdTrad.AutoIncrementSeed = maxIdTrad + 1;
-                colIdTrad.AutoIncrementStep = 1;
             }
 
             if (mainDataSet.Tables.Contains("HistorialUsuario") && mainDataSet.Tables["HistorialUsuario"]!.Columns.Contains("ID"))
@@ -248,8 +218,6 @@ namespace DAL
                 daBitacora.SelectCommand.Connection = conn;
                 daPermiso.SelectCommand.Connection = conn;
                 daPermisoRelacion.SelectCommand.Connection = conn;
-                daIdioma.SelectCommand.Connection = conn;
-                daTraduccion.SelectCommand.Connection = conn;
                 daPerfilUsuario.SelectCommand.Connection = conn;
                 daHistorialUsuario.SelectCommand.Connection = conn;
                 daDVV.SelectCommand.Connection = conn;
@@ -282,19 +250,7 @@ namespace DAL
                 daPermisoRelacion.UpdateCommand.Connection = conn;
                 daPermisoRelacion.DeleteCommand.Connection = conn;
 
-                daIdioma.InsertCommand = cbIdioma.GetInsertCommand();
-                daIdioma.UpdateCommand = cbIdioma.GetUpdateCommand();
-                daIdioma.DeleteCommand = cbIdioma.GetDeleteCommand();
-                daIdioma.InsertCommand.Connection = conn;
-                daIdioma.UpdateCommand.Connection = conn;
-                daIdioma.DeleteCommand.Connection = conn;
 
-                daTraduccion.InsertCommand = cbTraduccion.GetInsertCommand();
-                daTraduccion.UpdateCommand = cbTraduccion.GetUpdateCommand();
-                daTraduccion.DeleteCommand = cbTraduccion.GetDeleteCommand();
-                daTraduccion.InsertCommand.Connection = conn;
-                daTraduccion.UpdateCommand.Connection = conn;
-                daTraduccion.DeleteCommand.Connection = conn;
 
                 daPerfilUsuario.InsertCommand = cbPerfilUsuario.GetInsertCommand();
                 daPerfilUsuario.UpdateCommand = cbPerfilUsuario.GetUpdateCommand();
@@ -321,8 +277,6 @@ namespace DAL
                 daBitacora.Update(mainDataSet, "Bitacora");
                 daPermiso.Update(mainDataSet, "Permiso");
                 daPermisoRelacion.Update(mainDataSet, "PermisoRelacion");
-                daIdioma.Update(mainDataSet, "Idioma");
-                daTraduccion.Update(mainDataSet, "Traduccion");
                 daPerfilUsuario.Update(mainDataSet, "PerfilUsuario");
                 daHistorialUsuario.Update(mainDataSet, "HistorialUsuario");
                 daDVV.Update(mainDataSet, "DVV");

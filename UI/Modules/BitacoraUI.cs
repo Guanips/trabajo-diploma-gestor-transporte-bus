@@ -3,7 +3,7 @@ using BLL;
 
 namespace UI.Modules
 {
-    public partial class BitacoraUI : Form
+    public partial class BitacoraUI : FormBaseObserver
     {
         public BitacoraUI()
         {

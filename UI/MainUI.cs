@@ -11,7 +11,7 @@ using UI.Modules.gestion_taller;
 
 namespace UI
 {
-    public partial class MainUI : Form, IObserver
+    public partial class MainUI : FormBaseObserver
     {
         private Form? formCargadoActualmente;
 
@@ -19,7 +19,6 @@ namespace UI
         {
             InitializeComponent();
             this.IsMdiContainer = true;
-            GestorIdioma.GetInstance.Attach(this);
             foreach (ToolStripMenuItem item in menuStrip1.Items)
             {
                 item.Enabled = false;
@@ -41,7 +40,10 @@ namespace UI
             }
 
             formCargadoActualmente.MdiParent = this;
-            formCargadoActualmente.Show();
+            if (!formCargadoActualmente.IsDisposed)
+            {
+                formCargadoActualmente.Show();
+            }
         }
 
         private void LoginUI_SesionIniciada(object? sender, EventArgs e)
@@ -69,17 +71,21 @@ namespace UI
                     gestionCargasCombustibleToolStripMenuItem.Enabled =usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
                     tallerToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-TALLER"));
                     gestionRevisionesToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-REVISIONES-TALLER"));
+
+                    // Al iniciar sesión se pasa al idioma preferido del usuario
+                    if (!string.IsNullOrEmpty(usuarioActual.Idioma))
+                        comboIdiomasGlobal.SelectedValue = usuarioActual.Idioma;
                 }
                 else
                 {
-                    throw new Exception("Login error");
+                    throw new Exception(T("msg_LoginError", "Login error"));
                 }
 
                 formCargadoActualmente?.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, T("msg_TituloError", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -93,16 +99,16 @@ namespace UI
 
                 if (corruptos.Count > 0 || !dvvValido)
                 {
-                    string mensaje = GestorIdioma.GetInstance.TraducirMensaje("err_IntegridadCorrupta",
+                    string mensaje = T("err_IntegridadCorrupta",
                         "Alerta Crítica: Se ha detectado una violación en la integridad de la base de datos.\n\nEl sistema ha entrado en Modo de Recuperación. Solo los administradores pueden iniciar sesión.");
-                    string titulo = GestorIdioma.GetInstance.TraducirMensaje("msg_TituloError", "Error Crítico de Integridad");
+                    string titulo = T("msg_TituloErrorIntegridad", "Error Crítico de Integridad");
 
                     MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al verificar la integridad del sistema: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(T("err_VerificarIntegridad", "Error al verificar la integridad del sistema: ") + ex.Message, T("msg_TituloError", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -112,24 +118,30 @@ namespace UI
 
             mainUIStripMenuItemCerrarSesion.Enabled = false;
 
-            var listaIdiomas = GestorIdioma.GetInstance.ObtenerIdiomasDisponibles();
+            CargarComboIdiomas();
+        }
 
+        private void CargarComboIdiomas()
+        {
             comboIdiomasGlobal.SelectedIndexChanged -= ComboIdiomasGlobal_SelectedIndexChanged;
 
-            comboIdiomasGlobal.DataSource = listaIdiomas;
+            comboIdiomasGlobal.DataSource = GestorIdioma.GetInstance.ObtenerIdiomasDisponibles();
             comboIdiomasGlobal.DisplayMember = "Nombre";
             comboIdiomasGlobal.ValueMember = "Codigo";
+            comboIdiomasGlobal.SelectedValue = GestorIdioma.GetInstance.IdiomaActual;
 
-            Usuario? usuarioActivo = SessionManager.getInstance.ObtenerUsuarioActivo();
-            if (usuarioActivo != null && !string.IsNullOrEmpty(usuarioActivo.Idioma))
-            {
-                comboIdiomasGlobal.SelectedValue = usuarioActivo.Idioma;
-            }
-            else
-            {
-                comboIdiomasGlobal.SelectedValue = "ES";
-            }
             comboIdiomasGlobal.SelectedIndexChanged += ComboIdiomasGlobal_SelectedIndexChanged;
+        }
+
+        public override void Update(string username, string action)
+        {
+            base.Update(username, action);
+
+            // Se agregó o renombró un idioma desde la gestión de idiomas
+            if (action == GestorIdioma.AccionIdiomasActualizados)
+            {
+                CargarComboIdiomas();
+            }
         }
 
         private void mainUIStripMenuItemIniciarSesion_Click(object sender, EventArgs e)
@@ -144,8 +156,8 @@ namespace UI
 
             gestorLogin.LogOut();
 
-            string mensaje = GestorIdioma.GetInstance.TraducirMensaje("msg_CierreSesionExito", "Sesión cerrada correctamente.");
-            string titulo = GestorIdioma.GetInstance.TraducirMensaje("msg_TituloCierreSesion", "Cerrar sesión");
+            string mensaje = T("msg_CierreSesionExito", "Sesión cerrada correctamente.");
+            string titulo = T("msg_TituloCierreSesion", "Cerrar sesión");
 
             MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -192,24 +204,6 @@ namespace UI
             BE.Idioma idiomaSeleccionado = (BE.Idioma)comboIdiomasGlobal.SelectedItem;
 
             GestorIdioma.GetInstance.CambiarIdioma(idiomaSeleccionado.Codigo);
-        }
-
-        public void Update(string username, string action)
-        {
-            if (action.StartsWith("Idioma:"))
-            {
-                string codigoIdioma = action.Split(':')[1];
-
-                Dictionary<string, string> traducciones = GestorIdioma.GetInstance.ObtenerTraduccionesActuales(codigoIdioma);
-
-                TranslateServices.TraducirObjeto(this, traducciones);
-            }
-        }
-
-        protected override void OnFormClosed(FormClosedEventArgs e)
-        {
-            GestorIdioma.GetInstance.Detach(this);
-            base.OnFormClosed(e);
         }
 
         private void mainUIStripMenuItemHistorialUsuario_Click(object sender, EventArgs e)
