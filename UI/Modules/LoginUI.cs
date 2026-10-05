@@ -9,7 +9,6 @@ namespace UI.Login
 
         private GestorLogin gestorLogin;
         public event EventHandler? SesionIniciada;
-        //private RepositorioIdioma repoIdioma = new RepositorioIdioma();
 
         public LoginUI()
         {
@@ -31,27 +30,27 @@ namespace UI.Login
 
                 if (!usernameValidationResult.IsValid)
                 {
-                    string msgUser = GestorIdioma.GetInstance.TraducirMensaje(usernameValidationResult.ErrorMessage, "Error de validación");
+                    string msgUser = T(usernameValidationResult.ErrorMessage, usernameValidationResult.MensajePorDefecto);
                     throw new Exception(msgUser);
                 }
 
                 if (isPasswordEmpty)
                 {
-                    string msgPass = GestorIdioma.GetInstance.TraducirMensaje("err_PassVacia", "La contraseña no puede estar vacía.");
+                    string msgPass = T("err_PassVacia", "La contraseña no puede estar vacía.");
                     throw new Exception(msgPass);
                 }
 
                 gestorLogin.LogIn(nUsername, nPassword);
 
-                string mensaje = GestorIdioma.GetInstance.TraducirMensaje("msg_InicioSesionExito", "Inicio de sesión exitoso.");
-                string titulo = GestorIdioma.GetInstance.TraducirMensaje("msg_TituloExito", "Éxito");
+                string mensaje = T("msg_InicioSesionExito", "Inicio de sesión exitoso.");
+                string titulo = T("msg_TituloExito", "Éxito");
 
                 MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 SesionIniciada?.Invoke(this, EventArgs.Empty);
             }
             catch (Exception ex)
             {
-                string tituloError = GestorIdioma.GetInstance.TraducirMensaje("msg_TituloError", "Error");
+                string tituloError = T("msg_TituloError", "Error");
                 MessageBox.Show(ex.Message, tituloError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

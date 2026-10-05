@@ -3,7 +3,7 @@ using BLL.recorrido_components;
 
 namespace UI.Modules
 {
-    public partial class GestionParadasUI : Form
+    public partial class GestionParadasUI : FormBaseObserver
     {
         private List<Parada> paradasDisponibles;
 
@@ -34,21 +34,21 @@ namespace UI.Modules
 
                 if (id == "" || descripcion == "" || direccion == "" || localidad == "")
                 {
-                    throw new Exception("Todos los campos son obligatorios.");
+                    throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
                 }
 
                 if (paradasDisponibles.Exists(p => p.id == id))
                 {
-                    throw new Exception("Ya existe una parada con el mismo ID.");
+                    throw new Exception(T("msg_YaExisteUnaParadaConElMismoId", "Ya existe una parada con el mismo ID."));
                 }
 
                 GestorParada.InsertarParada(new Parada(id, descripcion, localidad, direccion, habilitada));
-                MessageBox.Show("Parada creada exitosamente.");
+                MessageBox.Show(T("msg_ParadaCreadaExitosamente", "Parada creada exitosamente."));
                 this.refrescarParadas();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al crear la parada: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlCrearLaParada", "Error al crear la parada: ") + ex.Message);
             }
         }
 
@@ -56,14 +56,14 @@ namespace UI.Modules
         {
             try
             {
-                string selectedId = dataGridViewParadas.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception("No se ha seleccionado ninguna parada.");
+                string selectedId = dataGridViewParadas.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada", "No se ha seleccionado ninguna parada."));
                 GestorParada.EliminarParada(selectedId);
-                MessageBox.Show("Parada eliminada exitosamente.");
+                MessageBox.Show(T("msg_ParadaEliminadaExitosamente", "Parada eliminada exitosamente."));
                 this.refrescarParadas();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al eliminar la parada: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlEliminarLaParada", "Error al eliminar la parada: ") + ex.Message);
             }
         }
 
@@ -71,21 +71,21 @@ namespace UI.Modules
         {
             try
             {
-                string selectedId = dataGridViewParadas.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception("No se ha seleccionado ninguna parada.");
-                Parada paradaSeleccionada = paradasDisponibles.FirstOrDefault(p => p.id == selectedId) ?? throw new Exception("No se ha encontrado la parada seleccionada.");
+                string selectedId = dataGridViewParadas.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada", "No se ha seleccionado ninguna parada."));
+                Parada paradaSeleccionada = paradasDisponibles.FirstOrDefault(p => p.id == selectedId) ?? throw new Exception(T("msg_NoSeHaEncontradoLaParadaSeleccionada", "No se ha encontrado la parada seleccionada."));
                 using (var modal = new GestionParadasModificacionUI(paradaSeleccionada.descripcion, paradaSeleccionada.localidad, paradaSeleccionada.direccion))
                 {
                     if (modal.ShowDialog() == DialogResult.OK)
                     {
                         GestorParada.ActualizarParada(new Parada(selectedId, modal.descripcionModificada, modal.localidadModificada, modal.direccionModificada, paradaSeleccionada.habilitada));
-                        MessageBox.Show("Parada modificada exitosamente.");
+                        MessageBox.Show(T("msg_ParadaModificadaExitosamente", "Parada modificada exitosamente."));
                         this.refrescarParadas();
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al modificar la parada: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlModificarLaParada", "Error al modificar la parada: ") + ex.Message);
             }
         }
 
@@ -93,14 +93,14 @@ namespace UI.Modules
         {
             try
             {
-                string selectedId = dataGridViewParadas.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception("No se ha seleccionado ninguna parada.");
-                Parada paradaSeleccionada = paradasDisponibles.FirstOrDefault(p => p.id == selectedId) ?? throw new Exception("No se ha encontrado la parada seleccionada.");
+                string selectedId = dataGridViewParadas.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada", "No se ha seleccionado ninguna parada."));
+                Parada paradaSeleccionada = paradasDisponibles.FirstOrDefault(p => p.id == selectedId) ?? throw new Exception(T("msg_NoSeHaEncontradoLaParadaSeleccionada", "No se ha encontrado la parada seleccionada."));
                 GestorParada.ActualizarParada(new Parada(selectedId, paradaSeleccionada.descripcion, paradaSeleccionada.localidad, paradaSeleccionada.direccion, !paradaSeleccionada.habilitada));
                 this.refrescarParadas();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al modificar la parada: {ex.Message}");
+                MessageBox.Show(T("msg_ErrorAlModificarLaParada", "Error al modificar la parada: ") + ex.Message);
             }
         }
     }

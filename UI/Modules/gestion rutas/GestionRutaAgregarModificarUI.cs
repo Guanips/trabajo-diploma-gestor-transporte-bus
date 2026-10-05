@@ -1,6 +1,6 @@
 ﻿namespace UI.Modules.gestion_rutas
 {
-    public partial class GestionRutaAgregarModificarUI : Form
+    public partial class GestionRutaAgregarModificarUI : FormBaseObserver
     {
         public string rutaID => textBoxRutaID.Text;
         public string rutaDescripcion => textBoxRutaDescripcion.Text;
@@ -71,7 +71,7 @@
             }
             else
             {
-                MessageBox.Show("Por favor, complete todos los campos obligatorios.", "Campos incompletos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(T("msg_PorFavorCompleteTodosLosCamposObligatorios", "Por favor, complete todos los campos obligatorios."), T("msg_CamposIncompletos", "Campos incompletos"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             this.DialogResult = DialogResult.OK;

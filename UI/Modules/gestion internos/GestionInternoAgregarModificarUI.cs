@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace UI.Modules.gestion_internos
 {
-    public partial class GestionInternoAgregarModificarUI : Form
+    public partial class GestionInternoAgregarModificarUI : FormBaseObserver
     {
         public int? numeroInterno { get; private set; }
         public string? patenteInterno { get; private set; }
@@ -63,16 +63,16 @@ namespace UI.Modules.gestion_internos
             {
                 string unparsedNumInterno = textBoxInternoNum.Text.Trim();
 
-                int parsedNumInterno = int.TryParse(unparsedNumInterno, out int numInterno) ? numInterno : throw new Exception("Número de interno inválido");
+                int parsedNumInterno = int.TryParse(unparsedNumInterno, out int numInterno) ? numInterno : throw new Exception(T("msg_NumeroDeInternoInvalido", "Número de interno inválido"));
 
                 if (string.IsNullOrWhiteSpace(textBoxInternoPatente.Text))
                 {
-                    throw new Exception("La patente del interno no puede estar vacía");
+                    throw new Exception(T("msg_LaPatenteDelInternoNoPuedeEstarVacia", "La patente del interno no puede estar vacía"));
                 }
 
                 if (string.IsNullOrWhiteSpace(textBoxInternoModelo.Text))
                 {
-                    throw new Exception("El modelo del interno no puede estar vacío");
+                    throw new Exception(T("msg_ElModeloDelInternoNoPuedeEstarVacio", "El modelo del interno no puede estar vacío"));
                 }
 
                 this.numeroInterno = parsedNumInterno;

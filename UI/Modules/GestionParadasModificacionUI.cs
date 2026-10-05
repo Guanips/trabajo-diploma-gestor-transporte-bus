@@ -1,6 +1,6 @@
 ﻿namespace UI.Modules
 {
-    public partial class GestionParadasModificacionUI : Form
+    public partial class GestionParadasModificacionUI : FormBaseObserver
     {
         public string descripcionModificada => textBoxParadaModificarDescripcion.Text;
         public string localidadModificada => textBoxParadaModificarLocalidad.Text;
@@ -28,7 +28,7 @@
                 string.IsNullOrWhiteSpace(textBoxParadaModificarLocalidad.Text) ||
                 string.IsNullOrWhiteSpace(textBoxParadaModificarDireccion.Text))
             {
-                throw new Exception("Todos los campos son obligatorios.");
+                throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
             }
 
             this.DialogResult = DialogResult.OK;

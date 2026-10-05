@@ -79,35 +79,58 @@ BEGIN
     );
 END
 
+-- ---------------------------------------------------------
+-- MULTI-IDIOMA
+-- Idioma: idiomas disponibles. Solo uno es el idioma por defecto (EsDefault = 1), que es
+--         el idioma en el que se registran automaticamente las etiquetas nuevas.
+-- Etiqueta: catalogo unico de textos traducibles. La Clave tiene la forma
+--         'Formulario.Control' (o 'Formulario.Grilla.Columna'); los mensajes usan claves sin formulario.
+-- Traduccion: texto de cada etiqueta en cada idioma (una fila por par etiqueta-idioma).
+-- ---------------------------------------------------------
 IF OBJECT_ID(N'dbo.Idioma', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.Idioma (
-        Codigo VARCHAR(5) NOT NULL,   -- Ej: 'ES', 'EN'
-        Nombre VARCHAR(50) NOT NULL,  -- Ej: 'Español', 'English'
+        Codigo VARCHAR(5) NOT NULL,     -- Ej: 'ES', 'EN'
+        Nombre NVARCHAR(50) NOT NULL,   -- Ej: 'Español', 'English'
+        EsDefault BIT NOT NULL CONSTRAINT DF_Idioma_EsDefault DEFAULT 0,
         CONSTRAINT PK_Idioma PRIMARY KEY (Codigo)
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE name = N'UIX_Idioma_Default' AND object_id = OBJECT_ID(N'dbo.Idioma'))
+BEGIN
+    -- Garantiza que exista a lo sumo un idioma por defecto
+    CREATE UNIQUE INDEX UIX_Idioma_Default ON dbo.Idioma(EsDefault) WHERE EsDefault = 1;
+END
+
+IF OBJECT_ID(N'dbo.Etiqueta', N'U') IS NULL
+BEGIN
+    CREATE TABLE dbo.Etiqueta (
+        IdEtiqueta INT IDENTITY(1,1) NOT NULL,
+        Clave VARCHAR(200) NOT NULL,    -- Ej: 'LoginUI.loginUIButtonIniciarSesion', 'msg_TituloError'
+        Formulario VARCHAR(100) NULL,   -- Ej: 'LoginUI'. NULL para los mensajes
+        FechaAlta DATETIME NOT NULL CONSTRAINT DF_Etiqueta_FechaAlta DEFAULT GETDATE(),
+        CONSTRAINT PK_Etiqueta PRIMARY KEY (IdEtiqueta),
+        CONSTRAINT UQ_Etiqueta_Clave UNIQUE (Clave)
     );
 END
 
 IF OBJECT_ID(N'dbo.Traduccion', N'U') IS NULL
 BEGIN
     CREATE TABLE dbo.Traduccion (
-        IdTraduccion INT IDENTITY(1,1) NOT NULL,
+        IdEtiqueta INT NOT NULL,
         CodigoIdioma VARCHAR(5) NOT NULL,
-        KeyEtiqueta VARCHAR(100) NOT NULL, -- El nombre del control (Ej: loginUILabelUsername)
-        Texto NVARCHAR(MAX) NOT NULL,      -- El texto a mostrar (Ej: 'Nombre de usuario')
-        CONSTRAINT PK_Traduccion PRIMARY KEY (IdTraduccion),
+        Texto NVARCHAR(MAX) NOT NULL,
+        CONSTRAINT PK_Traduccion PRIMARY KEY (IdEtiqueta, CodigoIdioma),
+        CONSTRAINT FK_Traduccion_Etiqueta FOREIGN KEY (IdEtiqueta) REFERENCES dbo.Etiqueta(IdEtiqueta) ON DELETE CASCADE,
         CONSTRAINT FK_Traduccion_Idioma FOREIGN KEY (CodigoIdioma) REFERENCES dbo.Idioma(Codigo)
     );
 END
 
-IF NOT EXISTS (
-    SELECT 1
-    FROM sys.indexes
-    WHERE name = N'UIX_Idioma_Etiqueta'
-      AND object_id = OBJECT_ID(N'dbo.Traduccion')
-)
+IF NOT EXISTS (SELECT 1 FROM sys.foreign_keys WHERE name = N'FK_Usuario_Idioma')
 BEGIN
-    CREATE UNIQUE INDEX UIX_Idioma_Etiqueta ON dbo.Traduccion(CodigoIdioma, KeyEtiqueta);
+    ALTER TABLE dbo.Usuario
+        ADD CONSTRAINT FK_Usuario_Idioma FOREIGN KEY (Idioma) REFERENCES dbo.Idioma(Codigo);
 END
 
 IF OBJECT_ID(N'dbo.HistorialUsuario', N'U') IS NULL
