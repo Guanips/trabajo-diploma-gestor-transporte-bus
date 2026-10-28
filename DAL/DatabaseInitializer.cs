@@ -1,5 +1,6 @@
 using Microsoft.Data.SqlClient;
 using System.Reflection;
+using System.Security.Principal;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -45,7 +46,9 @@ namespace DAL
             "InitRevisionTallerStoredProcedures.sql",
             "InitAuditoriaCronogramasStoredProcedures.sql",
             "InitIdiomaStoredProcedures.sql",
-            "InitStartingData.sql"
+            "InitStartingData.sql",
+            // Datos de demostracion: solo se cargan si la base no tiene datos operativos
+            "InitDemoData.sql"
         };
 
         // "GO" solo en su linea (sqlcmd/SSMS lo aceptan con espacios y comentario final)
@@ -84,8 +87,58 @@ namespace DAL
                 RunScript(masterConnectionString, script, log);
             }
 
+            EnsureUsersAccess(builder, log);
+
             log?.Invoke("Base de datos inicializada.");
             // El applock de sesion se libera al cerrar lockConnection
+        }
+
+        /// <summary>True si la cadena apunta a una instancia LocalDB (por usuario, no hay que dar acceso a nadie mas).</summary>
+        public static bool IsLocalDb(string connectionString) =>
+            new SqlConnectionStringBuilder(connectionString).DataSource.TrimStart().StartsWith("(localdb)", StringComparison.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// En un SQL Server real solo los administradores tienen acceso. Se da acceso al grupo local "Usuarios"
+        /// (el nombre se resuelve por SID porque cambia con el idioma de Windows) con los permisos que necesita
+        /// la aplicacion: leer/escribir tablas (SqlDataAdapter) y ejecutar stored procedures. Es idempotente.
+        /// No es fatal: si quien inicializa no puede crear logins, se registra y se sigue.
+        /// </summary>
+        private static void EnsureUsersAccess(SqlConnectionStringBuilder master, Action<string>? log)
+        {
+            if (master.DataSource.TrimStart().StartsWith("(localdb)", StringComparison.OrdinalIgnoreCase)) return;
+
+            try
+            {
+#pragma warning disable CA1416 // Solo Windows: SQL Server con autenticacion integrada tambien lo es
+                string account = new SecurityIdentifier(WellKnownSidType.BuiltinUsersSid, null)
+                    .Translate(typeof(NTAccount)).Value;
+#pragma warning restore CA1416
+                string literal = account.Replace("'", "''");
+                string identifier = "[" + account.Replace("]", "]]") + "]";
+
+                log?.Invoke($"Otorgando acceso a {account}...");
+                ExecuteNonQuery(master.ConnectionString,
+                    $"IF NOT EXISTS (SELECT 1 FROM sys.server_principals WHERE name = N'{literal}') CREATE LOGIN {identifier} FROM WINDOWS;");
+
+                var database = new SqlConnectionStringBuilder(master.ConnectionString) { InitialCatalog = DatabaseName };
+                ExecuteNonQuery(database.ConnectionString,
+                    $"IF NOT EXISTS (SELECT 1 FROM sys.database_principals WHERE name = N'{literal}') CREATE USER {identifier} FOR LOGIN {identifier}; " +
+                    $"ALTER ROLE db_datareader ADD MEMBER {identifier}; " +
+                    $"ALTER ROLE db_datawriter ADD MEMBER {identifier}; " +
+                    $"GRANT EXECUTE ON SCHEMA::dbo TO {identifier};");
+            }
+            catch (Exception ex)
+            {
+                log?.Invoke($"ADVERTENCIA: no se pudo otorgar acceso al grupo Usuarios: {ex.Message}");
+            }
+        }
+
+        private static void ExecuteNonQuery(string connectionString, string sql)
+        {
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+            using SqlCommand cmd = new(sql, connection) { CommandTimeout = CommandTimeoutSeconds };
+            cmd.ExecuteNonQuery();
         }
 
         /// <summary>
