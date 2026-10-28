@@ -3,6 +3,7 @@ using BLL;
 using servicios;
 using UI.Login;
 using UI.Modules;
+using UI.Modules.exportado_cronogramas;
 using UI.Modules.gestion_choferes;
 using UI.Modules.gestion_cronogramas;
 using UI.Modules.gestion_internos;
@@ -68,9 +69,12 @@ namespace UI
                     gestionDeCronogramasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
                     auditoriaSalidasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
                     sancionesChoferToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
-                    gestionCargasCombustibleToolStripMenuItem.Enabled =usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
+                    gestionCargasCombustibleToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CARGAS-COMBUSTIBLE"));
                     tallerToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-TALLER"));
                     gestionRevisionesToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-REVISIONES-TALLER"));
+                    exportarImportarCronogramasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-EXPORTAR-CRONOGRAMAS") || p.ValidarPermiso("PERM-IMPORTAR-CRONOGRAMAS"));
+                    exportarCronogramaToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-EXPORTAR-CRONOGRAMAS"));
+                    importarCronogramaToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-IMPORTAR-CRONOGRAMAS"));
 
                     // Al iniciar sesión se pasa al idioma preferido del usuario
                     if (!string.IsNullOrEmpty(usuarioActual.Idioma))
@@ -270,6 +274,18 @@ namespace UI
         {
             GestionRevisionesTallerUI gestionRevisionesTallerUI = new GestionRevisionesTallerUI();
             cargarFormulario(gestionRevisionesTallerUI);
+        }
+
+        private void exportarCronogramaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportarCronogramaUI exportarCronogramaUI = new ExportarCronogramaUI();
+            cargarFormulario(exportarCronogramaUI);
+        }
+
+        private void importarCronogramaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImportarCronogramaUI importarCronogramaUI = new ImportarCronogramaUI();
+            cargarFormulario(importarCronogramaUI);
         }
     }
 }
