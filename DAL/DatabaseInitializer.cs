@@ -46,7 +46,9 @@ namespace DAL
             "InitRevisionTallerStoredProcedures.sql",
             "InitAuditoriaCronogramasStoredProcedures.sql",
             "InitIdiomaStoredProcedures.sql",
-            "InitStartingData.sql"
+            "InitStartingData.sql",
+            // Datos de demostracion: solo se cargan si la base no tiene datos operativos
+            "InitDemoData.sql"
         };
 
         // "GO" solo en su linea (sqlcmd/SSMS lo aceptan con espacios y comentario final)
