@@ -48,18 +48,21 @@
             gestionDeInternosToolStripMenuItem = new ToolStripMenuItem();
             tallerToolStripMenuItem = new ToolStripMenuItem();
             gestionCargasCombustibleToolStripMenuItem = new ToolStripMenuItem();
+            gestionRevisionesToolStripMenuItem = new ToolStripMenuItem();
             comboIdiomasGlobal = new ComboBox();
             label1 = new Label();
-            gestionRevisionesToolStripMenuItem = new ToolStripMenuItem();
+            exportarImportarCronogramasToolStripMenuItem = new ToolStripMenuItem();
+            importarCronogramaToolStripMenuItem = new ToolStripMenuItem();
+            exportarCronogramaToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem, planificacionServicioToolStripMenuItem, choferesInternosToolStripMenuItem, tallerToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mainUIStripMenuItemInicio, mainUIStripMenuItemGestionDeUsuarios, mainUIStripMenuItemGestionDePerfiles, mainUIStripMenuItemBitacora, mainUIStripMenuItemHistorialUsuario, agregarIdiomaToolStripMenuItem, planificacionServicioToolStripMenuItem, choferesInternosToolStripMenuItem, tallerToolStripMenuItem, exportarImportarCronogramasToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1127, 24);
+            menuStrip1.Size = new Size(1304, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -143,7 +146,7 @@
             // agregarIdiomaToolStripMenuItem
             // 
             agregarIdiomaToolStripMenuItem.Name = "agregarIdiomaToolStripMenuItem";
-            agregarIdiomaToolStripMenuItem.Size = new Size(101, 20);
+            agregarIdiomaToolStripMenuItem.Size = new Size(120, 20);
             agregarIdiomaToolStripMenuItem.Text = "Gestión de idiomas";
             agregarIdiomaToolStripMenuItem.Click += agregarIdiomaToolStripMenuItem_Click;
             // 
@@ -181,14 +184,14 @@
             auditoriaSalidasToolStripMenuItem.Size = new Size(203, 22);
             auditoriaSalidasToolStripMenuItem.Text = "Auditoría de salidas";
             auditoriaSalidasToolStripMenuItem.Click += auditoriaSalidasToolStripMenuItem_Click;
-            //
+            // 
             // sancionesChoferToolStripMenuItem
-            //
+            // 
             sancionesChoferToolStripMenuItem.Name = "sancionesChoferToolStripMenuItem";
             sancionesChoferToolStripMenuItem.Size = new Size(203, 22);
             sancionesChoferToolStripMenuItem.Text = "Sanciones por chofer";
             sancionesChoferToolStripMenuItem.Click += sancionesChoferToolStripMenuItem_Click;
-            //
+            // 
             // choferesInternosToolStripMenuItem
             // 
             choferesInternosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { gestionDeChoferesToolStripMenuItem, gestionDeInternosToolStripMenuItem });
@@ -224,11 +227,18 @@
             gestionCargasCombustibleToolStripMenuItem.Text = "Gestion de cargas de combustible";
             gestionCargasCombustibleToolStripMenuItem.Click += gestionCargasCombustibleToolStripMenuItem_Click;
             // 
+            // gestionRevisionesToolStripMenuItem
+            // 
+            gestionRevisionesToolStripMenuItem.Name = "gestionRevisionesToolStripMenuItem";
+            gestionRevisionesToolStripMenuItem.Size = new Size(252, 22);
+            gestionRevisionesToolStripMenuItem.Text = "Gestion de revisiones";
+            gestionRevisionesToolStripMenuItem.Click += gestionRevisionesToolStripMenuItem_Click;
+            // 
             // comboIdiomasGlobal
             // 
             comboIdiomasGlobal.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboIdiomasGlobal.FormattingEnabled = true;
-            comboIdiomasGlobal.Location = new Point(1050, 38);
+            comboIdiomasGlobal.Location = new Point(1227, 38);
             comboIdiomasGlobal.Name = "comboIdiomasGlobal";
             comboIdiomasGlobal.Size = new Size(65, 23);
             comboIdiomasGlobal.TabIndex = 1;
@@ -238,25 +248,39 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(1050, 20);
+            label1.Location = new Point(1227, 20);
             label1.Name = "label1";
             label1.Size = new Size(44, 15);
             label1.TabIndex = 2;
             label1.Text = "Idioma";
             // 
-            // gestionRevisionesToolStripMenuItem
+            // exportarImportarCronogramasToolStripMenuItem
             // 
-            gestionRevisionesToolStripMenuItem.Name = "gestionRevisionesToolStripMenuItem";
-            gestionRevisionesToolStripMenuItem.Size = new Size(252, 22);
-            gestionRevisionesToolStripMenuItem.Text = "Gestion de revisiones";
-            gestionRevisionesToolStripMenuItem.Click += gestionRevisionesToolStripMenuItem_Click;
+            exportarImportarCronogramasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { exportarCronogramaToolStripMenuItem, importarCronogramaToolStripMenuItem });
+            exportarImportarCronogramasToolStripMenuItem.Name = "exportarImportarCronogramasToolStripMenuItem";
+            exportarImportarCronogramasToolStripMenuItem.Size = new Size(186, 20);
+            exportarImportarCronogramasToolStripMenuItem.Text = "Exportar/Importar cronogramas";
+            // 
+            // importarCronogramaToolStripMenuItem
+            // 
+            importarCronogramaToolStripMenuItem.Name = "importarCronogramaToolStripMenuItem";
+            importarCronogramaToolStripMenuItem.Size = new Size(188, 22);
+            importarCronogramaToolStripMenuItem.Text = "Importar cronograma";
+            importarCronogramaToolStripMenuItem.Click += importarCronogramaToolStripMenuItem_Click;
+            // 
+            // exportarCronogramaToolStripMenuItem
+            // 
+            exportarCronogramaToolStripMenuItem.Name = "exportarCronogramaToolStripMenuItem";
+            exportarCronogramaToolStripMenuItem.Size = new Size(188, 22);
+            exportarCronogramaToolStripMenuItem.Text = "Exportar cronograma";
+            exportarCronogramaToolStripMenuItem.Click += exportarCronogramaToolStripMenuItem_Click;
             // 
             // MainUI
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(1127, 564);
+            ClientSize = new Size(1304, 731);
             Controls.Add(label1);
             Controls.Add(comboIdiomasGlobal);
             Controls.Add(menuStrip1);
@@ -300,5 +324,8 @@
         private ToolStripMenuItem tallerToolStripMenuItem;
         private ToolStripMenuItem gestionCargasCombustibleToolStripMenuItem;
         private ToolStripMenuItem gestionRevisionesToolStripMenuItem;
+        private ToolStripMenuItem exportarImportarCronogramasToolStripMenuItem;
+        private ToolStripMenuItem exportarCronogramaToolStripMenuItem;
+        private ToolStripMenuItem importarCronogramaToolStripMenuItem;
     }
 }
