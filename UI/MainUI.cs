@@ -2,6 +2,7 @@ using BE;
 using BLL;
 using servicios;
 using UI.Login;
+using UI.Modules.analisis_informacion;
 using UI.Modules;
 using UI.Modules.gestion_choferes;
 using UI.Modules.gestion_cronogramas;
@@ -63,6 +64,7 @@ namespace UI
                     mainUIStripMenuItemBitacora.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-CONSULTA-BIT"));
                     mainUIStripMenuItemHistorialUsuario.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTIONAR-HISTORIAL"));
                     agregarIdiomaToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-AGREGAR-IDM"));
+                    analisisInformacionToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-ANALISIS-INFORMACION"));
                     planificacionServicioToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-PLANIFICACION-SERVICIO"));
                     choferesInternosToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CHOFERES-INTERNOS"));
                     gestionDeCronogramasToolStripMenuItem.Enabled = usuarioActual.Permisos.Any(p => p.ValidarPermiso("PERM-GESTION-CRONOGRAMAS"));
@@ -210,6 +212,11 @@ namespace UI
         {
             GestionHistorialUsuarioUI gestionHistorialUsuarioUI = new GestionHistorialUsuarioUI();
             cargarFormulario(gestionHistorialUsuarioUI);
+        }
+
+        private void reporteGeneralServicioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cargarFormulario(new ReporteGeneralUI());
         }
 
         private void agregarIdiomaToolStripMenuItem_Click(object sender, EventArgs e)

@@ -46,6 +46,7 @@ namespace DAL
             "InitRevisionTallerStoredProcedures.sql",
             "InitAuditoriaCronogramasStoredProcedures.sql",
             "InitIdiomaStoredProcedures.sql",
+            "InitReporteStoredProcedures.sql",
             "InitStartingData.sql",
             // Datos de demostracion: solo se cargan si la base no tiene datos operativos
             "InitDemoData.sql"
@@ -178,8 +179,8 @@ namespace DAL
                 if ((int)seed.ExecuteScalar()! == 0) return false;
 
                 // Permisos agregados despues del seed inicial: si faltan, Initialize los completa (es idempotente)
-                using SqlCommand permisos = new("SELECT COUNT(*) FROM dbo.Permiso WHERE Nombre = N'PERM-ELIMINAR-SANCION'", connection);
-                return (int)permisos.ExecuteScalar()! > 0;
+                using SqlCommand permisos = new("SELECT COUNT(*) FROM dbo.Permiso WHERE Nombre IN (N'PERM-ELIMINAR-SANCION', N'PERM-ANALISIS-INFORMACION')", connection);
+                return (int)permisos.ExecuteScalar()! == 2;
             }
             catch
             {

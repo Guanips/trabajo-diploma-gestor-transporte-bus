@@ -110,6 +110,25 @@ BEGIN
     );
 END
 
+-- Modulo de analisis de informacion (reporte general del servicio)
+IF NOT EXISTS (SELECT 1 FROM dbo.Permiso WHERE Nombre = 'PERM-ANALISIS-INFORMACION' AND EsPerfil = 0)
+BEGIN
+    INSERT INTO dbo.Permiso (Nombre, EsPerfil) VALUES ('PERM-ANALISIS-INFORMACION', 0);
+END
+
+IF EXISTS (SELECT 1 FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1)
+   AND NOT EXISTS (
+       SELECT 1 FROM dbo.PermisoRelacion
+       WHERE ID_Padre = (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1)
+         AND ID_Hijo = (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ANALISIS-INFORMACION' AND EsPerfil = 0))
+BEGIN
+    INSERT INTO dbo.PermisoRelacion (ID_Padre, ID_Hijo)
+    VALUES (
+        (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERF-ADMIN' AND EsPerfil = 1),
+        (SELECT ID FROM dbo.Permiso WHERE Nombre = 'PERM-ANALISIS-INFORMACION' AND EsPerfil = 0)
+    );
+END
+
 GO
 
 -- ---------------------------------------------------------
