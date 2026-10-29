@@ -24,6 +24,7 @@ namespace UI.Modules.analisis_informacion
             dateTimePickerReporteHasta = new DateTimePicker();
             buttonReporteGenerar = new Button();
             buttonReporteExportarPdf = new Button();
+            buttonReporteRecomendaciones = new Button();
             tabControlReporte = new TabControl();
             tabPageReporteResumen = new TabPage();
             tableLayoutPanelReporteResumen = new TableLayoutPanel();
@@ -49,6 +50,7 @@ namespace UI.Modules.analisis_informacion
             panelReporteFiltros.Controls.Add(dateTimePickerReporteHasta);
             panelReporteFiltros.Controls.Add(buttonReporteGenerar);
             panelReporteFiltros.Controls.Add(buttonReporteExportarPdf);
+            panelReporteFiltros.Controls.Add(buttonReporteRecomendaciones);
             panelReporteFiltros.Dock = DockStyle.Top;
             panelReporteFiltros.Name = "panelReporteFiltros";
             panelReporteFiltros.Size = new Size(1100, 54);
@@ -103,6 +105,16 @@ namespace UI.Modules.analisis_informacion
             buttonReporteExportarPdf.Text = "Exportar a PDF";
             buttonReporteExportarPdf.UseVisualStyleBackColor = true;
             buttonReporteExportarPdf.Click += buttonReporteExportarPdf_Click;
+            //
+            // buttonReporteRecomendaciones
+            //
+            buttonReporteRecomendaciones.Location = new Point(690, 11);
+            buttonReporteRecomendaciones.Name = "buttonReporteRecomendaciones";
+            buttonReporteRecomendaciones.Size = new Size(190, 30);
+            buttonReporteRecomendaciones.TabIndex = 4;
+            buttonReporteRecomendaciones.Text = "Obtener recomendaciones";
+            buttonReporteRecomendaciones.UseVisualStyleBackColor = true;
+            buttonReporteRecomendaciones.Click += buttonReporteRecomendaciones_Click;
             //
             // tabControlReporte
             //
@@ -204,6 +216,7 @@ namespace UI.Modules.analisis_informacion
         private DateTimePicker dateTimePickerReporteHasta;
         private Button buttonReporteGenerar;
         private Button buttonReporteExportarPdf;
+        private Button buttonReporteRecomendaciones;
         private TabControl tabControlReporte;
         private TabPage tabPageReporteResumen;
         private TableLayoutPanel tableLayoutPanelReporteResumen;

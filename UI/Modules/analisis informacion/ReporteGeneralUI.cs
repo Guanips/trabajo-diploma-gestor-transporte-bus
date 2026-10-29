@@ -135,6 +135,39 @@ namespace UI.Modules.analisis_informacion
         }
 
         // -------------------------------------------------------------------
+        // CU-INFO-Obtener recomendaciones de gestión
+        // -------------------------------------------------------------------
+
+        private async void buttonReporteRecomendaciones_Click(object? sender, EventArgs e)
+        {
+            if (!RangoValido(out DateOnly desde, out DateOnly hasta)) return;
+
+            EstablecerOcupado(true);
+            try
+            {
+                List<Recomendacion> recomendaciones = await Task.Run(() => GestorRecomendaciones.ObtenerRecomendaciones(desde, hasta));
+
+                if (recomendaciones.Count == 0)
+                {
+                    MessageBox.Show(T("msg_RecomendacionesNinguna", "Con los datos del período seleccionado no se detectaron situaciones que requieran acciones de gestión."),
+                        T("msg_TituloInformacion", "Información"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                using RecomendacionesUI dialogo = new RecomendacionesUI(desde, hasta, recomendaciones);
+                dialogo.ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                NotificarError(ex);
+            }
+            finally
+            {
+                EstablecerOcupado(false);
+            }
+        }
+
+        // -------------------------------------------------------------------
         // Utilidades
         // -------------------------------------------------------------------
 
@@ -159,6 +192,7 @@ namespace UI.Modules.analisis_informacion
             UseWaitCursor = ocupado;
             buttonReporteGenerar.Enabled = !ocupado;
             buttonReporteExportarPdf.Enabled = !ocupado;
+            buttonReporteRecomendaciones.Enabled = !ocupado;
             dateTimePickerReporteDesde.Enabled = !ocupado;
             dateTimePickerReporteHasta.Enabled = !ocupado;
         }
