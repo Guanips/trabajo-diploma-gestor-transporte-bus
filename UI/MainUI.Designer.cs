@@ -37,6 +37,8 @@
             mainUIStripMenuItemConsultarBitacora = new ToolStripMenuItem();
             mainUIStripMenuItemHistorialUsuario = new ToolStripMenuItem();
             agregarIdiomaToolStripMenuItem = new ToolStripMenuItem();
+            analisisInformacionToolStripMenuItem = new ToolStripMenuItem();
+            reporteGeneralServicioToolStripMenuItem = new ToolStripMenuItem();
             planificacionServicioToolStripMenuItem = new ToolStripMenuItem();
             gestionParadaToolStripMenuItem = new ToolStripMenuItem();
             gestionDeRutasToolStripMenuItem = new ToolStripMenuItem();
@@ -65,6 +67,7 @@
             menuStrip1.Size = new Size(1304, 24);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
+            menuStrip1.Items.Add(analisisInformacionToolStripMenuItem);
             // 
             // mainUIStripMenuItemInicio
             // 
@@ -219,6 +222,20 @@
             tallerToolStripMenuItem.Name = "tallerToolStripMenuItem";
             tallerToolStripMenuItem.Size = new Size(47, 20);
             tallerToolStripMenuItem.Text = "Taller";
+            //
+            // analisisInformacionToolStripMenuItem
+            //
+            analisisInformacionToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { reporteGeneralServicioToolStripMenuItem });
+            analisisInformacionToolStripMenuItem.Name = "analisisInformacionToolStripMenuItem";
+            analisisInformacionToolStripMenuItem.Size = new Size(130, 20);
+            analisisInformacionToolStripMenuItem.Text = "Análisis de información";
+            //
+            // reporteGeneralServicioToolStripMenuItem
+            //
+            reporteGeneralServicioToolStripMenuItem.Name = "reporteGeneralServicioToolStripMenuItem";
+            reporteGeneralServicioToolStripMenuItem.Size = new Size(240, 22);
+            reporteGeneralServicioToolStripMenuItem.Text = "Reporte general del servicio";
+            reporteGeneralServicioToolStripMenuItem.Click += reporteGeneralServicioToolStripMenuItem_Click;
             // 
             // gestionCargasCombustibleToolStripMenuItem
             // 
@@ -322,6 +339,8 @@
         private ToolStripMenuItem auditoriaSalidasToolStripMenuItem;
         private ToolStripMenuItem sancionesChoferToolStripMenuItem;
         private ToolStripMenuItem tallerToolStripMenuItem;
+        private ToolStripMenuItem analisisInformacionToolStripMenuItem;
+        private ToolStripMenuItem reporteGeneralServicioToolStripMenuItem;
         private ToolStripMenuItem gestionCargasCombustibleToolStripMenuItem;
         private ToolStripMenuItem gestionRevisionesToolStripMenuItem;
         private ToolStripMenuItem exportarImportarCronogramasToolStripMenuItem;
