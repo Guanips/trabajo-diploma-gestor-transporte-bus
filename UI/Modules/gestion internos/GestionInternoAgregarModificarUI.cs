@@ -12,7 +12,6 @@ namespace UI.Modules.gestion_internos
 {
     public partial class GestionInternoAgregarModificarUI : FormBaseObserver
     {
-        public int? numeroInterno { get; private set; }
         public string? patenteInterno { get; private set; }
         public string? modeloInterno { get; private set; }
         public DateOnly? fechaIncorporacionInterno { get; private set; }
@@ -30,10 +29,12 @@ namespace UI.Modules.gestion_internos
 
             this.AcceptButton = buttonInternoAltaModificarConfirmar;
 
+            // El num_interno es IDENTITY: nunca se ingresa a mano, ni en el alta ni en la modificación
+            textBoxInternoNum.Enabled = false;
+
             if (numInterno != null)
             {
                 textBoxInternoNum.Text = numInterno.ToString();
-                textBoxInternoNum.Enabled = false; // El num_interno es IDENTITY, no se modifica
             }
 
             if (patente != null)
@@ -61,10 +62,6 @@ namespace UI.Modules.gestion_internos
         {
             try
             {
-                string unparsedNumInterno = textBoxInternoNum.Text.Trim();
-
-                int parsedNumInterno = int.TryParse(unparsedNumInterno, out int numInterno) ? numInterno : throw new Exception(T("msg_NumeroDeInternoInvalido", "Número de interno inválido"));
-
                 if (string.IsNullOrWhiteSpace(textBoxInternoPatente.Text))
                 {
                     throw new Exception(T("msg_LaPatenteDelInternoNoPuedeEstarVacia", "La patente del interno no puede estar vacía"));
@@ -75,7 +72,6 @@ namespace UI.Modules.gestion_internos
                     throw new Exception(T("msg_ElModeloDelInternoNoPuedeEstarVacio", "El modelo del interno no puede estar vacío"));
                 }
 
-                this.numeroInterno = parsedNumInterno;
                 this.patenteInterno = textBoxInternoPatente.Text.Trim();
                 this.modeloInterno = textBoxInternoModelo.Text.Trim();
                 this.fechaIncorporacionInterno = DateOnly.FromDateTime(dateTimePickerInternoFechaIncorporacion.Value);

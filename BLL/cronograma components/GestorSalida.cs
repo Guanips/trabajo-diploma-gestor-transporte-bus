@@ -126,7 +126,10 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo insertar la salida: el cronograma, el interno o el chofer indicados no existen.");
                     }
 
-                    return Convert.ToInt32(idGenerado);
+                    int idSalida = Convert.ToInt32(idGenerado);
+                    GestorBitacora.RegistrarAccion($"LOG_SALIDA_ADD:{idSalida}");
+
+                    return idSalida;
                 }
             }
             catch (Exception ex)
@@ -173,6 +176,8 @@ namespace BLL.cronograma_components
                         cmd.Parameters.Clear();
                     });
 
+                    if (salidas.Count > 0) GestorBitacora.RegistrarAccion($"LOG_SALIDAS_GEN:{idCronograma}");
+
                 }
             }
             catch (Exception ex)
@@ -199,6 +204,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion(interno == null ? $"LOG_SALIDA_DESASIG_INT:{id}" : $"LOG_SALIDA_ASIG_INT:{id}/{interno.num_interno}");
                 }
             }
             catch (Exception ex)
@@ -225,6 +231,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion(chofer == null ? $"LOG_SALIDA_DESASIG_CHO:{id}" : $"LOG_SALIDA_ASIG_CHO:{id}/{chofer.num_chofer}");
                 }
             }
             catch (Exception ex)
@@ -249,6 +256,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_SALIDA_DEL:{id}");
                 }
             }
             catch (Exception ex)
@@ -274,6 +282,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_SALIDA_SUSP:{id}");
                 }
             }
             catch (Exception ex)

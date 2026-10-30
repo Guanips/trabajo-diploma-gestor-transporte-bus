@@ -23,6 +23,8 @@ namespace BLL
             // 2. Reiniciamos el contador de intentos fallidos a 0
             repo.ActualizarIntentosFallidos(username, 0);
 
+            GestorBitacora.RegistrarAccion($"LOG_USER_UNLOCK:{username}");
+
         }
     }
 }

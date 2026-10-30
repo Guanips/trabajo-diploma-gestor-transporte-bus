@@ -73,6 +73,7 @@ namespace BLL.recorrido_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_RUTA_ADD:{nRuta.id}");
                 }
             }
             catch (Exception ex)
@@ -97,6 +98,7 @@ namespace BLL.recorrido_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_RUTA_DEL:{id}");
                 }
             }
             catch (Exception ex)
@@ -125,6 +127,7 @@ namespace BLL.recorrido_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_RUTA_MOD:{nRuta.id}");
                 }
             }
             catch (Exception ex)
@@ -151,6 +154,7 @@ namespace BLL.recorrido_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_RUTA_PARADA_ADD:{ruta.id}/{parada.id}");
                 }
             }
             catch (Exception ex)
@@ -176,6 +180,7 @@ namespace BLL.recorrido_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_RUTA_PARADA_DEL:{ruta.id}/{parada.id}");
                 }
             }
             catch (Exception ex)
@@ -202,6 +207,7 @@ namespace BLL.recorrido_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_RUTA_PARADA_ORD:{ruta.id}/{parada.id}");
                 }
             }
             catch (Exception ex)

@@ -75,6 +75,7 @@ namespace BLL.interno_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_CHOFER_ADD:{nChofer.dni}");
                 }
             }
             catch (Exception ex)
@@ -102,6 +103,7 @@ namespace BLL.interno_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_CHOFER_MOD:{nChofer.num_chofer}");
                 }
             }
             catch (Exception ex)
@@ -126,6 +128,7 @@ namespace BLL.interno_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_CHOFER_DEL:{num_chofer}");
                 }
             }
             catch (Exception ex)

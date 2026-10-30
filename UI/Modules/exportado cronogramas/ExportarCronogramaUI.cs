@@ -1,4 +1,5 @@
 ﻿using BE.cronograma_entities;
+using BLL;
 using BLL.cronograma_components;
 
 namespace UI.Modules.exportado_cronogramas
@@ -67,6 +68,7 @@ namespace UI.Modules.exportado_cronogramas
                     try
                     {
                         File.WriteAllText(saveFileDialog.FileName, SerializadorCronograma.Serializar(exportacionActual));
+                        GestorBitacora.RegistrarAccion($"LOG_CRONO_EXPORT:{cronogramaSeleccionado.id}");
                         MessageBox.Show($"Cronograma exportado exitosamente a:\n{saveFileDialog.FileName}", "Exportación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)

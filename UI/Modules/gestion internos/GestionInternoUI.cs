@@ -23,12 +23,13 @@ namespace UI.Modules.gestion_internos
 
                     if (dialog.DialogResult == DialogResult.OK)
                     {
-                        if (dialog.numeroInterno == null || dialog.patenteInterno == null || dialog.modeloInterno == null || dialog.fechaIncorporacionInterno == null || dialog.disponibleInterno == null)
+                        if (dialog.patenteInterno == null || dialog.modeloInterno == null || dialog.fechaIncorporacionInterno == null || dialog.disponibleInterno == null)
                         {
                             throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
                         }
 
-                        Interno nInterno = new Interno(dialog.numeroInterno.Value, dialog.patenteInterno, dialog.modeloInterno, dialog.fechaIncorporacionInterno.Value, dialog.disponibleInterno.Value);
+                        // El num_interno lo genera la base (IDENTITY): el valor 0 es solo un marcador que el alta ignora.
+                        Interno nInterno = new Interno(0, dialog.patenteInterno, dialog.modeloInterno, dialog.fechaIncorporacionInterno.Value, dialog.disponibleInterno.Value);
                         GestorInterno.InsertarInterno(nInterno);
                         this.refrescarInternos();
                     }

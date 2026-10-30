@@ -75,6 +75,7 @@ namespace BLL.recorrido_components
                     }
 
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_PARADA_ADD:{nParada.id}");
                 }
             }
             catch (Exception ex)
@@ -104,6 +105,7 @@ namespace BLL.recorrido_components
                     }
 
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_PARADA_DEL:{id}");
                 }
             }
             catch (Exception ex)
@@ -133,6 +135,7 @@ namespace BLL.recorrido_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_PARADA_MOD:{parada.id}");
                 }
             }
             catch (Exception ex)

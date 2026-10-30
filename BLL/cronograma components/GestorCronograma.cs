@@ -107,7 +107,10 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo insertar el cronograma: la ruta indicada no existe.");
                     }
 
-                    return Convert.ToInt32(idGenerado);
+                    int idCronograma = Convert.ToInt32(idGenerado);
+                    GestorBitacora.RegistrarAccion($"LOG_CRONO_ADD:{idCronograma}");
+
+                    return idCronograma;
                 }
             }
             catch (Exception ex)
@@ -138,6 +141,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_CRONO_MOD:{nCronograma.id}");
                 }
             }
             catch (Exception ex)
@@ -162,6 +166,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_CRONO_DEL:{id}");
                 }
             }
             catch (Exception ex)

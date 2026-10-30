@@ -116,7 +116,10 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo insertar la sanción: el chofer indicado no existe o el motivo está vacío.");
                     }
 
-                    return Convert.ToInt32(idGenerado);
+                    int idSancion = Convert.ToInt32(idGenerado);
+                    GestorBitacora.RegistrarAccion($"LOG_SANCION_ADD:{idSancion}");
+
+                    return idSancion;
                 }
             }
             catch (Exception ex)
@@ -141,6 +144,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_SANCION_DEL:{id}");
                 }
             }
             catch (Exception ex)
@@ -166,6 +170,7 @@ namespace BLL.cronograma_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_LLEGADA_REAL:{id}");
                 }
             }
             catch (Exception ex)

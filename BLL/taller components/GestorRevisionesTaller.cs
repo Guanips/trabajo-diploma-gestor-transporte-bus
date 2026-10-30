@@ -167,6 +167,8 @@ namespace BLL.taller_components
                             transaction.Rollback();
                             throw;
                         }
+
+                        GestorBitacora.RegistrarAccion($"LOG_REVISION_ADD:{revision.id}");
                     }
                 }
             }
@@ -197,6 +199,7 @@ namespace BLL.taller_components
                 }
 
                 detalle.ActualizarCostoUnitario(costoUnitario);
+                GestorBitacora.RegistrarAccion($"LOG_DETALLE_COSTO:{detalle.id}");
             }
             catch (Exception ex)
             {

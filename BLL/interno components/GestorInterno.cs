@@ -79,6 +79,7 @@ namespace BLL.interno_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_INTERNO_ADD:{nInterno.patente}");
                 }
             }
             catch (Exception ex)
@@ -107,6 +108,7 @@ namespace BLL.interno_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_INTERNO_MOD:{nInterno.num_interno}");
                 }
             }
             catch (Exception ex)
@@ -131,6 +133,7 @@ namespace BLL.interno_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_INTERNO_DEL:{num_interno}");
                 }
             }
             catch (Exception ex)

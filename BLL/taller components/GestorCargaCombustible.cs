@@ -95,6 +95,8 @@ namespace BLL.taller_components
                     {
                         throw new Exception("No se pudo registrar la carga: el interno indicado no existe o los datos son inválidos.");
                     }
+
+                    GestorBitacora.RegistrarAccion($"LOG_CARGA_ADD:{carga.interno.num_interno}");
                 }
             }
             catch (Exception ex)
@@ -120,6 +122,7 @@ namespace BLL.taller_components
                         throw new Exception("No se pudo abrir la conexión a la base de datos.");
                     }
                     cmd.ExecuteNonQuery();
+                    GestorBitacora.RegistrarAccion($"LOG_CARGA_ANULAR:{idCarga}");
                 }
             }
             catch (Exception ex)

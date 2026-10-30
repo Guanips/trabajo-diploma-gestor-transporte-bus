@@ -1,4 +1,5 @@
 using BE.informacion_entities;
+using BLL;
 using BLL.informacion_components;
 using ScottPlot.WinForms;
 
@@ -121,6 +122,7 @@ namespace UI.Modules.analisis_informacion
             try
             {
                 await Task.Run(() => ExportadorReportePdf.Exportar(GestorReporteServicio.Generar(desde, hasta), ruta));
+                GestorBitacora.RegistrarAccion($"LOG_REPORTE_PDF:{desde:yyyyMMdd}-{hasta:yyyyMMdd}");
                 MessageBox.Show(T("msg_ReporteExportado", "El reporte se exportó correctamente a:") + $"\n{ruta}",
                     T("msg_TituloExito", "Exportación exitosa"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
