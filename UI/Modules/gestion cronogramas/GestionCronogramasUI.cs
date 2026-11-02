@@ -19,6 +19,41 @@ namespace UI.Modules.gestion_cronogramas
 {
     public partial class GestionCronogramasUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_ConfirmarEliminarCronograma"] = "¿Está seguro de que quiere eliminar el cronograma {0} ({1})?",
+            ["msg_ConfirmarSuspension"] = "Confirmar suspensión",
+            ["msg_ConflictoAsignacionUnaSalida"] = "{0} ya está asignado a la siguiente salida, que se solapa con la seleccionada:",
+            ["msg_ConflictoAsignacionVariasSalidas"] = "{0} ya está asignado a las siguientes salidas, que se solapan con la seleccionada:",
+            ["msg_ConflictoDeAsignacion"] = "Conflicto de asignación",
+            ["msg_DeseaReasignarloALaSalidaSeleccionada"] = "¿Desea reasignarlo a la salida seleccionada?",
+            ["msg_DetalleSalidaConflicto"] = "- Salida de {0} a {1}",
+            ["msg_ElChoferSeleccionadoYaEstaAsignadoALaSalida"] = "El chofer seleccionado ya está asignado a la salida.",
+            ["msg_ElCronogramaYaTieneSalidasGeneradasNoSePuedenGenerarAutomati"] = "El cronograma ya tiene salidas generadas, no se pueden generar automaticamente salidas nuevas.",
+            ["msg_ElInternoSeleccionadoYaEstaAsignadoALaSalida"] = "El interno seleccionado ya está asignado a la salida.",
+            ["msg_ErrorAlAgregarElCronograma"] = "Error al agregar el cronograma: ",
+            ["msg_ErrorAlEliminarElCronograma"] = "Error al eliminar el cronograma: ",
+            ["msg_ErrorAlModificarElCronograma"] = "Error al modificar el cronograma: ",
+            ["msg_ErrorAlRefrescarLosCronogramas"] = "Error al refrescar los cronogramas: ",
+            ["msg_EstaSeguroDeQueDeseaSuspenderLaSalidaSeleccionada"] = "¿Está seguro de que desea suspender la salida seleccionada?",
+            ["msg_IngreseElMotivoDeLaSuspension"] = "Ingrese el motivo de la suspensión:",
+            ["msg_LaSalidaSeleccionadaNoTieneChoferAsignado"] = "La salida seleccionada no tiene chofer asignado.",
+            ["msg_LaSalidaSeleccionadaNoTieneInternoAsignado"] = "La salida seleccionada no tiene interno asignado.",
+            ["msg_LaSalidaSeleccionadaYaEstaSuspendida"] = "La salida seleccionada ya está suspendida.",
+            ["msg_LasSalidasFueronGeneradasExitosamente"] = "Las salidas fueron generadas exitosamente",
+            ["msg_NoSeHaSeleccionadoNingunCronogramaParaEliminar"] = "No se ha seleccionado ningún cronograma para eliminar.",
+            ["msg_NoSeHaSeleccionadoNingunCronogramaParaModificar"] = "No se ha seleccionado ningún cronograma para modificar.",
+            ["msg_NoSeHaSeleccionadoNingunaSalida"] = "No se ha seleccionado ninguna salida.",
+            ["msg_RecursoChofer"] = "El chofer {0}",
+            ["msg_RecursoInterno"] = "El interno {0}",
+            ["msg_SeLiberaraDeLaSalidaIndicada"] = "Se liberará de la salida indicada.",
+            ["msg_SeLiberaraDeLasSalidasIndicadas"] = "Se liberará de las salidas indicadas.",
+            ["msg_SuspenderSalida"] = "Suspender salida"
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private class SalidaCronogramaGridRow
         {
             public Salida Salida { get; }
@@ -95,7 +130,7 @@ namespace UI.Modules.gestion_cronogramas
             Usuario? usuarioActual = SessionManager.getInstance.ObtenerUsuarioActivo();
             if (usuarioActual == null)
             {
-                MessageBox.Show(T("msg_NoHayUnUsuarioActivoEnLaSesion", "No hay un usuario activo en la sesión."));
+                MessageBox.Show(T("msg_NoHayUnUsuarioActivoEnLaSesion"));
                 this.Close();
                 return;
             }
@@ -133,7 +168,7 @@ namespace UI.Modules.gestion_cronogramas
                         dialog.horaFinCronograma == null || dialog.frecuenciaCronograma == null || dialog.tiempoDeDescanso == null ||
                         dialog.rutaSeleccionada == null)
                     {
-                        throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
+                        throw new Exception(T("msg_TodosLosCamposSonObligatorios"));
                     }
 
                     Cronograma nCronograma = new Cronograma(
@@ -154,7 +189,7 @@ namespace UI.Modules.gestion_cronogramas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlAgregarElCronograma", "Error al agregar el cronograma: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlAgregarElCronograma") + ex.Message);
             }
         }
 
@@ -165,7 +200,7 @@ namespace UI.Modules.gestion_cronogramas
                 cronogramaSeleccionado = obtenerCronogramaSeleccionado();
                 if (cronogramaSeleccionado == null)
                 {
-                    MessageBox.Show(T("msg_NoSeHaSeleccionadoNingunCronogramaParaModificar", "No se ha seleccionado ningún cronograma para modificar."));
+                    MessageBox.Show(T("msg_NoSeHaSeleccionadoNingunCronogramaParaModificar"));
                     return;
                 }
 
@@ -189,7 +224,7 @@ namespace UI.Modules.gestion_cronogramas
                     if (dialog.descripcionCronograma == null || dialog.fechaValidez == null || dialog.horaInicioCronograma == null ||
                         dialog.horaFinCronograma == null || dialog.frecuenciaCronograma == null || dialog.tiempoDeDescanso == null)
                     {
-                        throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
+                        throw new Exception(T("msg_TodosLosCamposSonObligatorios"));
                     }
 
                     // La ruta de un cronograma existente no se modifica, por eso se conserva la original
@@ -210,7 +245,7 @@ namespace UI.Modules.gestion_cronogramas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlModificarElCronograma", "Error al modificar el cronograma: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlModificarElCronograma") + ex.Message);
             }
         }
 
@@ -221,13 +256,13 @@ namespace UI.Modules.gestion_cronogramas
                 Cronograma? cronogramaSeleccionado = obtenerCronogramaSeleccionado();
                 if (cronogramaSeleccionado == null)
                 {
-                    MessageBox.Show(T("msg_NoSeHaSeleccionadoNingunCronogramaParaEliminar", "No se ha seleccionado ningún cronograma para eliminar."));
+                    MessageBox.Show(T("msg_NoSeHaSeleccionadoNingunCronogramaParaEliminar"));
                     return;
                 }
 
                 DialogResult confirmacion = MessageBox.Show(
-                    string.Format(T("msg_ConfirmarEliminarCronograma", "¿Está seguro de que quiere eliminar el cronograma {0} ({1})?"), cronogramaSeleccionado.id, cronogramaSeleccionado.descripcion),
-                    T("msg_ConfirmarEliminacion", "Confirmar eliminación"),
+                    string.Format(T("msg_ConfirmarEliminarCronograma"), cronogramaSeleccionado.id, cronogramaSeleccionado.descripcion),
+                    T("msg_ConfirmarEliminacion"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
@@ -239,7 +274,7 @@ namespace UI.Modules.gestion_cronogramas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlEliminarElCronograma", "Error al eliminar el cronograma: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlEliminarElCronograma") + ex.Message);
             }
         }
 
@@ -400,7 +435,7 @@ namespace UI.Modules.gestion_cronogramas
 
                 if (cronograma.salidas.Count > 0)
                 {
-                    MessageBox.Show(T("msg_ElCronogramaYaTieneSalidasGeneradasNoSePuedenGenerarAutomati", "El cronograma ya tiene salidas generadas, no se pueden generar automaticamente salidas nuevas."));
+                    MessageBox.Show(T("msg_ElCronogramaYaTieneSalidasGeneradasNoSePuedenGenerarAutomati"));
                     return;
                 }
 
@@ -414,7 +449,7 @@ namespace UI.Modules.gestion_cronogramas
 
                 this.mostrarSalidasCronograma();
 
-                MessageBox.Show(T("msg_LasSalidasFueronGeneradasExitosamente", "Las salidas fueron generadas exitosamente"));
+                MessageBox.Show(T("msg_LasSalidasFueronGeneradasExitosamente"));
             }
             catch (Exception ex)
             {
@@ -429,16 +464,16 @@ namespace UI.Modules.gestion_cronogramas
                 Salida salida = obtenerSalidaSeleccionada();
                 if (salida.estaSuspendida)
                 {
-                    MessageBox.Show(T("msg_LaSalidaSeleccionadaYaEstaSuspendida", "La salida seleccionada ya está suspendida."));
+                    MessageBox.Show(T("msg_LaSalidaSeleccionadaYaEstaSuspendida"));
                     return;
                 }
 
-                if (MessageBox.Show(T("msg_EstaSeguroDeQueDeseaSuspenderLaSalidaSeleccionada", "¿Está seguro de que desea suspender la salida seleccionada?"), T("msg_ConfirmarSuspension", "Confirmar suspensión"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show(T("msg_EstaSeguroDeQueDeseaSuspenderLaSalidaSeleccionada"), T("msg_ConfirmarSuspension"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     return;
                 }
 
-                string motivoSuspensión = Interaction.InputBox(T("msg_IngreseElMotivoDeLaSuspension", "Ingrese el motivo de la suspensión:"), T("msg_SuspenderSalida", "Suspender salida"), "");
+                string motivoSuspensión = Interaction.InputBox(T("msg_IngreseElMotivoDeLaSuspension"), T("msg_SuspenderSalida"), "");
                 salida.ToggleSuspension(true, motivoSuspensión);
 
                 // desasignar chofer e interno si estaban asignados ya que ahora la salida está suspendida, por lo que se liberan
@@ -462,7 +497,7 @@ namespace UI.Modules.gestion_cronogramas
 
                 if (salida.choferAsignado == null)
                 {
-                    MessageBox.Show(T("msg_LaSalidaSeleccionadaNoTieneChoferAsignado", "La salida seleccionada no tiene chofer asignado."));
+                    MessageBox.Show(T("msg_LaSalidaSeleccionadaNoTieneChoferAsignado"));
                     return;
                 }
 
@@ -483,7 +518,7 @@ namespace UI.Modules.gestion_cronogramas
 
                 if (salida.internoAsignado == null)
                 {
-                    MessageBox.Show(T("msg_LaSalidaSeleccionadaNoTieneInternoAsignado", "La salida seleccionada no tiene interno asignado."));
+                    MessageBox.Show(T("msg_LaSalidaSeleccionadaNoTieneInternoAsignado"));
                     return;
                 }
 
@@ -504,11 +539,11 @@ namespace UI.Modules.gestion_cronogramas
                 if (cronograma == null) return;
                 Salida salida = obtenerSalidaSeleccionada();
                 Chofer chofer = comboBoxGestionCronogramasChofer.SelectedItem as Chofer
-                    ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunChofer", "No se ha seleccionado ningún chofer."));
+                    ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunChofer"));
 
                 if (salida.choferAsignado?.num_chofer == chofer.num_chofer)
                 {
-                    MessageBox.Show(T("msg_ElChoferSeleccionadoYaEstaAsignadoALaSalida", "El chofer seleccionado ya está asignado a la salida."));
+                    MessageBox.Show(T("msg_ElChoferSeleccionadoYaEstaAsignadoALaSalida"));
                     return;
                 }
 
@@ -520,7 +555,7 @@ namespace UI.Modules.gestion_cronogramas
                 }
                 else
                 {
-                    if (!ConfirmarReasignacion(string.Format(T("msg_RecursoChofer", "El chofer {0}"), chofer.nombreCompleto), conflictos))
+                    if (!ConfirmarReasignacion(string.Format(T("msg_RecursoChofer"), chofer.nombreCompleto), conflictos))
                     {
                         return;
                     }
@@ -545,11 +580,11 @@ namespace UI.Modules.gestion_cronogramas
                 if (cronograma == null) return;
                 Salida salida = obtenerSalidaSeleccionada();
                 Interno interno = comboBoxGestionCronogramasInterno.SelectedItem as Interno
-                    ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunInterno", "No se ha seleccionado ningún interno."));
+                    ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunInterno"));
 
                 if (salida.internoAsignado?.num_interno == interno.num_interno)
                 {
-                    MessageBox.Show(T("msg_ElInternoSeleccionadoYaEstaAsignadoALaSalida", "El interno seleccionado ya está asignado a la salida."));
+                    MessageBox.Show(T("msg_ElInternoSeleccionadoYaEstaAsignadoALaSalida"));
                     return;
                 }
 
@@ -561,7 +596,7 @@ namespace UI.Modules.gestion_cronogramas
                 }
                 else
                 {
-                    if (!ConfirmarReasignacion(string.Format(T("msg_RecursoInterno", "El interno {0}"), interno.patente), conflictos))
+                    if (!ConfirmarReasignacion(string.Format(T("msg_RecursoInterno"), interno.patente), conflictos))
                     {
                         return;
                     }
@@ -582,20 +617,20 @@ namespace UI.Modules.gestion_cronogramas
         private bool ConfirmarReasignacion(string descripcionRecurso, List<Salida> salidasEnConflicto)
         {
             string encabezado = salidasEnConflicto.Count == 1
-                ? string.Format(T("msg_ConflictoAsignacionUnaSalida", "{0} ya está asignado a la siguiente salida, que se solapa con la seleccionada:"), descripcionRecurso)
-                : string.Format(T("msg_ConflictoAsignacionVariasSalidas", "{0} ya está asignado a las siguientes salidas, que se solapan con la seleccionada:"), descripcionRecurso);
+                ? string.Format(T("msg_ConflictoAsignacionUnaSalida"), descripcionRecurso)
+                : string.Format(T("msg_ConflictoAsignacionVariasSalidas"), descripcionRecurso);
 
             string liberacion = salidasEnConflicto.Count == 1
-                ? T("msg_SeLiberaraDeLaSalidaIndicada", "Se liberará de la salida indicada.")
-                : T("msg_SeLiberaraDeLasSalidasIndicadas", "Se liberará de las salidas indicadas.");
+                ? T("msg_SeLiberaraDeLaSalidaIndicada")
+                : T("msg_SeLiberaraDeLasSalidasIndicadas");
 
             string detalle = string.Join("\n", salidasEnConflicto.Select(s =>
-                string.Format(T("msg_DetalleSalidaConflicto", "- Salida de {0} a {1}"), s.horaSalidaTeorica.ToString("HH:mm"), s.horaLlegadaTeorica.ToString("HH:mm"))));
+                string.Format(T("msg_DetalleSalidaConflicto"), s.horaSalidaTeorica.ToString("HH:mm"), s.horaLlegadaTeorica.ToString("HH:mm"))));
 
-            string pregunta = T("msg_DeseaReasignarloALaSalidaSeleccionada", "¿Desea reasignarlo a la salida seleccionada?");
+            string pregunta = T("msg_DeseaReasignarloALaSalidaSeleccionada");
             string mensaje = $"{encabezado}\n\n{detalle}\n\n{pregunta} {liberacion}";
 
-            return MessageBox.Show(mensaje, T("msg_ConflictoDeAsignacion", "Conflicto de asignación"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
+            return MessageBox.Show(mensaje, T("msg_ConflictoDeAsignacion"), MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes;
         }
 
         // Refleja en los cronogramas cargados en memoria las desasignaciones hechas en la base de datos
@@ -629,7 +664,7 @@ namespace UI.Modules.gestion_cronogramas
         private Salida obtenerSalidaSeleccionada ()
         {
             return (dataGridViewAsignacionSalidas.CurrentRow?.DataBoundItem as SalidaCronogramaGridRow)?.Salida
-                ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaSalida", "No se ha seleccionado ninguna salida."));
+                ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaSalida"));
         }
 
         private void refrescarListaCronogramas()
@@ -646,7 +681,7 @@ namespace UI.Modules.gestion_cronogramas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlRefrescarLosCronogramas", "Error al refrescar los cronogramas: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlRefrescarLosCronogramas") + ex.Message);
             }
         }
     }

@@ -7,6 +7,15 @@ namespace UI.Modules
 {
     public partial class BloqueoUsuariosUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["err_NoUserDesbloquear"] = "No se ha seleccionado ningún usuario para desbloquear.",
+            ["msg_DesbloqueoExito"] = "Usuario desbloqueado correctamente."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private GestorBloqueoUsuarios gestorBloqueos;
 
         public BloqueoUsuariosUI()
@@ -36,7 +45,7 @@ namespace UI.Modules
             {
                 if (dataGridViewBloqueados.SelectedRows.Count < 1)
                 {
-                    string msgValidacion = T("err_NoUserDesbloquear", "No se ha seleccionado ningún usuario para desbloquear.");
+                    string msgValidacion = T("err_NoUserDesbloquear");
                     throw new Exception(msgValidacion);
                 }
 
@@ -44,15 +53,15 @@ namespace UI.Modules
 
                 gestorBloqueos.DesbloquearUsuario(seleccionado.Username);
 
-                string msgExito = T("msg_DesbloqueoExito", "Usuario desbloqueado correctamente.");
-                string tituloExito = T("msg_TituloExito", "Éxito");
+                string msgExito = T("msg_DesbloqueoExito");
+                string tituloExito = T("msg_TituloExito");
                 MessageBox.Show(msgExito, tituloExito, MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 CargarGridBloqueados();
             }
             catch (Exception ex)
             {
-                string tituloError = T("msg_TituloError", "Error");
+                string tituloError = T("msg_TituloError");
                 MessageBox.Show(ex.Message, tituloError, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }

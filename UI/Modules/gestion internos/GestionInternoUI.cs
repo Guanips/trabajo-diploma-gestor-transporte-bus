@@ -7,6 +7,18 @@ namespace UI.Modules.gestion_internos
 {
     public partial class GestionInternoUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_ConfirmarEliminarInterno"] = "¿Está seguro de que quiere eliminar el interno {0} (patente {1})?",
+            ["msg_ErrorAlAgregarElInterno"] = "Error al agregar el interno: ",
+            ["msg_ErrorAlEliminarElInterno"] = "Error al eliminar el interno: ",
+            ["msg_ErrorAlModificarElInterno"] = "Error al modificar el interno: ",
+            ["msg_ErrorAlRefrescarLosInternos"] = "Error al refrescar los internos: "
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public GestionInternoUI()
         {
             InitializeComponent();
@@ -25,7 +37,7 @@ namespace UI.Modules.gestion_internos
                     {
                         if (dialog.patenteInterno == null || dialog.modeloInterno == null || dialog.fechaIncorporacionInterno == null || dialog.disponibleInterno == null)
                         {
-                            throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
+                            throw new Exception(T("msg_TodosLosCamposSonObligatorios"));
                         }
 
                         // El num_interno lo genera la base (IDENTITY): el valor 0 es solo un marcador que el alta ignora.
@@ -37,7 +49,7 @@ namespace UI.Modules.gestion_internos
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlAgregarElInterno", "Error al agregar el interno: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlAgregarElInterno") + ex.Message);
             }
         }
 
@@ -55,7 +67,7 @@ namespace UI.Modules.gestion_internos
                     {
                         if (dialog.patenteInterno == null || dialog.modeloInterno == null || dialog.fechaIncorporacionInterno == null || dialog.disponibleInterno == null)
                         {
-                            throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
+                            throw new Exception(T("msg_TodosLosCamposSonObligatorios"));
                         }
 
                         // El num_interno es la clave primaria (IDENTITY), por lo que no se modifica.
@@ -67,7 +79,7 @@ namespace UI.Modules.gestion_internos
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlModificarElInterno", "Error al modificar el interno: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlModificarElInterno") + ex.Message);
             }
         }
 
@@ -78,8 +90,8 @@ namespace UI.Modules.gestion_internos
                 Interno internoSeleccionado = obtenerInternoSeleccionado();
 
                 DialogResult confirmacion = MessageBox.Show(
-                    string.Format(T("msg_ConfirmarEliminarInterno", "¿Está seguro de que quiere eliminar el interno {0} (patente {1})?"), internoSeleccionado.num_interno, internoSeleccionado.patente),
-                    T("msg_ConfirmarEliminacion", "Confirmar eliminación"),
+                    string.Format(T("msg_ConfirmarEliminarInterno"), internoSeleccionado.num_interno, internoSeleccionado.patente),
+                    T("msg_ConfirmarEliminacion"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
@@ -91,13 +103,13 @@ namespace UI.Modules.gestion_internos
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlEliminarElInterno", "Error al eliminar el interno: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlEliminarElInterno") + ex.Message);
             }
         }
 
         private Interno obtenerInternoSeleccionado()
         {
-            return dataGridViewInternos.CurrentRow?.DataBoundItem as Interno ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunInterno", "No se ha seleccionado ningún interno."));
+            return dataGridViewInternos.CurrentRow?.DataBoundItem as Interno ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunInterno"));
         }
 
         private void refrescarInternos()
@@ -109,7 +121,7 @@ namespace UI.Modules.gestion_internos
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlRefrescarLosInternos", "Error al refrescar los internos: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlRefrescarLosInternos") + ex.Message);
             }
         }
     }

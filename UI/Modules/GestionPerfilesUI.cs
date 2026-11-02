@@ -6,6 +6,23 @@ namespace UI.Modules
 {
     public partial class GestionPerfilesUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_DebeSeleccionarUnPerfil"] = "Debe seleccionar un perfil.",
+            ["msg_DebeSeleccionarUnPerfilHijoEnLaLista"] = "Debe seleccionar un perfil hijo en la lista.",
+            ["msg_DebeSeleccionarUnPerfilPadreEnElArbol"] = "Debe seleccionar un perfil padre en el árbol.",
+            ["msg_DebeSeleccionarUnPerfilParaAsignarElPermiso"] = "Debe seleccionar un perfil para asignar el permiso.",
+            ["msg_DebeSeleccionarUnPermisoOPerfilParaDesasignar"] = "Debe seleccionar un permiso o perfil para desasignar.",
+            ["msg_DebeSeleccionarUnPermisoParaAsignar"] = "Debe seleccionar un permiso para asignar.",
+            ["msg_DebeSeleccionarUnUsuario"] = "Debe seleccionar un usuario.",
+            ["msg_ErrorAlCargarLosPerfilesYPermisos"] = "Error al cargar los perfiles y permisos: ",
+            ["msg_ErrorDeCarga"] = "Error de Carga",
+            ["msg_SoloSePuedenDesasignarPerfilesNoPermisosSimples"] = "Solo se pueden desasignar perfiles, no permisos simples."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private GestorPerfiles gestorPerfiles;
 
         public GestionPerfilesUI()
@@ -22,8 +39,8 @@ namespace UI.Modules
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlCargarLosPerfilesYPermisos", "Error al cargar los perfiles y permisos: ") + ex.Message,
-                                T("msg_ErrorDeCarga", "Error de Carga"),
+                MessageBox.Show(T("msg_ErrorAlCargarLosPerfilesYPermisos") + ex.Message,
+                                T("msg_ErrorDeCarga"),
                                 MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
@@ -131,7 +148,7 @@ namespace UI.Modules
             {
                 string nNombrePerfil = textBoxNombrePerfil.Text;
                 ValidationResult nombreValidationResult = FormFieldValidationService.ValidateProfileName(nNombrePerfil);
-                if (!nombreValidationResult.IsValid) throw new Exception(T(nombreValidationResult.ErrorMessage, nombreValidationResult.MensajePorDefecto));
+                if (!nombreValidationResult.IsValid) throw new Exception(T(nombreValidationResult));
                 gestorPerfiles.CrearPerfil(nNombrePerfil);
 
                 textBoxNombrePerfil.Clear();
@@ -149,8 +166,8 @@ namespace UI.Modules
             {
                 Perfil? perfilPadre = treeViewCompositePermisos.SelectedNode?.Tag as Perfil;
                 Perfil? perfilHijo = listBoxPerfiles.SelectedItem as Perfil;
-                if (perfilPadre == null) throw new Exception(T("msg_DebeSeleccionarUnPerfilPadreEnElArbol", "Debe seleccionar un perfil padre en el árbol."));
-                if (perfilHijo == null) throw new Exception(T("msg_DebeSeleccionarUnPerfilHijoEnLaLista", "Debe seleccionar un perfil hijo en la lista."));
+                if (perfilPadre == null) throw new Exception(T("msg_DebeSeleccionarUnPerfilPadreEnElArbol"));
+                if (perfilHijo == null) throw new Exception(T("msg_DebeSeleccionarUnPerfilHijoEnLaLista"));
 
                 gestorPerfiles.AgregarPerfilAPerfil(perfilPadre.ID, perfilHijo.ID);
 
@@ -169,8 +186,8 @@ namespace UI.Modules
             {
                 PermisoSimple? selectedPermiso = listBoxPermisos.SelectedItem as PermisoSimple;
                 Perfil? selectedPerfil = treeViewCompositePermisos.SelectedNode?.Tag as Perfil;
-                if (selectedPermiso == null) throw new Exception(T("msg_DebeSeleccionarUnPermisoParaAsignar", "Debe seleccionar un permiso para asignar."));
-                if (selectedPerfil == null) throw new Exception(T("msg_DebeSeleccionarUnPerfilParaAsignarElPermiso", "Debe seleccionar un perfil para asignar el permiso."));
+                if (selectedPermiso == null) throw new Exception(T("msg_DebeSeleccionarUnPermisoParaAsignar"));
+                if (selectedPerfil == null) throw new Exception(T("msg_DebeSeleccionarUnPerfilParaAsignarElPermiso"));
 
                 gestorPerfiles.AgregarPermisoAPerfil(selectedPerfil.ID, selectedPermiso.ID);
 
@@ -189,8 +206,8 @@ namespace UI.Modules
             {
                 Usuario? selectedUsuario = dataGridViewUsuarios.SelectedRows[0].DataBoundItem as Usuario;
                 Perfil? selectedPerfil = listBoxPerfiles.SelectedItem as Perfil;
-                if (selectedUsuario == null) throw new Exception(T("msg_DebeSeleccionarUnUsuario", "Debe seleccionar un usuario."));
-                if (selectedPerfil == null) throw new Exception(T("msg_DebeSeleccionarUnPerfil", "Debe seleccionar un perfil."));
+                if (selectedUsuario == null) throw new Exception(T("msg_DebeSeleccionarUnUsuario"));
+                if (selectedPerfil == null) throw new Exception(T("msg_DebeSeleccionarUnPerfil"));
 
                 gestorPerfiles.AgregarPerfilAUsuario(selectedUsuario.Username, selectedPerfil.ID);
 
@@ -215,9 +232,9 @@ namespace UI.Modules
                 Permiso? permisoSeleccionado = treeViewPermisosUsuario.SelectedNode?.Tag as Permiso;
                 Usuario? usuarioSeleccionado = dataGridViewUsuarios.SelectedRows[0].DataBoundItem as Usuario;
 
-                if (permisoSeleccionado == null) throw new Exception(T("msg_DebeSeleccionarUnPermisoOPerfilParaDesasignar", "Debe seleccionar un permiso o perfil para desasignar."));
-                if (permisoSeleccionado is PermisoSimple) throw new Exception(T("msg_SoloSePuedenDesasignarPerfilesNoPermisosSimples", "Solo se pueden desasignar perfiles, no permisos simples."));
-                if (usuarioSeleccionado == null) throw new Exception(T("msg_DebeSeleccionarUnUsuario", "Debe seleccionar un usuario."));
+                if (permisoSeleccionado == null) throw new Exception(T("msg_DebeSeleccionarUnPermisoOPerfilParaDesasignar"));
+                if (permisoSeleccionado is PermisoSimple) throw new Exception(T("msg_SoloSePuedenDesasignarPerfilesNoPermisosSimples"));
+                if (usuarioSeleccionado == null) throw new Exception(T("msg_DebeSeleccionarUnUsuario"));
                 gestorPerfiles.DesasignarPerfilDeUsuario(usuarioSeleccionado.Username, permisoSeleccionado.ID);
                 RecargarTodosLosDisplays();
             }

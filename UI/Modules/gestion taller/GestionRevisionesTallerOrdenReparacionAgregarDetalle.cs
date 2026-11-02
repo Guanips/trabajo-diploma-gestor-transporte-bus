@@ -13,6 +13,19 @@ namespace UI.Modules.gestion_taller
 {
     public partial class GestionRevisionesTallerOrdenReparacionAgregarDetalle : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_AgregueAlMenosUnaOrdenDeReparacion"] = "Agregue al menos una orden de reparación.",
+            ["msg_IngreseElMotivoDeLaReparacion"] = "Ingrese el motivo de la reparación.",
+            ["msg_IngreseElNombreDelInsumo"] = "Ingrese el nombre del insumo.",
+            ["msg_IngreseUnaCantidadMayorACero"] = "Ingrese una cantidad mayor a cero.",
+            ["msg_OrdenSinInsumos"] = "La orden \"{0}\" debe tener al menos un insumo.",
+            ["msg_SeleccioneUnaOrdenDeReparacionAntesDeAgregarInsumos"] = "Seleccione una orden de reparación antes de agregar insumos."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private readonly BindingList<OrdenReparacion> ordenes = new BindingList<OrdenReparacion>();
         private OrdenReparacion? ordenSeleccionada;
 
@@ -51,7 +64,7 @@ namespace UI.Modules.gestion_taller
             string motivoReparacion = textBoxMotivoReparacion.Text.Trim();
             if (string.IsNullOrEmpty(motivoReparacion))
             {
-                MessageBox.Show(T("msg_IngreseElMotivoDeLaReparacion", "Ingrese el motivo de la reparación."));
+                MessageBox.Show(T("msg_IngreseElMotivoDeLaReparacion"));
                 return;
             }
 
@@ -67,21 +80,21 @@ namespace UI.Modules.gestion_taller
         {
             if (ordenSeleccionada == null)
             {
-                MessageBox.Show(T("msg_SeleccioneUnaOrdenDeReparacionAntesDeAgregarInsumos", "Seleccione una orden de reparación antes de agregar insumos."));
+                MessageBox.Show(T("msg_SeleccioneUnaOrdenDeReparacionAntesDeAgregarInsumos"));
                 return;
             }
 
             string insumo = textBoxNombreInsumo.Text.Trim();
             if (string.IsNullOrEmpty(insumo))
             {
-                MessageBox.Show(T("msg_IngreseElNombreDelInsumo", "Ingrese el nombre del insumo."));
+                MessageBox.Show(T("msg_IngreseElNombreDelInsumo"));
                 return;
             }
 
             int cantidad = (int)numericUpDownCantidadInsumo.Value;
             if (cantidad <= 0)
             {
-                MessageBox.Show(T("msg_IngreseUnaCantidadMayorACero", "Ingrese una cantidad mayor a cero."));
+                MessageBox.Show(T("msg_IngreseUnaCantidadMayorACero"));
                 return;
             }
 
@@ -97,7 +110,7 @@ namespace UI.Modules.gestion_taller
         {
             if (ordenes.Count == 0)
             {
-                MessageBox.Show(T("msg_AgregueAlMenosUnaOrdenDeReparacion", "Agregue al menos una orden de reparación."));
+                MessageBox.Show(T("msg_AgregueAlMenosUnaOrdenDeReparacion"));
                 return;
             }
 
@@ -105,7 +118,7 @@ namespace UI.Modules.gestion_taller
             OrdenReparacion? ordenSinDetalles = ordenes.FirstOrDefault(orden => orden.detalles.Count == 0);
             if (ordenSinDetalles != null)
             {
-                MessageBox.Show(string.Format(T("msg_OrdenSinInsumos", "La orden \"{0}\" debe tener al menos un insumo."), ordenSinDetalles.motivoReparacion));
+                MessageBox.Show(string.Format(T("msg_OrdenSinInsumos"), ordenSinDetalles.motivoReparacion));
                 listBoxGestionRevisionesOrdenesReparacion.SelectedItem = ordenSinDetalles;
                 return;
             }

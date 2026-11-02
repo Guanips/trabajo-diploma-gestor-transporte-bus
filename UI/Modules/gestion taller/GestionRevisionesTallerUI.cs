@@ -16,6 +16,16 @@ namespace UI.Modules.gestion_taller
 {
     public partial class GestionRevisionesTallerUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_ErrorEnLaCreacionDeLaRevision"] = "Error en la creación de la revisión",
+            ["msg_SeleccioneElInsumoCuyoCostoDeseaAuditar"] = "Seleccione el insumo cuyo costo desea auditar.",
+            ["msg_SeleccioneUnaOrdenDeReparacionAntesDeAuditarSusCostos"] = "Seleccione una orden de reparación antes de auditar sus costos."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         // Mientras se reasignan los DataSource por código, los manejadores de selección no deben
         // refrescar los paneles dependientes: en esos casos el refresco se hace de forma explícita.
         // Es necesario porque SelectedIndexChanged solo se dispara cuando el índice cambia de
@@ -30,7 +40,7 @@ namespace UI.Modules.gestion_taller
             Usuario? usuarioActual = SessionManager.getInstance.ObtenerUsuarioActivo();
             if (usuarioActual == null)
             {
-                MessageBox.Show(T("msg_NoHayUnUsuarioActivoEnLaSesion", "No hay un usuario activo en la sesión."));
+                MessageBox.Show(T("msg_NoHayUnUsuarioActivoEnLaSesion"));
                 this.Close();
                 return;
             }
@@ -50,7 +60,7 @@ namespace UI.Modules.gestion_taller
                 if (dialog.DialogResult == DialogResult.OK)
                 {
                     RevisionTaller? nuevaRevision = dialog.NuevaRevision;
-                    if (nuevaRevision == null) throw new Exception(T("msg_ErrorEnLaCreacionDeLaRevision", "Error en la creación de la revisión"));
+                    if (nuevaRevision == null) throw new Exception(T("msg_ErrorEnLaCreacionDeLaRevision"));
 
                     GestorRevisionesTaller.RegistrarRevision(nuevaRevision);
 
@@ -127,7 +137,7 @@ namespace UI.Modules.gestion_taller
                 textBoxGestionRevisionesDetalleId.Text = revision.id.ToString();
                 textBoxGestionRevisionesDetalleInterno.Text = revision.interno.ToString();
                 textBoxGestionRevisionesDetalleFecha.Text = revision.fecha.ToString("dd/MM/yyyy");
-                textBoxGestionRevisionesDetalleReparacionRequerida.Text = revision.reparacionRequerida ? T("msg_Si", "Sí") : T("msg_No", "No");
+                textBoxGestionRevisionesDetalleReparacionRequerida.Text = revision.reparacionRequerida ? T("msg_Si") : T("msg_No");
                 textBoxGestionRevisionesDetalleDescripcion.Text = revision.descripcion;
             }
             catch (Exception ex)
@@ -276,14 +286,14 @@ namespace UI.Modules.gestion_taller
                 OrdenReparacion? orden = ObtenerOrdenSeleccionada();
                 if (orden == null)
                 {
-                    MessageBox.Show(T("msg_SeleccioneUnaOrdenDeReparacionAntesDeAuditarSusCostos", "Seleccione una orden de reparación antes de auditar sus costos."));
+                    MessageBox.Show(T("msg_SeleccioneUnaOrdenDeReparacionAntesDeAuditarSusCostos"));
                     return;
                 }
 
                 DetalleOrdenReparacion? detalle = ObtenerDetalleSeleccionado();
                 if (detalle == null)
                 {
-                    MessageBox.Show(T("msg_SeleccioneElInsumoCuyoCostoDeseaAuditar", "Seleccione el insumo cuyo costo desea auditar."));
+                    MessageBox.Show(T("msg_SeleccioneElInsumoCuyoCostoDeseaAuditar"));
                     return;
                 }
 

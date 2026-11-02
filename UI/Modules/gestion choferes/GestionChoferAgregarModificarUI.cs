@@ -2,6 +2,15 @@
 {
     public partial class GestionChoferAgregarModificarUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_DniDeChoferInvalido"] = "DNI de chofer inválido",
+            ["msg_ElNombreCompletoDelChoferNoPuedeEstarVacio"] = "El nombre completo del chofer no puede estar vacío"
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public int? dniChofer { get; private set; }
         public string? nombreCompletoChofer { get; private set; }
         public bool? activoChofer { get; private set; }
@@ -44,11 +53,11 @@
             try
             {
                 string unparsedDniChofer = textBoxChoferDni.Text.Trim();
-                int parsedDniChofer = int.TryParse(unparsedDniChofer, out int dniChofer) ? dniChofer : throw new Exception(T("msg_DniDeChoferInvalido", "DNI de chofer inválido"));
+                int parsedDniChofer = int.TryParse(unparsedDniChofer, out int dniChofer) ? dniChofer : throw new Exception(T("msg_DniDeChoferInvalido"));
 
                 if (string.IsNullOrWhiteSpace(textBoxChoferNombreCompleto.Text))
                 {
-                    throw new Exception(T("msg_ElNombreCompletoDelChoferNoPuedeEstarVacio", "El nombre completo del chofer no puede estar vacío"));
+                    throw new Exception(T("msg_ElNombreCompletoDelChoferNoPuedeEstarVacio"));
                 }
 
                 this.nombreCompletoChofer = textBoxChoferNombreCompleto.Text.Trim();

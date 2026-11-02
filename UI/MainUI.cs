@@ -15,6 +15,19 @@ namespace UI
 {
     public partial class MainUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["err_IntegridadCorrupta"] = "Alerta Crítica: Se ha detectado una violación en la integridad de la base de datos.\n\nEl sistema ha entrado en Modo de Recuperación. Solo los administradores pueden iniciar sesión.",
+            ["err_VerificarIntegridad"] = "Error al verificar la integridad del sistema: ",
+            ["msg_CierreSesionExito"] = "Sesión cerrada correctamente.",
+            ["msg_LoginError"] = "Login error",
+            ["msg_TituloCierreSesion"] = "Cerrar sesión",
+            ["msg_TituloErrorIntegridad"] = "Error Crítico de Integridad"
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private Form? formCargadoActualmente;
 
         public MainUI()
@@ -84,14 +97,14 @@ namespace UI
                 }
                 else
                 {
-                    throw new Exception(T("msg_LoginError", "Login error"));
+                    throw new Exception(T("msg_LoginError"));
                 }
 
                 formCargadoActualmente?.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, T("msg_TituloError", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, T("msg_TituloError"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -105,16 +118,15 @@ namespace UI
 
                 if (corruptos.Count > 0 || !dvvValido)
                 {
-                    string mensaje = T("err_IntegridadCorrupta",
-                        "Alerta Crítica: Se ha detectado una violación en la integridad de la base de datos.\n\nEl sistema ha entrado en Modo de Recuperación. Solo los administradores pueden iniciar sesión.");
-                    string titulo = T("msg_TituloErrorIntegridad", "Error Crítico de Integridad");
+                    string mensaje = T("err_IntegridadCorrupta");
+                    string titulo = T("msg_TituloErrorIntegridad");
 
                     MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("err_VerificarIntegridad", "Error al verificar la integridad del sistema: ") + ex.Message, T("msg_TituloError", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(T("err_VerificarIntegridad") + ex.Message, T("msg_TituloError"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -162,8 +174,8 @@ namespace UI
 
             gestorLogin.LogOut();
 
-            string mensaje = T("msg_CierreSesionExito", "Sesión cerrada correctamente.");
-            string titulo = T("msg_TituloCierreSesion", "Cerrar sesión");
+            string mensaje = T("msg_CierreSesionExito");
+            string titulo = T("msg_TituloCierreSesion");
 
             MessageBox.Show(mensaje, titulo, MessageBoxButtons.OK, MessageBoxIcon.Information);
 

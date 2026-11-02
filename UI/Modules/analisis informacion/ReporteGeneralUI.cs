@@ -7,6 +7,17 @@ namespace UI.Modules.analisis_informacion
 {
     public partial class ReporteGeneralUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["err_ReporteRangoInvalido"] = "La fecha de inicio no puede ser posterior a la fecha de fin.",
+            ["msg_RecomendacionesNinguna"] = "Con los datos del período seleccionado no se detectaron situaciones que requieran acciones de gestión.",
+            ["msg_ReporteExportado"] = "El reporte se exportó correctamente a:",
+            ["msg_ReporteGuardarComo"] = "Guardar reporte general"
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private const string ValorVacio = "-";
 
         // Valores de los indicadores (cada uno dentro de un GroupBox con el nombre del indicador)
@@ -109,8 +120,8 @@ namespace UI.Modules.analisis_informacion
             // El sistema pide la ubicacion antes de obtener los datos
             using SaveFileDialog dialogo = new SaveFileDialog
             {
-                Filter = "Archivos PDF (*.pdf)|*.pdf",
-                Title = T("msg_ReporteGuardarComo", "Guardar reporte general"),
+                Filter = T("msg_FiltroArchivosPdf"),
+                Title = T("msg_ReporteGuardarComo"),
                 FileName = $"Reporte_general_servicio_{desde:yyyyMMdd}_{hasta:yyyyMMdd}.pdf",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
                 OverwritePrompt = true
@@ -123,8 +134,8 @@ namespace UI.Modules.analisis_informacion
             {
                 await Task.Run(() => ExportadorReportePdf.Exportar(GestorReporteServicio.Generar(desde, hasta), ruta));
                 GestorBitacora.RegistrarAccion($"LOG_REPORTE_PDF:{desde:yyyyMMdd}-{hasta:yyyyMMdd}");
-                MessageBox.Show(T("msg_ReporteExportado", "El reporte se exportó correctamente a:") + $"\n{ruta}",
-                    T("msg_TituloExito", "Exportación exitosa"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(T("msg_ReporteExportado") + $"\n{ruta}",
+                    T("msg_TituloExportacionExitosa"), MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -151,8 +162,8 @@ namespace UI.Modules.analisis_informacion
 
                 if (recomendaciones.Count == 0)
                 {
-                    MessageBox.Show(T("msg_RecomendacionesNinguna", "Con los datos del período seleccionado no se detectaron situaciones que requieran acciones de gestión."),
-                        T("msg_TituloInformacion", "Información"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(T("msg_RecomendacionesNinguna"),
+                        T("msg_TituloInformacion"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
 
@@ -179,14 +190,14 @@ namespace UI.Modules.analisis_informacion
             hasta = DateOnly.FromDateTime(dateTimePickerReporteHasta.Value);
             if (desde <= hasta) return true;
 
-            MessageBox.Show(T("err_ReporteRangoInvalido", "La fecha de inicio no puede ser posterior a la fecha de fin."),
-                T("msg_TituloError", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show(T("err_ReporteRangoInvalido"),
+                T("msg_TituloError"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return false;
         }
 
         private void NotificarError(Exception ex)
         {
-            MessageBox.Show(ex.Message, T("msg_TituloError", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(ex.Message, T("msg_TituloError"), MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void EstablecerOcupado(bool ocupado)

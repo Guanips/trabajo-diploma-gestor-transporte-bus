@@ -15,6 +15,21 @@ namespace UI.Modules.gestion_cronogramas
 {
     public partial class GestionCronogramasAgregarModificar : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_DatosInvalidos"] = "Datos inválidos",
+            ["msg_DebeSeleccionarUnaRutaParaElCronograma"] = "Debe seleccionar una ruta para el cronograma.",
+            ["msg_HoraFinInvalida"] = "La hora de fin no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30).",
+            ["msg_HoraInicioInvalida"] = "La hora de inicio no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30).",
+            ["msg_LaDescripcionDelCronogramaNoPuedeEstarVacia"] = "La descripción del cronograma no puede estar vacía.",
+            ["msg_LaFrecuenciaDebeSerMayorA0Minutos"] = "La frecuencia debe ser mayor a 0 minutos.",
+            ["msg_LaHoraDeFinDebeSerPosteriorALaHoraDeInicio"] = "La hora de fin debe ser posterior a la hora de inicio.",
+            ["msg_NoSePudoDeterminarLaRutaDelCronogramaAModificar"] = "No se pudo determinar la ruta del cronograma a modificar."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private const string formatoHora = "HH:mm";
 
         private readonly bool creacion;
@@ -104,20 +119,20 @@ namespace UI.Modules.gestion_cronogramas
             {
                 if (string.IsNullOrWhiteSpace(this.textBoxDescripcion.Text))
                 {
-                    throw new Exception(T("msg_LaDescripcionDelCronogramaNoPuedeEstarVacia", "La descripción del cronograma no puede estar vacía."));
+                    throw new Exception(T("msg_LaDescripcionDelCronogramaNoPuedeEstarVacia"));
                 }
 
-                TimeOnly horaInicio = parsearHora(this.maskedTextBoxHoraInicio, T("msg_HoraInicioInvalida", "La hora de inicio no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30)."));
-                TimeOnly horaFin = parsearHora(this.maskedTextBoxHoraFin, T("msg_HoraFinInvalida", "La hora de fin no es válida. Complete el horario en formato HH:mm (por ejemplo, 08:30)."));
+                TimeOnly horaInicio = parsearHora(this.maskedTextBoxHoraInicio, T("msg_HoraInicioInvalida"));
+                TimeOnly horaFin = parsearHora(this.maskedTextBoxHoraFin, T("msg_HoraFinInvalida"));
 
                 if (horaFin <= horaInicio)
                 {
-                    throw new Exception(T("msg_LaHoraDeFinDebeSerPosteriorALaHoraDeInicio", "La hora de fin debe ser posterior a la hora de inicio."));
+                    throw new Exception(T("msg_LaHoraDeFinDebeSerPosteriorALaHoraDeInicio"));
                 }
 
                 if (this.numericUpDownFrecuencia.Value <= 0)
                 {
-                    throw new Exception(T("msg_LaFrecuenciaDebeSerMayorA0Minutos", "La frecuencia debe ser mayor a 0 minutos."));
+                    throw new Exception(T("msg_LaFrecuenciaDebeSerMayorA0Minutos"));
                 }
 
                 Ruta rutaDelCronograma;
@@ -125,12 +140,12 @@ namespace UI.Modules.gestion_cronogramas
                 if (this.creacion)
                 {
                     rutaDelCronograma = this.listBoxRutas.SelectedItem as Ruta
-                        ?? throw new Exception(T("msg_DebeSeleccionarUnaRutaParaElCronograma", "Debe seleccionar una ruta para el cronograma."));
+                        ?? throw new Exception(T("msg_DebeSeleccionarUnaRutaParaElCronograma"));
                 }
                 else
                 {
                     rutaDelCronograma = this.rutaSeleccionada
-                        ?? throw new Exception(T("msg_NoSePudoDeterminarLaRutaDelCronogramaAModificar", "No se pudo determinar la ruta del cronograma a modificar."));
+                        ?? throw new Exception(T("msg_NoSePudoDeterminarLaRutaDelCronogramaAModificar"));
                 }
 
                 this.descripcionCronograma = this.textBoxDescripcion.Text.Trim();
@@ -146,7 +161,7 @@ namespace UI.Modules.gestion_cronogramas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, T("msg_DatosInvalidos", "Datos inválidos"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, T("msg_DatosInvalidos"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

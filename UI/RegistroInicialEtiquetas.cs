@@ -25,8 +25,9 @@ namespace UI
             {
                 try
                 {
-                    using Form formulario = CrearSoloConControles(tipo);
+                    using FormBaseObserver formulario = CrearSoloConControles(tipo);
                     etiquetas.AddRange(new TraductorFormulario(formulario).RecolectarEtiquetas());
+                    etiquetas.AddRange(formulario.RecolectarMensajes());
                 }
                 catch (Exception ex)
                 {
@@ -38,7 +39,7 @@ namespace UI
             GestorIdioma.GetInstance.RegistrarEtiquetas(etiquetas);
         }
 
-        private static Form CrearSoloConControles(Type tipo)
+        private static FormBaseObserver CrearSoloConControles(Type tipo)
         {
             object instancia = RuntimeHelpers.GetUninitializedObject(tipo);
 
@@ -51,7 +52,7 @@ namespace UI
                 ?? throw new InvalidOperationException($"{tipo.Name} no tiene InitializeComponent.");
             initializeComponent.Invoke(instancia, null);
 
-            return (Form)instancia;
+            return (FormBaseObserver)instancia;
         }
     }
 }

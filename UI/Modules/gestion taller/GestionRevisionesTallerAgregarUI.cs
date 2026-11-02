@@ -15,6 +15,17 @@ namespace UI.Modules.gestion_taller
 {
     public partial class GestionRevisionesTallerAgregarUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_DebeAgregarAlMenosUnaOrdenDeReparacionSiLaRevisionRequiereRe"] = "Debe agregar al menos una orden de reparación si la revisión requiere reparación.",
+            ["msg_IngreseUnaDescripcionParaLaRevision"] = "Ingrese una descripción para la revisión.",
+            ["msg_NoHayInternosDisponibles"] = "No hay internos disponibles",
+            ["msg_SeleccioneUnInternoValido"] = "Seleccione un interno válido."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public RevisionTaller? NuevaRevision { get; private set; }
 
         public GestionRevisionesTallerAgregarUI()
@@ -24,7 +35,7 @@ namespace UI.Modules.gestion_taller
             List<Interno> internos = GestorInterno.ObtenerInternos();
             if (internos == null)
             {
-                MessageBox.Show(T("msg_NoHayInternosDisponibles", "No hay internos disponibles"));
+                MessageBox.Show(T("msg_NoHayInternosDisponibles"));
                 this.DialogResult = DialogResult.Abort;
                 this.Close();
             }
@@ -37,14 +48,14 @@ namespace UI.Modules.gestion_taller
 
             if (selectedInterno == null)
             {
-                MessageBox.Show(T("msg_SeleccioneUnInternoValido", "Seleccione un interno válido."));
+                MessageBox.Show(T("msg_SeleccioneUnInternoValido"));
                 return;
             }
 
             string descripcion = textBoxDescripcion.Text.Trim();
             if (string.IsNullOrEmpty(descripcion))
             {
-                MessageBox.Show(T("msg_IngreseUnaDescripcionParaLaRevision", "Ingrese una descripción para la revisión."));
+                MessageBox.Show(T("msg_IngreseUnaDescripcionParaLaRevision"));
                 return;
             }
 
@@ -60,7 +71,7 @@ namespace UI.Modules.gestion_taller
 
                     if (dialog.DialogResult != DialogResult.OK)
                     {
-                        MessageBox.Show(T("msg_DebeAgregarAlMenosUnaOrdenDeReparacionSiLaRevisionRequiereRe", "Debe agregar al menos una orden de reparación si la revisión requiere reparación."));
+                        MessageBox.Show(T("msg_DebeAgregarAlMenosUnaOrdenDeReparacionSiLaRevisionRequiereRe"));
                         return;
                     }
 

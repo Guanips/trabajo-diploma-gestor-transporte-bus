@@ -14,6 +14,18 @@ namespace UI.Modules.gestion_choferes
 {
     public partial class GestionChoferUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_ConfirmarEliminarChofer"] = "¿Está seguro de que quiere eliminar al chofer {0} (DNI {1})?",
+            ["msg_ErrorAlAgregarElChofer"] = "Error al agregar el chofer: ",
+            ["msg_ErrorAlEliminarElChofer"] = "Error al eliminar el chofer: ",
+            ["msg_ErrorAlModificarElChofer"] = "Error al modificar el chofer: ",
+            ["msg_ErrorAlRefrescarLosChoferes"] = "Error al refrescar los choferes: "
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public GestionChoferUI()
         {
             InitializeComponent();
@@ -32,7 +44,7 @@ namespace UI.Modules.gestion_choferes
                     {
                         if (dialog.dniChofer == null || dialog.nombreCompletoChofer == null || dialog.activoChofer == null)
                         {
-                            throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
+                            throw new Exception(T("msg_TodosLosCamposSonObligatorios"));
                         }
 
                         // numero de chofer en -1 porque es temporal, la base de datos lo asigna automaticamente porque es PK con auto increment
@@ -44,7 +56,7 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlAgregarElChofer", "Error al agregar el chofer: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlAgregarElChofer") + ex.Message);
             }
         }
 
@@ -62,7 +74,7 @@ namespace UI.Modules.gestion_choferes
                     {
                         if (dialog.dniChofer == null || dialog.nombreCompletoChofer == null || dialog.activoChofer == null)
                         {
-                            throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
+                            throw new Exception(T("msg_TodosLosCamposSonObligatorios"));
                         }
 
                         // El num_chofer es la clave primaria (IDENTITY), por lo que no se modifica.
@@ -74,7 +86,7 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlModificarElChofer", "Error al modificar el chofer: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlModificarElChofer") + ex.Message);
             }
         }
 
@@ -85,8 +97,8 @@ namespace UI.Modules.gestion_choferes
                 Chofer choferSeleccionado = obtenerChoferSeleccionado();
 
                 DialogResult confirmacion = MessageBox.Show(
-                    string.Format(T("msg_ConfirmarEliminarChofer", "¿Está seguro de que quiere eliminar al chofer {0} (DNI {1})?"), choferSeleccionado.nombreCompleto, choferSeleccionado.dni),
-                    T("msg_ConfirmarEliminacion", "Confirmar eliminación"),
+                    string.Format(T("msg_ConfirmarEliminarChofer"), choferSeleccionado.nombreCompleto, choferSeleccionado.dni),
+                    T("msg_ConfirmarEliminacion"),
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
 
@@ -98,13 +110,13 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlEliminarElChofer", "Error al eliminar el chofer: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlEliminarElChofer") + ex.Message);
             }
         }
 
         private Chofer obtenerChoferSeleccionado()
         {
-            return dataGridViewChoferes.CurrentRow?.DataBoundItem as Chofer ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunChofer", "No se ha seleccionado ningún chofer."));
+            return dataGridViewChoferes.CurrentRow?.DataBoundItem as Chofer ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunChofer"));
         }
 
         private void refrescarChoferes()
@@ -116,7 +128,7 @@ namespace UI.Modules.gestion_choferes
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlRefrescarLosChoferes", "Error al refrescar los choferes: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlRefrescarLosChoferes") + ex.Message);
             }
         }
     }

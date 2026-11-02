@@ -5,6 +5,22 @@ namespace UI.Modules
 {
     public partial class GestionIdiomasUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["GestionIdiomasUI_CambiosPendientes"] = "({0} cambios sin guardar)",
+            ["GestionIdiomasUI_FiltroMensajes"] = "(Mensajes)",
+            ["GestionIdiomasUI_FiltroTodos"] = "(Todos)",
+            ["GestionIdiomasUI_Progreso"] = "Traducidas: {0} de {1}",
+            ["msg_DescartarTraducciones"] = "Hay traducciones sin guardar. ¿Desea descartarlas?",
+            ["msg_IdiomaCreadoExito"] = "El idioma se creó correctamente. Mientras no tenga traducciones se mostrarán los textos del idioma por defecto.",
+            ["msg_IdiomaModificadoExito"] = "El idioma se modificó correctamente.",
+            ["msg_TituloConfirmacion"] = "Confirmación",
+            ["msg_TraduccionesGuardadasExito"] = "Las traducciones se guardaron correctamente."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private static readonly Color ColorSinTraducir = Color.FromArgb(255, 244, 214);
 
         private List<Idioma> _idiomas = new List<Idioma>();
@@ -132,14 +148,14 @@ namespace UI.Modules
                 {
                     GestorIdioma.GetInstance.RegistrarNuevoIdioma(codigo, textBoxNombre.Text);
                     MessageBox.Show(
-                        T("msg_IdiomaCreadoExito", "El idioma se creó correctamente. Mientras no tenga traducciones se mostrarán los textos del idioma por defecto."),
-                        T("msg_TituloExito", "Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        T("msg_IdiomaCreadoExito"),
+                        T("msg_TituloExito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else if (_idiomaSeleccionado != null)
                 {
                     GestorIdioma.GetInstance.ModificarIdioma(_idiomaSeleccionado.Codigo, textBoxNombre.Text);
-                    MessageBox.Show(T("msg_IdiomaModificadoExito", "El idioma se modificó correctamente."),
-                        T("msg_TituloExito", "Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(T("msg_IdiomaModificadoExito"),
+                        T("msg_TituloExito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 CargarIdiomas(codigo);
@@ -178,8 +194,8 @@ namespace UI.Modules
 
             comboBoxFormulario.SelectedIndexChanged -= filtros_Changed;
             comboBoxFormulario.Items.Clear();
-            comboBoxFormulario.Items.Add(new OpcionFiltro(null, T("GestionIdiomasUI_FiltroTodos", "(Todos)")));
-            comboBoxFormulario.Items.Add(new OpcionFiltro(string.Empty, T("GestionIdiomasUI_FiltroMensajes", "(Mensajes)")));
+            comboBoxFormulario.Items.Add(new OpcionFiltro(null, T("GestionIdiomasUI_FiltroTodos")));
+            comboBoxFormulario.Items.Add(new OpcionFiltro(string.Empty, T("GestionIdiomasUI_FiltroMensajes")));
             foreach (string formulario in _filas.Where(f => f.Formulario != null).Select(f => f.Formulario!).Distinct().OrderBy(f => f))
             {
                 comboBoxFormulario.Items.Add(new OpcionFiltro(formulario, formulario));
@@ -259,8 +275,8 @@ namespace UI.Modules
                 GestorIdioma.GetInstance.GuardarTraducciones(_idiomaSeleccionado.Codigo, new Dictionary<string, string?>(_cambiosPendientes));
                 _cambiosPendientes.Clear();
 
-                MessageBox.Show(T("msg_TraduccionesGuardadasExito", "Las traducciones se guardaron correctamente."),
-                    T("msg_TituloExito", "Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(T("msg_TraduccionesGuardadasExito"),
+                    T("msg_TituloExito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 CargarIdiomas(_idiomaSeleccionado.Codigo);
             }
@@ -285,8 +301,8 @@ namespace UI.Modules
             if (_cambiosPendientes.Count == 0) return true;
 
             DialogResult respuesta = MessageBox.Show(
-                T("msg_DescartarTraducciones", "Hay traducciones sin guardar. ¿Desea descartarlas?"),
-                T("msg_TituloConfirmacion", "Confirmación"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                T("msg_DescartarTraducciones"),
+                T("msg_TituloConfirmacion"), MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (respuesta != DialogResult.Yes) return false;
 
@@ -304,15 +320,15 @@ namespace UI.Modules
         {
             int traducidas = _filas.Count(f => f.EstaTraducida);
             string pendientes = _cambiosPendientes.Count > 0
-                ? " " + string.Format(T("GestionIdiomasUI_CambiosPendientes", "({0} cambios sin guardar)"), _cambiosPendientes.Count)
+                ? " " + string.Format(T("GestionIdiomasUI_CambiosPendientes"), _cambiosPendientes.Count)
                 : string.Empty;
 
-            labelProgreso.Text = string.Format(T("GestionIdiomasUI_Progreso", "Traducidas: {0} de {1}"), traducidas, _filas.Count) + pendientes;
+            labelProgreso.Text = string.Format(T("GestionIdiomasUI_Progreso"), traducidas, _filas.Count) + pendientes;
         }
 
         private void MostrarError(Exception ex)
         {
-            MessageBox.Show(ex.Message, T("msg_TituloError", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(ex.Message, T("msg_TituloError"), MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         protected override void TraducirElementosParticulares(string codigoIdioma)

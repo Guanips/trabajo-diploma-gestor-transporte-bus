@@ -18,6 +18,18 @@ namespace UI.Modules.gestion_cronogramas
 {
     public partial class SancionesChoferUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_ErrorAlActualizarLaGrillaDeSanciones"] = "Error al actualizar la grilla de sanciones: ",
+            ["msg_EstaSeguroDeQueDeseaEliminarLaSancionSeleccionada"] = "¿Está seguro de que desea eliminar la sanción seleccionada?",
+            ["msg_NoHayChoferesDisponibles"] = "No hay choferes disponibles.",
+            ["msg_NoSeHaSeleccionadoNingunaSancion"] = "No se ha seleccionado ninguna sanción.",
+            ["msg_SancionEliminadaExitosamente"] = "Sanción eliminada exitosamente."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public SancionesChoferUI()
         {
             InitializeComponent();
@@ -27,7 +39,7 @@ namespace UI.Modules.gestion_cronogramas
                 Usuario? usuarioActual = SessionManager.getInstance.ObtenerUsuarioActivo();
                 if (usuarioActual == null)
                 {
-                    MessageBox.Show(T("msg_NoHayUnUsuarioActivoEnLaSesion", "No hay un usuario activo en la sesión."));
+                    MessageBox.Show(T("msg_NoHayUnUsuarioActivoEnLaSesion"));
                     this.Close();
                     return;
                 }
@@ -37,7 +49,7 @@ namespace UI.Modules.gestion_cronogramas
                 List<Chofer> choferes = GestorChofer.ObtenerChoferes();
                 if (choferes.Count == 0)
                 {
-                    MessageBox.Show(T("msg_NoHayChoferesDisponibles", "No hay choferes disponibles."), T("msg_Informacion", "Información"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(T("msg_NoHayChoferesDisponibles"), T("msg_Informacion"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                     return;
                 }
@@ -61,17 +73,17 @@ namespace UI.Modules.gestion_cronogramas
                 Sancion? sancionSeleccionada = dataGridViewSancionesChofer.CurrentRow?.DataBoundItem as Sancion;
                 if (sancionSeleccionada == null)
                 {
-                    MessageBox.Show(T("msg_NoSeHaSeleccionadoNingunaSancion", "No se ha seleccionado ninguna sanción."));
+                    MessageBox.Show(T("msg_NoSeHaSeleccionadoNingunaSancion"));
                     return;
                 }
 
-                if (MessageBox.Show(T("msg_EstaSeguroDeQueDeseaEliminarLaSancionSeleccionada", "¿Está seguro de que desea eliminar la sanción seleccionada?"), T("msg_ConfirmarEliminacion", "Confirmar eliminación"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+                if (MessageBox.Show(T("msg_EstaSeguroDeQueDeseaEliminarLaSancionSeleccionada"), T("msg_ConfirmarEliminacion"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 {
                     return;
                 }
 
                 AuditorCronogramasBLL.EliminarSancion(sancionSeleccionada.id);
-                MessageBox.Show(T("msg_SancionEliminadaExitosamente", "Sanción eliminada exitosamente."));
+                MessageBox.Show(T("msg_SancionEliminadaExitosamente"));
                 ActualizarGrillaSanciones();
             }
             catch (Exception ex)
@@ -95,7 +107,7 @@ namespace UI.Modules.gestion_cronogramas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlActualizarLaGrillaDeSanciones", "Error al actualizar la grilla de sanciones: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlActualizarLaGrillaDeSanciones") + ex.Message);
             }
         }
     }

@@ -28,7 +28,7 @@
                 string.IsNullOrWhiteSpace(textBoxParadaModificarLocalidad.Text) ||
                 string.IsNullOrWhiteSpace(textBoxParadaModificarDireccion.Text))
             {
-                throw new Exception(T("msg_TodosLosCamposSonObligatorios", "Todos los campos son obligatorios."));
+                throw new Exception(T("msg_TodosLosCamposSonObligatorios"));
             }
 
             this.DialogResult = DialogResult.OK;

@@ -4,8 +4,20 @@ using BLL.cronograma_components;
 
 namespace UI.Modules.exportado_cronogramas
 {
-    public partial class ExportarCronogramaUI : Form
+    public partial class ExportarCronogramaUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["err_ExportarCronograma"] = "Error al exportar el cronograma: {0}",
+            ["msg_CronogramaExportado"] = "Cronograma exportado exitosamente a:\n{0}",
+            ["msg_ExportarGuardarComo"] = "Guardar cronograma exportado",
+            ["msg_ExportarSinCronogramas"] = "No hay cronogramas disponibles para exportar.",
+            ["msg_ExportarSinSeleccion"] = "No se ha seleccionado ningún cronograma para exportar."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         List<Cronograma> cronogramasDisponibles;
         Cronograma? cronogramaSeleccionado = null;
         CronogramaExportado? exportacionActual = null;
@@ -15,7 +27,7 @@ namespace UI.Modules.exportado_cronogramas
             cronogramasDisponibles = GestorCronograma.ObtenerCronogramas();
             if (cronogramasDisponibles.Count == 0)
             {
-                MessageBox.Show("No hay cronogramas disponibles para exportar.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(T("msg_ExportarSinCronogramas"), T("msg_TituloInformacion"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
 
@@ -50,7 +62,7 @@ namespace UI.Modules.exportado_cronogramas
         {
             if (cronogramaSeleccionado == null || exportacionActual == null)
             {
-                MessageBox.Show("No se ha seleccionado ningún cronograma para exportar.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(T("msg_ExportarSinSeleccion"), T("msg_TituloError"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -59,8 +71,8 @@ namespace UI.Modules.exportado_cronogramas
 
             using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                saveFileDialog.Filter = "Archivos JSON (*.json)|*.json";
-                saveFileDialog.Title = "Guardar cronograma exportado";
+                saveFileDialog.Filter = T("msg_FiltroArchivosJson");
+                saveFileDialog.Title = T("msg_ExportarGuardarComo");
                 saveFileDialog.FileName = defaultFileName;
                 saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -69,11 +81,11 @@ namespace UI.Modules.exportado_cronogramas
                     {
                         File.WriteAllText(saveFileDialog.FileName, SerializadorCronograma.Serializar(exportacionActual));
                         GestorBitacora.RegistrarAccion($"LOG_CRONO_EXPORT:{cronogramaSeleccionado.id}");
-                        MessageBox.Show($"Cronograma exportado exitosamente a:\n{saveFileDialog.FileName}", "Exportación exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show(T("msg_CronogramaExportado", saveFileDialog.FileName), T("msg_TituloExportacionExitosa"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"Error al exportar el cronograma: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(T("err_ExportarCronograma", ex.Message), T("msg_TituloError"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

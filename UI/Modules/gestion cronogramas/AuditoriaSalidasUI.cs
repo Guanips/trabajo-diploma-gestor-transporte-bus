@@ -15,6 +15,19 @@ namespace UI.Modules.gestion_cronogramas
 {
     public partial class AuditoriaSalidasUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_DebeIngresarUnMotivoDeSancion"] = "Debe ingresar un motivo de sanción.",
+            ["msg_DebeSeleccionarUnaSalida"] = "Debe seleccionar una salida.",
+            ["msg_HoraDeLlegadaRealRegistradaExitosamente"] = "Hora de llegada real registrada exitosamente.",
+            ["msg_LaSalidaSeleccionadaNoTieneUnChoferAsignado"] = "La salida seleccionada no tiene un chofer asignado.",
+            ["msg_NoHayCronogramasDisponiblesParaAuditar"] = "No hay cronogramas disponibles para auditar.",
+            ["msg_SancionRegistradaExitosamente"] = "Sanción registrada exitosamente."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public AuditoriaSalidasUI()
         {
             InitializeComponent();
@@ -24,7 +37,7 @@ namespace UI.Modules.gestion_cronogramas
                 List<Cronograma> cronogramasDisponibles = GestorCronograma.ObtenerCronogramas();
                 if (cronogramasDisponibles.Count == 0)
                 {
-                    MessageBox.Show(T("msg_NoHayCronogramasDisponiblesParaAuditar", "No hay cronogramas disponibles para auditar."), T("msg_Informacion", "Información"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(T("msg_NoHayCronogramasDisponiblesParaAuditar"), T("msg_Informacion"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Close();
                     return;
                 }
@@ -47,14 +60,14 @@ namespace UI.Modules.gestion_cronogramas
                     if (choferAsignadoSalida == null)
                     {
                         textBoxNombreChofer.Text = "";
-                        MessageBox.Show(T("msg_LaSalidaSeleccionadaNoTieneUnChoferAsignado", "La salida seleccionada no tiene un chofer asignado."));
+                        MessageBox.Show(T("msg_LaSalidaSeleccionadaNoTieneUnChoferAsignado"));
                         return;
                     }
 
                     string motivoSancion = textBoxMotivoSancion.Text.Trim();
                     if (string.IsNullOrEmpty(motivoSancion))
                     {
-                        MessageBox.Show(T("msg_DebeIngresarUnMotivoDeSancion", "Debe ingresar un motivo de sanción."), T("msg_Error", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(T("msg_DebeIngresarUnMotivoDeSancion"), T("msg_Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -63,7 +76,7 @@ namespace UI.Modules.gestion_cronogramas
 
                     AuditorCronogramasBLL.InsertarSancion(sancion);
                     textBoxMotivoSancion.Clear();
-                    MessageBox.Show(T("msg_SancionRegistradaExitosamente", "Sanción registrada exitosamente."));
+                    MessageBox.Show(T("msg_SancionRegistradaExitosamente"));
                 }
             }
             catch (Exception ex)
@@ -79,7 +92,7 @@ namespace UI.Modules.gestion_cronogramas
                 Salida? selectedSalida = dataGridViewSalidasCronogramaSeleccionado.CurrentRow?.DataBoundItem as Salida;
                 if (selectedSalida == null)
                 {
-                    MessageBox.Show(T("msg_DebeSeleccionarUnaSalida", "Debe seleccionar una salida."));
+                    MessageBox.Show(T("msg_DebeSeleccionarUnaSalida"));
                     return;
                 }
 
@@ -92,7 +105,7 @@ namespace UI.Modules.gestion_cronogramas
                 dataGridViewSalidasCronogramaSeleccionado.DataSource = null;
                 dataGridViewSalidasCronogramaSeleccionado.DataSource = selectedCronograma?.salidas;
 
-                MessageBox.Show(T("msg_HoraDeLlegadaRealRegistradaExitosamente", "Hora de llegada real registrada exitosamente."));
+                MessageBox.Show(T("msg_HoraDeLlegadaRealRegistradaExitosamente"));
             }
             catch (Exception ex)
             {

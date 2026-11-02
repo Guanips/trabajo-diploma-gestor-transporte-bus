@@ -12,6 +12,15 @@ namespace UI.Modules.gestion_internos
 {
     public partial class GestionInternoAgregarModificarUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_ElModeloDelInternoNoPuedeEstarVacio"] = "El modelo del interno no puede estar vacío",
+            ["msg_LaPatenteDelInternoNoPuedeEstarVacia"] = "La patente del interno no puede estar vacía"
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public string? patenteInterno { get; private set; }
         public string? modeloInterno { get; private set; }
         public DateOnly? fechaIncorporacionInterno { get; private set; }
@@ -64,12 +73,12 @@ namespace UI.Modules.gestion_internos
             {
                 if (string.IsNullOrWhiteSpace(textBoxInternoPatente.Text))
                 {
-                    throw new Exception(T("msg_LaPatenteDelInternoNoPuedeEstarVacia", "La patente del interno no puede estar vacía"));
+                    throw new Exception(T("msg_LaPatenteDelInternoNoPuedeEstarVacia"));
                 }
 
                 if (string.IsNullOrWhiteSpace(textBoxInternoModelo.Text))
                 {
-                    throw new Exception(T("msg_ElModeloDelInternoNoPuedeEstarVacio", "El modelo del interno no puede estar vacío"));
+                    throw new Exception(T("msg_ElModeloDelInternoNoPuedeEstarVacio"));
                 }
 
                 this.patenteInterno = textBoxInternoPatente.Text.Trim();

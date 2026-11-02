@@ -5,6 +5,26 @@ namespace UI.Modules.gestion_rutas
 {
     public partial class GestionRutaUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_ErrorAlAsignarLaParadaALaRuta"] = "Error al asignar la parada a la ruta: ",
+            ["msg_ErrorAlCrearLaRuta"] = "Error al crear la ruta: ",
+            ["msg_ErrorAlEliminarLaRuta"] = "Error al eliminar la ruta: ",
+            ["msg_ErrorAlMoverLaParadaHaciaAbajo"] = "Error al mover la parada hacia abajo: ",
+            ["msg_ErrorAlMoverLaParadaHaciaArriba"] = "Error al mover la parada hacia arriba: ",
+            ["msg_ErrorAlRefrescarLasParadasDeLaRutaSeleccionada"] = "Error al refrescar las paradas de la ruta seleccionada: ",
+            ["msg_ErrorAlRefrescarLasRutas"] = "Error al refrescar las rutas: ",
+            ["msg_ErrorAlSeleccionarLaRuta"] = "Error al seleccionar la ruta: ",
+            ["msg_EstasSeguroDeQueQuieresEliminarEstaRuta"] = "¿Estas seguro de que quieres eliminar esta ruta?",
+            ["msg_LaParadaNoExisteEnElRecorridoDeLaRutaSeleccionada"] = "La parada no existe en el recorrido de la ruta seleccionada.",
+            ["msg_LaParadaYaEstaAsignadaALaRuta"] = "La parada ya está asignada a la ruta.",
+            ["msg_NoSeHaSeleccionadoNingunaRuta"] = "No se ha seleccionado ninguna ruta.",
+            ["msg_RutaNoEncontrada"] = "Ruta no encontrada."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private List<Ruta> rutasDisponibles;
         private List<Parada> paradasDisponibles;
 
@@ -38,7 +58,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlCrearLaRuta", "Error al crear la ruta: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlCrearLaRuta") + ex.Message);
             }
         }
 
@@ -46,10 +66,10 @@ namespace UI.Modules.gestion_rutas
         {
             try
             {
-                string selectedRutaId = dataGridViewRutaDisponibles.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta", "No se ha seleccionado ninguna ruta."));
-                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada", "Ruta no encontrada."));
+                string selectedRutaId = dataGridViewRutaDisponibles.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta"));
+                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada"));
 
-                if (MessageBox.Show(T("msg_EstasSeguroDeQueQuieresEliminarEstaRuta", "¿Estas seguro de que quieres eliminar esta ruta?"), T("msg_ConfirmarEliminacion", "Confirmar eliminación"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show(T("msg_EstasSeguroDeQueQuieresEliminarEstaRuta"), T("msg_ConfirmarEliminacion"), MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     GestorRuta.EliminarRuta(selectedRutaId);
                     this.refrescarRutas();
@@ -57,7 +77,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlEliminarLaRuta", "Error al eliminar la ruta: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlEliminarLaRuta") + ex.Message);
             }
         }
 
@@ -65,8 +85,8 @@ namespace UI.Modules.gestion_rutas
         {
             try
             {
-                string selectedRutaId = dataGridViewRutaDisponibles.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta", "No se ha seleccionado ninguna ruta."));
-                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada", "Ruta no encontrada."));
+                string selectedRutaId = dataGridViewRutaDisponibles.CurrentRow?.Cells["id"].Value?.ToString() ?? throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta"));
+                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada"));
 
                 using (var modal = new GestionRutaAgregarModificarUI(selectedRutaId, selectedRuta.descripcion, selectedRuta.sentido, selectedRuta.distanciaTotalKM, selectedRuta.tiempoEstimadoMin))
                 {
@@ -80,7 +100,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlEliminarLaRuta", "Error al eliminar la ruta: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlEliminarLaRuta") + ex.Message);
             }
         }
 
@@ -91,15 +111,15 @@ namespace UI.Modules.gestion_rutas
                 string? selectedRutaId = dataGridViewRutaDisponibles.CurrentRow?.Cells["id"].Value?.ToString();
                 if (selectedRutaId == null)
                 {
-                    throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta", "No se ha seleccionado ninguna ruta."));
+                    throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta"));
                 }
 
-                Parada selectedParada = listBoxRutaParadasDisponibles.SelectedItem is Parada p ? p : throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada", "No se ha seleccionado ninguna parada."));
-                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada", "Ruta no encontrada."));
+                Parada selectedParada = listBoxRutaParadasDisponibles.SelectedItem is Parada p ? p : throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada"));
+                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada"));
 
                 if (selectedRuta.recorrido.Any(p => p.id == selectedParada.id))
                 {
-                    throw new Exception(T("msg_LaParadaYaEstaAsignadaALaRuta", "La parada ya está asignada a la ruta."));
+                    throw new Exception(T("msg_LaParadaYaEstaAsignadaALaRuta"));
                 }
 
                 selectedRuta.AgregarParada(selectedParada);
@@ -110,7 +130,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlAsignarLaParadaALaRuta", "Error al asignar la parada a la ruta: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlAsignarLaParadaALaRuta") + ex.Message);
             }
         }
 
@@ -121,16 +141,16 @@ namespace UI.Modules.gestion_rutas
                 string? selectedRutaId = dataGridViewRutaDisponibles.CurrentRow?.Cells["id"].Value?.ToString();
                 if (selectedRutaId == null)
                 {
-                    throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta", "No se ha seleccionado ninguna ruta."));
+                    throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta"));
                 }
 
-                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada", "Ruta no encontrada."));
-                Parada selectedParada = listBoxRutaParadasDeRuta.SelectedItem is Parada p ? p : throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada", "No se ha seleccionado ninguna parada."));
+                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada"));
+                Parada selectedParada = listBoxRutaParadasDeRuta.SelectedItem is Parada p ? p : throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada"));
 
                 int currentIndex = selectedRuta.recorrido.FindIndex(p => p.id == selectedParada.id);
                 if (currentIndex == -1)
                 {
-                    throw new Exception(T("msg_LaParadaNoExisteEnElRecorridoDeLaRutaSeleccionada", "La parada no existe en el recorrido de la ruta seleccionada."));
+                    throw new Exception(T("msg_LaParadaNoExisteEnElRecorridoDeLaRutaSeleccionada"));
                 }
 
                 if (currentIndex == 0)
@@ -154,7 +174,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlMoverLaParadaHaciaArriba", "Error al mover la parada hacia arriba: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlMoverLaParadaHaciaArriba") + ex.Message);
             }
         }
 
@@ -165,16 +185,16 @@ namespace UI.Modules.gestion_rutas
                 string? selectedRutaId = dataGridViewRutaDisponibles.CurrentRow?.Cells["id"].Value?.ToString();
                 if (selectedRutaId == null)
                 {
-                    throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta", "No se ha seleccionado ninguna ruta."));
+                    throw new Exception(T("msg_NoSeHaSeleccionadoNingunaRuta"));
                 }
 
-                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada", "Ruta no encontrada."));
-                Parada selectedParada = listBoxRutaParadasDeRuta.SelectedItem is Parada p ? p : throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada", "No se ha seleccionado ninguna parada."));
+                Ruta selectedRuta = rutasDisponibles.FirstOrDefault(r => r.id == selectedRutaId) ?? throw new Exception(T("msg_RutaNoEncontrada"));
+                Parada selectedParada = listBoxRutaParadasDeRuta.SelectedItem is Parada p ? p : throw new Exception(T("msg_NoSeHaSeleccionadoNingunaParada"));
 
                 int currentIndex = selectedRuta.recorrido.FindIndex(p => p.id == selectedParada.id);
                 if (currentIndex == -1)
                 {
-                    throw new Exception(T("msg_LaParadaNoExisteEnElRecorridoDeLaRutaSeleccionada", "La parada no existe en el recorrido de la ruta seleccionada."));
+                    throw new Exception(T("msg_LaParadaNoExisteEnElRecorridoDeLaRutaSeleccionada"));
                 }
 
                 if (currentIndex >= selectedRuta.recorrido.Count - 1)
@@ -198,7 +218,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlMoverLaParadaHaciaAbajo", "Error al mover la parada hacia abajo: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlMoverLaParadaHaciaAbajo") + ex.Message);
             }
         }
 
@@ -210,7 +230,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlSeleccionarLaRuta", "Error al seleccionar la ruta: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlSeleccionarLaRuta") + ex.Message);
             }
         }
 
@@ -224,7 +244,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlRefrescarLasRutas", "Error al refrescar las rutas: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlRefrescarLasRutas") + ex.Message);
             }
         }
 
@@ -255,7 +275,7 @@ namespace UI.Modules.gestion_rutas
             }
             catch (Exception ex)
             {
-                MessageBox.Show(T("msg_ErrorAlRefrescarLasParadasDeLaRutaSeleccionada", "Error al refrescar las paradas de la ruta seleccionada: ") + ex.Message);
+                MessageBox.Show(T("msg_ErrorAlRefrescarLasParadasDeLaRutaSeleccionada") + ex.Message);
             }
         }
     }

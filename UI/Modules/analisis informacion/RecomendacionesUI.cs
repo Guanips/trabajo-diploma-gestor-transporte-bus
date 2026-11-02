@@ -4,14 +4,25 @@ namespace UI.Modules.analisis_informacion
 {
     public partial class RecomendacionesUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_RecomendacionDetalle"] = "Situación detectada:\r\n{0}\r\n\r\nAcción sugerida:\r\n{1}",
+            ["msg_RecomendacionesPeriodo"] = "Período analizado: {0:dd/MM/yyyy} al {1:dd/MM/yyyy} — {2} recomendación(es)"
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
+        private readonly DateOnly desde;
+        private readonly DateOnly hasta;
         private readonly List<Recomendacion> recomendaciones;
 
         public RecomendacionesUI(DateOnly desde, DateOnly hasta, List<Recomendacion> recomendaciones)
         {
             InitializeComponent();
+            this.desde = desde;
+            this.hasta = hasta;
             this.recomendaciones = recomendaciones;
-
-            labelRecomendacionesPeriodo.Text = $"Período analizado: {desde:dd/MM/yyyy} al {hasta:dd/MM/yyyy} — {recomendaciones.Count} recomendación(es)";
 
             dataGridViewRecomendaciones.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -33,14 +44,24 @@ namespace UI.Modules.analisis_informacion
             dataGridViewRecomendaciones.DataSource = recomendaciones;
         }
 
+        // El periodo y el detalle se arman por codigo: se vuelven a armar cada vez que cambia el idioma
+        protected override void TraducirElementosParticulares(string codigoIdioma)
+        {
+            labelRecomendacionesPeriodo.Text = T("msg_RecomendacionesPeriodo", desde, hasta, recomendaciones.Count);
+            MostrarDetalleSeleccionado();
+        }
+
         private void dataGridViewRecomendaciones_SelectionChanged(object? sender, EventArgs e)
+        {
+            MostrarDetalleSeleccionado();
+        }
+
+        private void MostrarDetalleSeleccionado()
         {
             // SelectedRows y no CurrentRow: en este evento la fila actual puede no estar actualizada todavia
             if (dataGridViewRecomendaciones.SelectedRows.Count > 0 && dataGridViewRecomendaciones.SelectedRows[0].DataBoundItem is Recomendacion seleccionada)
             {
-                textBoxRecomendacionDetalle.Text =
-                    $"Situación detectada:{Environment.NewLine}{seleccionada.evidencia}{Environment.NewLine}{Environment.NewLine}" +
-                    $"Acción sugerida:{Environment.NewLine}{seleccionada.accionSugerida}";
+                textBoxRecomendacionDetalle.Text = T("msg_RecomendacionDetalle", seleccionada.evidencia, seleccionada.accionSugerida);
             }
             else
             {

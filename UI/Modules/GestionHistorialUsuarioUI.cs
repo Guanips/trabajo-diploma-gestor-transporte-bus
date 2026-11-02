@@ -6,6 +6,18 @@ namespace UI.Modules
 {
     public partial class GestionHistorialUsuarioUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_Atencion"] = "Atención",
+            ["msg_ElEstadoDelUsuarioSeHaRecuperadoExitosamente"] = "El estado del usuario se ha recuperado exitosamente.",
+            ["msg_Exito"] = "Éxito",
+            ["msg_OcurrioUnErrorAlIntentarRecuperarElEstado"] = "Ocurrió un error al intentar recuperar el estado: ",
+            ["msg_PorFavorSeleccioneUnUsuarioYUnEstadoHistoricoParaRecuperar"] = "Por favor, seleccione un usuario y un estado histórico para recuperar."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         private GestorHistorialUsuario gestorHistorialUsuario;
         private CaretakerMementoUsuario? caretakerMementoUsuario;
 
@@ -43,7 +55,7 @@ namespace UI.Modules
         {
             if (dataGridViewUsuarios.CurrentRow == null || dataGridViewHistorial.CurrentRow == null)
             {
-                MessageBox.Show(T("msg_PorFavorSeleccioneUnUsuarioYUnEstadoHistoricoParaRecuperar", "Por favor, seleccione un usuario y un estado histórico para recuperar."), T("msg_Atencion", "Atención"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(T("msg_PorFavorSeleccioneUnUsuarioYUnEstadoHistoricoParaRecuperar"), T("msg_Atencion"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -57,7 +69,7 @@ namespace UI.Modules
                     usuarioSeleccionado.RestaurarEstado(mementoSeleccionado);
                     RepositorioUsuarios.GetInstance.ModificarUsuario(usuarioSeleccionado);
 
-                    MessageBox.Show(T("msg_ElEstadoDelUsuarioSeHaRecuperadoExitosamente", "El estado del usuario se ha recuperado exitosamente."), T("msg_Exito", "Éxito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(T("msg_ElEstadoDelUsuarioSeHaRecuperadoExitosamente"), T("msg_Exito"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     ActualizarDataGridViewUsuarios();
                     dataGridViewHistorial.DataSource = null;
                     caretakerMementoUsuario = null;
@@ -65,7 +77,7 @@ namespace UI.Modules
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(T("msg_OcurrioUnErrorAlIntentarRecuperarElEstado", "Ocurrió un error al intentar recuperar el estado: ") + ex.Message, T("msg_Error", "Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(T("msg_OcurrioUnErrorAlIntentarRecuperarElEstado") + ex.Message, T("msg_Error"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

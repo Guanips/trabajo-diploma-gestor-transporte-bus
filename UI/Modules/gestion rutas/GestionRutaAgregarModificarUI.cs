@@ -2,6 +2,15 @@
 {
     public partial class GestionRutaAgregarModificarUI : FormBaseObserver
     {
+        // Mensajes del formulario (MessageBox y textos armados por código) en el idioma por defecto
+        private static readonly Dictionary<string, string> MensajesFormulario = new()
+        {
+            ["msg_CamposIncompletos"] = "Campos incompletos",
+            ["msg_PorFavorCompleteTodosLosCamposObligatorios"] = "Por favor, complete todos los campos obligatorios."
+        };
+
+        protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
+
         public string rutaID => textBoxRutaID.Text;
         public string rutaDescripcion => textBoxRutaDescripcion.Text;
         public string rutaSentido { get; private set; } = "";
@@ -71,7 +80,7 @@
             }
             else
             {
-                MessageBox.Show(T("msg_PorFavorCompleteTodosLosCamposObligatorios", "Por favor, complete todos los campos obligatorios."), T("msg_CamposIncompletos", "Campos incompletos"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(T("msg_PorFavorCompleteTodosLosCamposObligatorios"), T("msg_CamposIncompletos"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
             this.DialogResult = DialogResult.OK;
