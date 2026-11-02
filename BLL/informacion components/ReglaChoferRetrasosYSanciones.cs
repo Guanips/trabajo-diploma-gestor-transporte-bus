@@ -13,6 +13,14 @@ namespace BLL.informacion_components
         private const double FactorSobreFlota = 1.5;
         private const double RetrasoPromedioMinimoMin = 10;
 
+        // Textos de la recomendacion en el idioma por defecto
+        private static readonly CatalogoMensajes Mensajes = new CatalogoMensajes("RecomendacionesUI", new Dictionary<string, string>
+        {
+            ["msg_RecChoferTitulo"] = "Chofer {0}: retrasos reiterados y sanciones",
+            ["msg_RecChoferEvidencia"] = "{0} sanciones y retraso promedio de {1} min en {2} salidas, contra {3} min del conjunto de choferes ({4}).",
+            ["msg_RecChoferAccion"] = "Evaluar un seguimiento o capacitación del chofer y revisar sus asignaciones de rutas y horarios."
+        });
+
         public override List<Recomendacion> Evaluar(DatosAnalisisServicio datos)
         {
             List<Recomendacion> recomendaciones = new List<Recomendacion>();
@@ -33,9 +41,9 @@ namespace BLL.informacion_components
 
                 recomendaciones.Add(new Recomendacion(
                     sanciones >= SancionesCriticas ? SeveridadRecomendacion.Alta : SeveridadRecomendacion.Media,
-                    $"Chofer {chofer.nombreCompleto}: retrasos reiterados y sanciones",
-                    $"{sanciones} sanciones y retraso promedio de {Numero(retrasoChofer)} min en {salidas.Count} salidas, contra {Numero(retrasoFlota)} min del conjunto de choferes ({Periodo(datos)}).",
-                    "Evaluar un seguimiento o capacitación del chofer y revisar sus asignaciones de rutas y horarios."));
+                    Mensajes.Traducir("msg_RecChoferTitulo", chofer.nombreCompleto),
+                    Mensajes.Traducir("msg_RecChoferEvidencia", sanciones, Numero(retrasoChofer), salidas.Count, Numero(retrasoFlota), Periodo(datos)),
+                    Mensajes.Traducir("msg_RecChoferAccion")));
             }
 
             return recomendaciones;

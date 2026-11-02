@@ -21,7 +21,7 @@ namespace UI
             ["err_IntegridadCorrupta"] = "Alerta Crítica: Se ha detectado una violación en la integridad de la base de datos.\n\nEl sistema ha entrado en Modo de Recuperación. Solo los administradores pueden iniciar sesión.",
             ["err_VerificarIntegridad"] = "Error al verificar la integridad del sistema: ",
             ["msg_CierreSesionExito"] = "Sesión cerrada correctamente.",
-            ["msg_LoginError"] = "Login error",
+            ["msg_LoginError"] = "Error de inicio de sesión",
             ["msg_TituloCierreSesion"] = "Cerrar sesión",
             ["msg_TituloErrorIntegridad"] = "Error Crítico de Integridad"
         };

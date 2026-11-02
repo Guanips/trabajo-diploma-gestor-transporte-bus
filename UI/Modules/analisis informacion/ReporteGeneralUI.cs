@@ -20,6 +20,9 @@ namespace UI.Modules.analisis_informacion
 
         private const string ValorVacio = "-";
 
+        // Ultimo reporte mostrado: los graficos se vuelven a dibujar con sus textos en el nuevo idioma
+        private ReporteServicio? reporteActual;
+
         // Valores de los indicadores (cada uno dentro de un GroupBox con el nombre del indicador)
         private readonly Dictionary<string, Label> valoresKpi = new();
 
@@ -224,12 +227,24 @@ namespace UI.Modules.analisis_informacion
             Establecer("taller", r?.gastoTaller.ToString("C0", es));
             Establecer("total", r?.gastoTotal.ToString("C0", es));
 
-            if (reporte != null)
+            reporteActual = reporte;
+            DibujarGraficos();
+
+            gridRutas.DataSource = reporte?.porRuta;
+            gridSuspensiones.DataSource = reporte?.suspensiones;
+            gridChoferes.DataSource = reporte?.choferesConSanciones;
+            gridTaller.DataSource = reporte?.tallerPorInterno;
+            gridConsumo.DataSource = reporte?.consumoPorInterno;
+        }
+
+        private void DibujarGraficos()
+        {
+            if (reporteActual != null)
             {
-                GraficosReporteServicio.PuntualidadPorRuta(graficoRutas.Plot, reporte);
-                GraficosReporteServicio.EvolucionPuntualidad(graficoEvolucion.Plot, reporte);
-                GraficosReporteServicio.DistribucionRetrasos(graficoTramos.Plot, reporte);
-                GraficosReporteServicio.GastosMensuales(graficoGastos.Plot, reporte);
+                GraficosReporteServicio.PuntualidadPorRuta(graficoRutas.Plot, reporteActual);
+                GraficosReporteServicio.EvolucionPuntualidad(graficoEvolucion.Plot, reporteActual);
+                GraficosReporteServicio.DistribucionRetrasos(graficoTramos.Plot, reporteActual);
+                GraficosReporteServicio.GastosMensuales(graficoGastos.Plot, reporteActual);
             }
             else
             {
@@ -238,12 +253,12 @@ namespace UI.Modules.analisis_informacion
             }
             foreach (FormsPlot grafico in new[] { graficoRutas, graficoEvolucion, graficoTramos, graficoGastos })
                 grafico.Refresh();
+        }
 
-            gridRutas.DataSource = reporte?.porRuta;
-            gridSuspensiones.DataSource = reporte?.suspensiones;
-            gridChoferes.DataSource = reporte?.choferesConSanciones;
-            gridTaller.DataSource = reporte?.tallerPorInterno;
-            gridConsumo.DataSource = reporte?.consumoPorInterno;
+        // Los textos de los graficos los arma el codigo: se vuelven a dibujar en el nuevo idioma
+        protected override void TraducirElementosParticulares(string codigoIdioma)
+        {
+            DibujarGraficos();
         }
 
         private void Establecer(string clave, string? valor) => valoresKpi[clave].Text = valor ?? ValorVacio;

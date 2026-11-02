@@ -13,6 +13,16 @@ namespace BLL.informacion_components
         private const double FactorSobrePromedio = 2;
         private const double FactorCritico = 3;
 
+        // Textos de la recomendacion en el idioma por defecto
+        private static readonly CatalogoMensajes Mensajes = new CatalogoMensajes("RecomendacionesUI", new Dictionary<string, string>
+        {
+            ["msg_RecTallerTitulo"] = "Interno {0} ({1}): gasto de taller elevado",
+            ["msg_RecTallerEvidencia"] = "Gasto de {0} en {1} reparaciones, {2} veces el promedio por interno de la flota ({3}) en el período {4}. Incorporado el {5:dd/MM/yyyy} ({6} años)",
+            ["msg_RecTallerNoDisponible"] = "actualmente no disponible",
+            ["msg_RecTallerCostosPendientes"] = "Hay insumos sin costo cargado: el gasto real puede ser mayor.",
+            ["msg_RecTallerAccion"] = "Evaluar una revisión integral del interno y analizar si conviene su reemplazo o baja, comparando el gasto acumulado de reparaciones con el valor del vehículo."
+        });
+
         public override List<Recomendacion> Evaluar(DatosAnalisisServicio datos)
         {
             List<Recomendacion> recomendaciones = new List<Recomendacion>();
@@ -36,12 +46,12 @@ namespace BLL.informacion_components
 
                 recomendaciones.Add(new Recomendacion(
                     veces >= FactorCritico ? SeveridadRecomendacion.Alta : SeveridadRecomendacion.Media,
-                    $"Interno {interno.patente} ({interno.modelo}): gasto de taller elevado",
-                    $"Gasto de {Dinero(gasto)} en {reparaciones} reparaciones, {Numero(veces)} veces el promedio por interno de la flota ({Dinero(gastoPromedio)}) en el período {Periodo(datos)}. " +
-                    $"Incorporado el {interno.fechaIncorporacion:dd/MM/yyyy} ({Numero(antiguedadAnios)} años)" +
-                    (interno.disponible ? "." : ", actualmente no disponible.") +
-                    (hayCostosPendientes ? " Hay insumos sin costo cargado: el gasto real puede ser mayor." : ""),
-                    "Evaluar una revisión integral del interno y analizar si conviene su reemplazo o baja, comparando el gasto acumulado de reparaciones con el valor del vehículo."));
+                    Mensajes.Traducir("msg_RecTallerTitulo", interno.patente, interno.modelo),
+                    Mensajes.Traducir("msg_RecTallerEvidencia", Dinero(gasto), reparaciones, Numero(veces), Dinero(gastoPromedio), Periodo(datos),
+                        interno.fechaIncorporacion, Numero(antiguedadAnios)) +
+                    (interno.disponible ? "." : ", " + Mensajes.Traducir("msg_RecTallerNoDisponible") + ".") +
+                    (hayCostosPendientes ? " " + Mensajes.Traducir("msg_RecTallerCostosPendientes") : ""),
+                    Mensajes.Traducir("msg_RecTallerAccion")));
             }
 
             return recomendaciones;

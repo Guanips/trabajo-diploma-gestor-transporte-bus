@@ -13,6 +13,53 @@ namespace BLL.informacion_components
         private const string ColorSuave = "#F1F4F8";
         private const string ColorBorde = "#C9D2DE";
 
+        // Textos del PDF en el idioma por defecto
+        private static readonly CatalogoMensajes Mensajes = new CatalogoMensajes("ReporteGeneralUI", new Dictionary<string, string>
+        {
+            ["err_ReporteRutaInvalida"] = "La ubicación del archivo no es válida o no se puede acceder a ella. La operación fue cancelada.",
+            ["msg_PdfTitulo"] = "Reporte general del servicio",
+            ["msg_PdfSubtitulo"] = "Período: {0:dd/MM/yyyy} al {1:dd/MM/yyyy}   |   Generado el {2:dd/MM/yyyy HH:mm}",
+            ["msg_PdfPagina"] = "Página",
+            ["msg_PdfPaginaDe"] = "de",
+            ["msg_PdfSinDatos"] = "Sin datos en el período seleccionado.",
+            ["msg_PdfKpiSalidas"] = "Salidas programadas",
+            ["msg_PdfKpiPuntualidad"] = "Puntualidad (hasta {0} min)",
+            ["msg_PdfKpiRetraso"] = "Retraso promedio",
+            ["msg_PdfKpiSuspendidas"] = "Salidas suspendidas",
+            ["msg_PdfKpiSanciones"] = "Sanciones a choferes",
+            ["msg_PdfKpiCombustible"] = "Gasto en combustible",
+            ["msg_PdfKpiTaller"] = "Gasto en taller",
+            ["msg_PdfKpiTotal"] = "Gasto total",
+            ["msg_PdfSeccionRutas"] = "Rendimiento por ruta",
+            ["msg_PdfSeccionSuspensiones"] = "Suspensiones por motivo",
+            ["msg_PdfSeccionChoferes"] = "Choferes con más sanciones",
+            ["msg_PdfSeccionTaller"] = "Taller: internos con mayor gasto",
+            ["msg_PdfSeccionConsumo"] = "Consumo de combustible por interno",
+            ["msg_PdfColRuta"] = "Ruta",
+            ["msg_PdfColProgramadas"] = "Programadas",
+            ["msg_PdfColSuspendidas"] = "Suspendidas",
+            ["msg_PdfColConLlegada"] = "Con llegada",
+            ["msg_PdfColPuntualidad"] = "Puntualidad",
+            ["msg_PdfColRetrasoPromedio"] = "Retraso prom. (min)",
+            ["msg_PdfColMotivo"] = "Motivo",
+            ["msg_PdfColCantidad"] = "Cantidad",
+            ["msg_PdfColChofer"] = "Chofer",
+            ["msg_PdfColSanciones"] = "Sanciones",
+            ["msg_PdfColInterno"] = "Interno",
+            ["msg_PdfColModelo"] = "Modelo",
+            ["msg_PdfColRevisiones"] = "Revisiones",
+            ["msg_PdfColReparaciones"] = "Reparaciones",
+            ["msg_PdfColGasto"] = "Gasto",
+            ["msg_PdfColLitros"] = "Litros",
+            ["msg_PdfColKmRecorridos"] = "Km recorridos",
+            ["msg_PdfColLitrosCada100Km"] = "L/100 km",
+            ["msg_PdfNotaPuntualidad"] = "Una llegada se considera puntual si el retraso es de hasta {0} minutos. La puntualidad y el retraso promedio se calculan sobre las salidas con llegada registrada.",
+            ["msg_PdfNotaCombustible"] = "Las cargas de combustible anuladas no se incluyen. El consumo se calcula con los litros cargados después de la primera carga del período y los kilómetros entre la primera y la última.",
+            ["msg_PdfNotaInsumosSinCosto"] = "{0} insumo(s) de taller sin costo cargado no están incluidos en el gasto de taller."
+        });
+
+        private static string T(string clave, params object?[] argumentos) => Mensajes.Traducir(clave, argumentos);
+
         /// <summary>
         /// Genera el PDF y lo guarda en rutaArchivo. Lanza una Exception con el mensaje del caso alternativo si la carpeta no existe
         /// o no se puede escribir en ella; en ese caso no se crea ningun archivo.
@@ -57,8 +104,8 @@ namespace BLL.informacion_components
 
                     pagina.Header().Column(col =>
                     {
-                        col.Item().Text("Reporte general del servicio").FontSize(20).Bold().FontColor(ColorTitulo);
-                        col.Item().Text($"Período: {reporte.desde:dd/MM/yyyy} al {reporte.hasta:dd/MM/yyyy}   |   Generado el {reporte.fechaGeneracion:dd/MM/yyyy HH:mm}")
+                        col.Item().Text(T("msg_PdfTitulo")).FontSize(20).Bold().FontColor(ColorTitulo);
+                        col.Item().Text(T("msg_PdfSubtitulo", reporte.desde, reporte.hasta, reporte.fechaGeneracion))
                             .FontSize(9).FontColor(Colors.Grey.Darken1);
                         col.Item().PaddingTop(4).LineHorizontal(1).LineColor(ColorBorde);
                     });
@@ -83,29 +130,29 @@ namespace BLL.informacion_components
 
                         col.Item().PageBreak();
 
-                        col.Item().Element(c => Seccion(c, "Rendimiento por ruta",
-                            new[] { "Ruta", "Programadas", "Suspendidas", "Con llegada", "Puntualidad", "Retraso prom. (min)" },
+                        col.Item().Element(c => Seccion(c, T("msg_PdfSeccionRutas"),
+                            new[] { T("msg_PdfColRuta"), T("msg_PdfColProgramadas"), T("msg_PdfColSuspendidas"), T("msg_PdfColConLlegada"), T("msg_PdfColPuntualidad"), T("msg_PdfColRetrasoPromedio") },
                             reporte.porRuta.Select(r => new[] { r.nombre, r.programadas.ToString(), r.suspendidas.ToString(), r.conLlegada.ToString(),
                                 Pct(r.puntualidadPct), Num(r.retrasoPromedioMin) }),
                             new float[] { 4, 1.3f, 1.3f, 1.3f, 1.3f, 1.6f }));
 
-                        col.Item().Element(c => Seccion(c, "Suspensiones por motivo",
-                            new[] { "Motivo", "Cantidad" },
+                        col.Item().Element(c => Seccion(c, T("msg_PdfSeccionSuspensiones"),
+                            new[] { T("msg_PdfColMotivo"), T("msg_PdfColCantidad") },
                             reporte.suspensiones.Select(s => new[] { s.motivo, s.cantidad.ToString() }),
                             new float[] { 5, 1 }));
 
-                        col.Item().Element(c => Seccion(c, "Choferes con más sanciones",
-                            new[] { "Chofer", "Sanciones", "Retraso prom. (min)" },
+                        col.Item().Element(c => Seccion(c, T("msg_PdfSeccionChoferes"),
+                            new[] { T("msg_PdfColChofer"), T("msg_PdfColSanciones"), T("msg_PdfColRetrasoPromedio") },
                             reporte.choferesConSanciones.Select(ch => new[] { ch.nombreCompleto, ch.sanciones.ToString(), Num(ch.retrasoPromedioMin) }),
                             new float[] { 4, 1.2f, 1.6f }));
 
-                        col.Item().Element(c => Seccion(c, "Taller: internos con mayor gasto",
-                            new[] { "Interno", "Modelo", "Revisiones", "Reparaciones", "Gasto" },
+                        col.Item().Element(c => Seccion(c, T("msg_PdfSeccionTaller"),
+                            new[] { T("msg_PdfColInterno"), T("msg_PdfColModelo"), T("msg_PdfColRevisiones"), T("msg_PdfColReparaciones"), T("msg_PdfColGasto") },
                             reporte.tallerPorInterno.Select(t => new[] { t.patente, t.modelo, t.revisiones.ToString(), t.reparaciones.ToString(), Dinero(t.gasto) }),
                             new float[] { 1.5f, 3, 1.3f, 1.4f, 2 }));
 
-                        col.Item().Element(c => Seccion(c, "Consumo de combustible por interno",
-                            new[] { "Interno", "Modelo", "Litros", "Km recorridos", "L/100 km" },
+                        col.Item().Element(c => Seccion(c, T("msg_PdfSeccionConsumo"),
+                            new[] { T("msg_PdfColInterno"), T("msg_PdfColModelo"), T("msg_PdfColLitros"), T("msg_PdfColKmRecorridos"), T("msg_PdfColLitrosCada100Km") },
                             reporte.consumoPorInterno.Select(i => new[] { i.patente, i.modelo, i.litros.ToString("N0", Cultura), i.km.ToString("N0", Cultura),
                                 i.litrosCada100Km?.ToString("0.0", Cultura) ?? "-" }),
                             new float[] { 1.5f, 3, 1.5f, 1.7f, 1.4f }));
@@ -116,9 +163,9 @@ namespace BLL.informacion_components
                     pagina.Footer().AlignCenter().Text(t =>
                     {
                         t.DefaultTextStyle(x => x.FontSize(8).FontColor(Colors.Grey.Darken1));
-                        t.Span("Página ");
+                        t.Span(T("msg_PdfPagina") + " ");
                         t.CurrentPageNumber();
-                        t.Span(" de ");
+                        t.Span(" " + T("msg_PdfPaginaDe") + " ");
                         t.TotalPages();
                     });
                 });
@@ -130,14 +177,14 @@ namespace BLL.informacion_components
             ResumenServicio r = reporte.resumen;
             (string Valor, string Etiqueta)[] kpis =
             {
-                (r.salidasProgramadas.ToString("N0", Cultura), "Salidas programadas"),
-                (Pct(r.puntualidadPct), $"Puntualidad (hasta {reporte.toleranciaMinutos} min)"),
-                ($"{Num(r.retrasoPromedioMin)} min", "Retraso promedio"),
-                ($"{r.salidasSuspendidas} ({Pct(r.suspensionPct)})", "Salidas suspendidas"),
-                (r.sanciones.ToString(), "Sanciones a choferes"),
-                (Dinero(r.gastoCombustible), "Gasto en combustible"),
-                (Dinero(r.gastoTaller), "Gasto en taller"),
-                (Dinero(r.gastoTotal), "Gasto total")
+                (r.salidasProgramadas.ToString("N0", Cultura), T("msg_PdfKpiSalidas")),
+                (Pct(r.puntualidadPct), T("msg_PdfKpiPuntualidad", reporte.toleranciaMinutos)),
+                ($"{Num(r.retrasoPromedioMin)} min", T("msg_PdfKpiRetraso")),
+                ($"{r.salidasSuspendidas} ({Pct(r.suspensionPct)})", T("msg_PdfKpiSuspendidas")),
+                (r.sanciones.ToString(), T("msg_PdfKpiSanciones")),
+                (Dinero(r.gastoCombustible), T("msg_PdfKpiCombustible")),
+                (Dinero(r.gastoTaller), T("msg_PdfKpiTaller")),
+                (Dinero(r.gastoTotal), T("msg_PdfKpiTotal"))
             };
 
             contenedor.Table(tabla =>
@@ -163,7 +210,7 @@ namespace BLL.informacion_components
 
                 if (datos.Count == 0)
                 {
-                    col.Item().Text("Sin datos en el período seleccionado.").Italic().FontColor(Colors.Grey.Darken1);
+                    col.Item().Text(T("msg_PdfSinDatos")).Italic().FontColor(Colors.Grey.Darken1);
                     return;
                 }
 
@@ -191,16 +238,15 @@ namespace BLL.informacion_components
         {
             List<string> notas = new List<string>
             {
-                $"Una llegada se considera puntual si el retraso es de hasta {reporte.toleranciaMinutos} minutos. La puntualidad y el retraso promedio se calculan sobre las salidas con llegada registrada.",
-                "Las cargas de combustible anuladas no se incluyen. El consumo se calcula con los litros cargados después de la primera carga del período y los kilómetros entre la primera y la última."
+                T("msg_PdfNotaPuntualidad", reporte.toleranciaMinutos),
+                T("msg_PdfNotaCombustible")
             };
             if (reporte.resumen.insumosSinCosto > 0)
-                notas.Add($"{reporte.resumen.insumosSinCosto} insumo(s) de taller sin costo cargado no están incluidos en el gasto de taller.");
+                notas.Add(T("msg_PdfNotaInsumosSinCosto", reporte.resumen.insumosSinCosto));
             return string.Join("\n", notas);
         }
 
-        private static string MensajeRutaInvalida() =>
-            GestorIdioma.GetInstance.TraducirMensaje("err_ReporteRutaInvalida", "La ubicación del archivo no es válida o no se puede acceder a ella. La operación fue cancelada.");
+        private static string MensajeRutaInvalida() => T("err_ReporteRutaInvalida");
 
         private static string Pct(double valor) => valor.ToString("0.#", Cultura) + "%";
 

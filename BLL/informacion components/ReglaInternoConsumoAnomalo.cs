@@ -11,6 +11,14 @@ namespace BLL.informacion_components
         private const int InternosMinimos = 3;
         private const double FactorSobreMediana = 1.25;
 
+        // Textos de la recomendacion en el idioma por defecto
+        private static readonly CatalogoMensajes Mensajes = new CatalogoMensajes("RecomendacionesUI", new Dictionary<string, string>
+        {
+            ["msg_RecConsumoTitulo"] = "Interno {0} ({1}): consumo de combustible elevado",
+            ["msg_RecConsumoEvidencia"] = "Consumo de {0} L/100 km contra una mediana de {1} L/100 km de la flota en el período {2}.",
+            ["msg_RecConsumoAccion"] = "Revisar el estado mecánico del interno (inyección, filtros, neumáticos) y el estilo de conducción de sus choferes."
+        });
+
         public override List<Recomendacion> Evaluar(DatosAnalisisServicio datos)
         {
             List<Recomendacion> recomendaciones = new List<Recomendacion>();
@@ -33,9 +41,9 @@ namespace BLL.informacion_components
             {
                 recomendaciones.Add(new Recomendacion(
                     SeveridadRecomendacion.Media,
-                    $"Interno {interno.patente} ({interno.modelo}): consumo de combustible elevado",
-                    $"Consumo de {Numero(litrosCada100Km)} L/100 km contra una mediana de {Numero(mediana)} L/100 km de la flota en el período {Periodo(datos)}.",
-                    "Revisar el estado mecánico del interno (inyección, filtros, neumáticos) y el estilo de conducción de sus choferes."));
+                    Mensajes.Traducir("msg_RecConsumoTitulo", interno.patente, interno.modelo),
+                    Mensajes.Traducir("msg_RecConsumoEvidencia", Numero(litrosCada100Km), Numero(mediana), Periodo(datos)),
+                    Mensajes.Traducir("msg_RecConsumoAccion")));
             }
 
             return recomendaciones;

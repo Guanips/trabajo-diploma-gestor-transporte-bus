@@ -36,6 +36,16 @@ namespace UI
                 }
             }
 
+            // Mensajes de la capa de negocio (gráficos, recomendaciones, PDF)
+            try
+            {
+                etiquetas.AddRange(CatalogoMensajes.RecolectarEtiquetas());
+            }
+            catch (Exception ex)
+            {
+                log?.Invoke($"No se pudieron recolectar los mensajes de la capa de negocio: {ex.Message}");
+            }
+
             GestorIdioma.GetInstance.RegistrarEtiquetas(etiquetas);
         }
 

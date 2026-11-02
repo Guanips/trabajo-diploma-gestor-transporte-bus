@@ -9,11 +9,6 @@ namespace BLL.informacion_components
     {
         public const int ToleranciaPorDefectoMin = 5;
 
-        private static readonly string[] NombresTramos =
-        {
-            "A tiempo", "Retraso leve", "Retraso moderado", "Retraso grave", "Retraso muy grave"
-        };
-
         /// <summary>
         /// Obtiene y procesa los datos del reporte para el rango de fechas (ambas inclusive).
         /// Lanza una Exception con el mensaje del caso alternativo si no se puede acceder a la base de datos o
@@ -68,7 +63,7 @@ namespace BLL.informacion_components
             List<PuntoEvolucion> evolucion = LeerLista(r, x => new PuntoEvolucion(
                 DateOnly.FromDateTime(x.GetDateTime(0)), x.GetInt32(1), x.GetInt32(2), Convert.ToDouble(x.GetValue(3))));
 
-            List<TramoRetraso> distribucion = LeerLista(r, x => new TramoRetraso(NombresTramos[x.GetInt32(0) - 1], x.GetInt32(1)));
+            List<TramoRetraso> distribucion = LeerLista(r, x => new TramoRetraso(GraficosReporteServicio.NombreTramo(x.GetInt32(0)), x.GetInt32(1)));
 
             List<MotivoCantidad> suspensiones = LeerLista(r, x => new MotivoCantidad(x.GetString(0), x.GetInt32(1)));
 

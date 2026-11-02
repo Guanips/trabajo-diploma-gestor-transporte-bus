@@ -8,7 +8,10 @@ namespace UI.Modules.analisis_informacion
         private static readonly Dictionary<string, string> MensajesFormulario = new()
         {
             ["msg_RecomendacionDetalle"] = "Situación detectada:\r\n{0}\r\n\r\nAcción sugerida:\r\n{1}",
-            ["msg_RecomendacionesPeriodo"] = "Período analizado: {0:dd/MM/yyyy} al {1:dd/MM/yyyy} — {2} recomendación(es)"
+            ["msg_RecomendacionesPeriodo"] = "Período analizado: {0:dd/MM/yyyy} al {1:dd/MM/yyyy} — {2} recomendación(es)",
+            ["msg_SeveridadAlta"] = "Alta",
+            ["msg_SeveridadMedia"] = "Media",
+            ["msg_SeveridadBaja"] = "Baja"
         };
 
         protected override IReadOnlyDictionary<string, string> Mensajes => MensajesFormulario;
@@ -69,11 +72,14 @@ namespace UI.Modules.analisis_informacion
             }
         }
 
-        // Colorea la severidad: rojo (alta), naranja (media) y amarillo (baja)
+        // Muestra la severidad traducida y la colorea: rojo (alta), naranja (media) y amarillo (baja)
         private void dataGridViewRecomendaciones_CellFormatting(object? sender, DataGridViewCellFormattingEventArgs e)
         {
             if (e.RowIndex < 0 || dataGridViewRecomendaciones.Columns[e.ColumnIndex].Name != "severidad") return;
             if (dataGridViewRecomendaciones.Rows[e.RowIndex].DataBoundItem is not Recomendacion recomendacion) return;
+
+            e.Value = T($"msg_Severidad{recomendacion.severidad}");
+            e.FormattingApplied = true;
 
             e.CellStyle.BackColor = recomendacion.severidad switch
             {

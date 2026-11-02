@@ -119,18 +119,7 @@ namespace UI
                 textoPorDefecto = clave;
             }
 
-            string texto = GestorIdioma.GetInstance.TraducirMensaje(clave, textoPorDefecto);
-            if (argumentos.Length == 0) return texto;
-
-            try
-            {
-                return string.Format(texto, argumentos);
-            }
-            catch (FormatException)
-            {
-                // Una traducción con marcadores mal escritos no debe impedir mostrar el mensaje
-                return string.Format(textoPorDefecto, argumentos);
-            }
+            return CatalogoMensajes.Formatear(GestorIdioma.GetInstance.TraducirMensaje(clave, textoPorDefecto), textoPorDefecto, argumentos);
         }
 
         /// <summary>Traduce el error de una validación (su clave y texto por defecto vienen del validador).</summary>

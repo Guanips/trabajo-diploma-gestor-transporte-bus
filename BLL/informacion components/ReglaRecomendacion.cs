@@ -9,6 +9,11 @@ namespace BLL.informacion_components
     {
         private static readonly CultureInfo Cultura = new CultureInfo("es-AR");
 
+        private static readonly CatalogoMensajes Mensajes = new CatalogoMensajes("RecomendacionesUI", new Dictionary<string, string>
+        {
+            ["msg_RecPeriodo"] = "{0:dd/MM/yyyy} al {1:dd/MM/yyyy}"
+        });
+
         public abstract List<Recomendacion> Evaluar(DatosAnalisisServicio datos);
 
         protected static string Numero(double valor) => valor.ToString("0.#", Cultura);
@@ -17,6 +22,6 @@ namespace BLL.informacion_components
 
         protected static string Dinero(decimal monto) => monto.ToString("C0", Cultura);
 
-        protected static string Periodo(DatosAnalisisServicio datos) => $"{datos.desde:dd/MM/yyyy} al {datos.hasta:dd/MM/yyyy}";
+        protected static string Periodo(DatosAnalisisServicio datos) => Mensajes.Traducir("msg_RecPeriodo", datos.desde, datos.hasta);
     }
 }

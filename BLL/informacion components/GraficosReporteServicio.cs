@@ -18,10 +18,33 @@ namespace BLL.informacion_components
         // Colores de los tramos de retraso: de "a tiempo" a "muy grave"
         private static readonly Color[] ColoresTramos = { Verde, Color.FromHex("#9CC653"), Amarillo, Naranja, Rojo };
 
+        // Textos de los graficos en el idioma por defecto
+        private static readonly CatalogoMensajes Mensajes = new CatalogoMensajes("ReporteGeneralUI", new Dictionary<string, string>
+        {
+            ["msg_GraficoPuntualidadRutaTitulo"] = "Puntualidad por ruta (%)",
+            ["msg_GraficoPuntualidadRutaEjeX"] = "Ruta (puntual: hasta {0} min de retraso)",
+            ["msg_GraficoPorcentajePuntuales"] = "% de llegadas puntuales",
+            ["msg_GraficoEvolucionTitulo"] = "Evolución de la puntualidad (%)",
+            ["msg_GraficoDistribucionTitulo"] = "Distribución de retrasos de llegada",
+            ["msg_GraficoGastosTitulo"] = "Gasto mensual: combustible y taller",
+            ["msg_GraficoCombustible"] = "Combustible",
+            ["msg_GraficoTaller"] = "Taller",
+            ["msg_GraficoMillonesPesos"] = "Millones de pesos ($)",
+            ["msg_GraficoSinDatos"] = "Sin datos en el rango seleccionado",
+            ["msg_TramoRetraso1"] = "A tiempo",
+            ["msg_TramoRetraso2"] = "Retraso leve",
+            ["msg_TramoRetraso3"] = "Retraso moderado",
+            ["msg_TramoRetraso4"] = "Retraso grave",
+            ["msg_TramoRetraso5"] = "Retraso muy grave"
+        });
+
+        /// <summary>Nombre del tramo de retraso (1 = a tiempo ... 5 = muy grave) en el idioma actual.</summary>
+        public static string NombreTramo(int numero) => Mensajes.Traducir($"msg_TramoRetraso{numero}");
+
         public static void PuntualidadPorRuta(Plot plot, ReporteServicio reporte)
         {
             plot.Clear();
-            plot.Title("Puntualidad por ruta (%)");
+            plot.Title(Mensajes.Traducir("msg_GraficoPuntualidadRutaTitulo"));
             if (reporte.porRuta.Count(r => r.conLlegada > 0) == 0) { SinDatos(plot); return; }
 
             List<RutaRendimiento> rutas = reporte.porRuta.Where(r => r.conLlegada > 0).ToList();
@@ -34,14 +57,14 @@ namespace BLL.informacion_components
                 Enumerable.Range(0, rutas.Count).Select(i => new Tick(i, rutas[i].id)).ToArray());
             plot.Axes.AutoScale(); // un Plot reutilizado (pantalla) conserva los limites anteriores
             plot.Axes.SetLimitsY(0, 105);
-            plot.YLabel("% de llegadas puntuales");
-            plot.XLabel($"Ruta (puntual: hasta {reporte.toleranciaMinutos} min de retraso)");
+            plot.YLabel(Mensajes.Traducir("msg_GraficoPorcentajePuntuales"));
+            plot.XLabel(Mensajes.Traducir("msg_GraficoPuntualidadRutaEjeX", reporte.toleranciaMinutos));
         }
 
         public static void EvolucionPuntualidad(Plot plot, ReporteServicio reporte)
         {
             plot.Clear();
-            plot.Title("Evolución de la puntualidad (%)");
+            plot.Title(Mensajes.Traducir("msg_GraficoEvolucionTitulo"));
             if (reporte.evolucionDiaria.Count == 0) { SinDatos(plot); return; }
 
             double[] xs = reporte.evolucionDiaria.Select(p => p.fecha.ToDateTime(TimeOnly.MinValue).ToOADate()).ToArray();
@@ -55,13 +78,13 @@ namespace BLL.informacion_components
             plot.Axes.DateTimeTicksBottom();
             plot.Axes.AutoScale();
             plot.Axes.SetLimitsY(0, 105);
-            plot.YLabel("% de llegadas puntuales");
+            plot.YLabel(Mensajes.Traducir("msg_GraficoPorcentajePuntuales"));
         }
 
         public static void DistribucionRetrasos(Plot plot, ReporteServicio reporte)
         {
             plot.Clear();
-            plot.Title("Distribución de retrasos de llegada");
+            plot.Title(Mensajes.Traducir("msg_GraficoDistribucionTitulo"));
             if (reporte.distribucionRetrasos.Sum(t => t.cantidad) == 0) { SinDatos(plot); return; }
 
             List<PieSlice> porciones = new List<PieSlice>();
@@ -69,7 +92,9 @@ namespace BLL.informacion_components
             {
                 TramoRetraso tramo = reporte.distribucionRetrasos[i];
                 if (tramo.cantidad == 0) continue;
-                porciones.Add(new PieSlice { Value = tramo.cantidad, FillColor = ColoresTramos[i], Label = $"{tramo.nombre} ({tramo.cantidad})" });
+                // El nombre se toma por posicion (y no de tramo.nombre) para que salga en el idioma actual aunque
+                // el reporte se haya generado antes de cambiar de idioma
+                porciones.Add(new PieSlice { Value = tramo.cantidad, FillColor = ColoresTramos[i], Label = $"{NombreTramo(i + 1)} ({tramo.cantidad})" });
             }
 
             var torta = plot.Add.Pie(porciones);
@@ -83,7 +108,7 @@ namespace BLL.informacion_components
         public static void GastosMensuales(Plot plot, ReporteServicio reporte)
         {
             plot.Clear();
-            plot.Title("Gasto mensual: combustible y taller");
+            plot.Title(Mensajes.Traducir("msg_GraficoGastosTitulo"));
             if (reporte.gastosMensuales.Count == 0) { SinDatos(plot); return; }
 
             List<GastoMensual> meses = reporte.gastosMensuales;
@@ -95,13 +120,13 @@ namespace BLL.informacion_components
                 taller.Add(new Bar { Position = i + 0.2, Value = (double)meses[i].taller / 1_000_000, FillColor = Naranja, Size = 0.38 });
             }
 
-            plot.Add.Bars(combustible).LegendText = "Combustible";
-            plot.Add.Bars(taller).LegendText = "Taller";
+            plot.Add.Bars(combustible).LegendText = Mensajes.Traducir("msg_GraficoCombustible");
+            plot.Add.Bars(taller).LegendText = Mensajes.Traducir("msg_GraficoTaller");
             plot.Axes.Bottom.TickGenerator = new ScottPlot.TickGenerators.NumericManual(
                 Enumerable.Range(0, meses.Count).Select(i => new Tick(i, meses[i].mes)).ToArray());
             plot.Axes.AutoScale();
             plot.Axes.Margins(bottom: 0, top: 0.15);
-            plot.YLabel("Millones de pesos ($)");
+            plot.YLabel(Mensajes.Traducir("msg_GraficoMillonesPesos"));
             plot.ShowLegend(Alignment.UpperRight);
         }
 
@@ -119,7 +144,7 @@ namespace BLL.informacion_components
         {
             plot.Axes.Frameless();
             plot.HideGrid();
-            plot.Add.Annotation("Sin datos en el rango seleccionado", Alignment.MiddleCenter);
+            plot.Add.Annotation(Mensajes.Traducir("msg_GraficoSinDatos"), Alignment.MiddleCenter);
         }
     }
 }

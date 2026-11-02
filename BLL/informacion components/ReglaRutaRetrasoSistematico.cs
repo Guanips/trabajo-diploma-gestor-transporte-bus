@@ -13,6 +13,14 @@ namespace BLL.informacion_components
         private const double RetrasoPromedioMinimoMin = 10;
         private const double PercentilSugerido = 0.8;
 
+        // Textos de la recomendacion en el idioma por defecto
+        private static readonly CatalogoMensajes Mensajes = new CatalogoMensajes("RecomendacionesUI", new Dictionary<string, string>
+        {
+            ["msg_RecRutaRetrasoTitulo"] = "Ruta {0} ({1}): retrasos sostenidos",
+            ["msg_RecRutaRetrasoEvidencia"] = "Puntualidad de {0} y retraso promedio de {1} min en {2} salidas del {3}.",
+            ["msg_RecRutaRetrasoAccion"] = "Evaluar aumentar el tiempo estimado de recorrido de la ruta de {0} min a unos {1} min, o bien ampliar el tiempo entre salidas y el tiempo de descanso en los cronogramas de esta ruta."
+        });
+
         public override List<Recomendacion> Evaluar(DatosAnalisisServicio datos)
         {
             List<Recomendacion> recomendaciones = new List<Recomendacion>();
@@ -31,10 +39,9 @@ namespace BLL.informacion_components
 
                 recomendaciones.Add(new Recomendacion(
                     puntualidad < PuntualidadCriticaPct ? SeveridadRecomendacion.Alta : SeveridadRecomendacion.Media,
-                    $"Ruta {ruta.descripcion} ({ruta.sentido}): retrasos sostenidos",
-                    $"Puntualidad de {Porcentaje(puntualidad)} y retraso promedio de {Numero(retrasoPromedio)} min en {salidas.Count} salidas del {Periodo(datos)}.",
-                    $"Evaluar aumentar el tiempo estimado de recorrido de la ruta de {ruta.tiempoEstimadoMin} min a unos {tiempoSugerido} min, " +
-                    "o bien ampliar el tiempo entre salidas y el tiempo de descanso en los cronogramas de esta ruta."));
+                    Mensajes.Traducir("msg_RecRutaRetrasoTitulo", ruta.descripcion, ruta.sentido),
+                    Mensajes.Traducir("msg_RecRutaRetrasoEvidencia", Porcentaje(puntualidad), Numero(retrasoPromedio), salidas.Count, Periodo(datos)),
+                    Mensajes.Traducir("msg_RecRutaRetrasoAccion", ruta.tiempoEstimadoMin, tiempoSugerido)));
             }
 
             return recomendaciones;
